@@ -1,0 +1,29 @@
+{
+    "name": "TrackingSpam",
+    "description": "Tracking Spam Prevention",
+    "version": "0.1.0",
+    "theme": false,
+    "require": {
+        "matomo": ">=4.0.4-stable,<5.0.0-b1"
+    },
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "",
+            "homepage": ""
+        }
+    ],
+    "support": {
+        "email": "",
+        "issues": "",
+        "forum": "",
+        "irc": "",
+        "wiki": "",
+        "source": "",
+        "docs": "",
+        "rss": ""
+    },
+    "homepage": "",
+    "license": "GPL v3+",
+    "keywords": []
+}
