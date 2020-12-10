@@ -1,29 +1,23 @@
 {
-    "name": "TrackingSpam",
+    "name": "TrackingSpamPrevention",
     "description": "Tracking Spam Prevention",
     "version": "0.1.0",
     "theme": false,
     "require": {
-        "matomo": ">=4.0.4-stable,<5.0.0-b1"
+        "matomo": ">=4.0.4,<5.0.0-b1"
     },
     "authors": [
         {
             "name": "Matomo",
             "email": "",
-            "homepage": ""
+            "homepage": "https://matomo.org"
         }
     ],
     "support": {
-        "email": "",
-        "issues": "",
-        "forum": "",
-        "irc": "",
-        "wiki": "",
-        "source": "",
-        "docs": "",
-        "rss": ""
+        "issues": "https://github.com/matomo-org/plugin-TrackingSpamPrevention/issues",
+        "forum": "https://forum.matomo.org/"
     },
-    "homepage": "",
+    "homepage": "https://matomo.org",
     "license": "GPL v3+",
-    "keywords": []
+    "keywords": ["spam", "prevent", "cloud"]
 }

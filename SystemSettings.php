@@ -10,6 +10,7 @@ namespace Piwik\Plugins\TrackingSpamPrevention;
 
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
+use Piwik\SettingsPiwik;
 use Piwik\Validators\NotEmpty;
 
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
@@ -32,6 +33,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         return $this->makeSetting('block_clouds', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->title = 'Block tracking requests from Cloud';
             $field->description = 'If enabled, it will block tracking requests that originated from Cloud providers like Azure, AWS and Google Cloud. If you are only tracking using the JavaScript tracker then this setting should be safe to enable as tracking requests from humans would not originate from these clouds. The setting applies to all your sites. Enabling this feature will cause your server to fetch the up to date list of IP ranges from Google, AWS and Azure servers.';
+            if (!SettingsPiwik::isInternetEnabled()) {
+                $field->description = 'As you have internet disabled in your config, this feature won\'t work. ' . $field->description;
+            }
         });
     }
 

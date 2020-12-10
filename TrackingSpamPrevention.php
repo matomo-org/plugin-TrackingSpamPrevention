@@ -27,16 +27,17 @@ class TrackingSpamPrevention extends \Piwik\Plugin
     {
         $systemSettings = StaticContainer::get(SystemSettings::class);
         if (!$systemSettings->block_clouds->getValue()) {
+            $cache[BlockedIpRanges::OPTION_KEY] = [];
             return;
         }
-        $range = new Ranges();
-        $cache[Ranges::OPTION_KEY] = $range->getBlockedRanges();
+        $range = new BlockedIpRanges();
+        $cache[BlockedIpRanges::OPTION_KEY] = $range->getBlockedRanges();
     }
 
     public function isExcludedVisit(&$excluded, Request $request)
     {
-        if (!$excluded) {
-            return; // not needed to check
+        if ($excluded) {
+            return; // already excluded, not needed to check
         }
 
         $visitExcluded = new VisitExcluded($request);
@@ -46,7 +47,7 @@ class TrackingSpamPrevention extends \Piwik\Plugin
             return;
         }
 
-        $range = new Ranges();
+        $range = new BlockedIpRanges();
         $excluded = $range->isExcluded($request->getIpString());
     }
 

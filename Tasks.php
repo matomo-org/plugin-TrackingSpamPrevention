@@ -24,7 +24,7 @@ class Tasks extends \Piwik\Plugin\Tasks
 
     public function schedule()
     {
-        $this->daily('updateBlockedIpRanges');   // method will be executed once every day
+        $this->daily('updateBlockedIpRanges');
     }
 
     /**
@@ -34,12 +34,12 @@ class Tasks extends \Piwik\Plugin\Tasks
      */
     public function updateBlockedIpRanges()
     {
-        if (!$this->systemSettings->block_clouds->getValue()) {
-            return;
+        $ranges = new BlockedIpRanges();
+        if ($this->systemSettings->block_clouds->getValue()) {
+            $ranges->updateBlockedIpRanges();
+        } else {
+            $ranges->setBlockedRanges([]);
         }
-
-        $ranges = new Ranges();
-        $ranges->updateBlockedIpRanges();
     }
 
 }
