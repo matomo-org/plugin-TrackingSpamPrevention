@@ -28,11 +28,21 @@ class BlockedIpRanges
      */
     public function getBlockedRanges()
     {
-        $range = Option::get(self::OPTION_KEY);
-        if (empty($range)) {
+        $ranges = Option::get(self::OPTION_KEY);
+        if (empty($ranges)) {
             return [];
         }
-        return json_decode($range, true);
+        return json_decode($ranges, true);
+    }
+
+    /**
+     * An array of blocked ranges
+     * @param string[] $ranges
+     */
+    public function setBlockedRanges($ranges)
+    {
+        // we index them by first character for performance reasons see the excluded method
+        Option::set(self::OPTION_KEY, json_encode($ranges));
     }
 
     private function getIndexForIpOrRange($ipOrRange)
@@ -53,27 +63,6 @@ class BlockedIpRanges
         return Common::mb_substr($ipOrRange, 0, 1);
     }
 
-    /**
-     * An array of blocked ranges
-     * @param string[] $ranges
-     */
-    public function setBlockedRanges($ranges)
-    {
-        // we index them by first character for performance reasons see the excluded method
-        $indexedRange = [];
-        if (!empty($ranges)) {
-            foreach ($ranges as $range) {
-                $indexed = $this->getIndexForIpOrRange($range);
-                if (empty($indexedRange[$indexed])) {
-                    $indexedRange[$indexed] = [];
-                }
-                $indexedRange[$indexed][] = $range;
-            }
-        }
-
-        Option::set(self::OPTION_KEY, json_encode($indexedRange));
-    }
-
     public function isExcluded($ip)
     {
         if (empty($ip)) {
@@ -84,7 +73,6 @@ class BlockedIpRanges
             return false;
         }
 
-        $ip = '34.80.0.1';
         // for performance reasons we index ranges by first character of ip. assuming this works in most cases.
         // so we compare less ranges as it is slow to compare many ranges
         $indexed = $this->getIndexForIpOrRange($ip);
@@ -113,6 +101,19 @@ class BlockedIpRanges
         return $isInRanges;
     }
 
+    public function banIp($ip)
+    {
+        $ranges = $this->getBlockedRanges();
+        $index = $this->getIndexForIpOrRange($ip);
+        if (empty($ranges)) {
+            $ranges[$index] = [];
+        }
+
+        $ranges[$index][] = $ip;
+        $this->setBlockedRanges($ranges);
+        return $ranges;
+    }
+
     public function updateBlockedIpRanges()
     {
         if (!SettingsPiwik::isInternetEnabled()) {
@@ -129,7 +130,17 @@ class BlockedIpRanges
         $azure = new Azure();
         $ranges = array_merge($ranges, $azure->getRanges());
 
-        $this->setBlockedRanges($ranges);
+        $indexedRange = [];
+        if (!empty($ranges)) {
+            foreach ($ranges as $range) {
+                $indexed = $this->getIndexForIpOrRange($range);
+                if (empty($indexedRange[$indexed])) {
+                    $indexedRange[$indexed] = [];
+                }
+                $indexedRange[$indexed][] = $range;
+            }
+        }
+        $this->setBlockedRanges($indexedRange);
     }
 
 }

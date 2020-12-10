@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention\Tracker;
 
+use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Tracker\Request;
 use Piwik\Tracker;
@@ -33,6 +34,9 @@ class RequestProcessor extends Tracker\RequestProcessor
             return; // unlimited
         }
         if ($actions >= $maxActions) {
+            $blockedIpRanges = new BlockedIpRanges();
+            $blockedIpRanges->banIp($request->getIpString());
+
             return true; // abort
         }
     }

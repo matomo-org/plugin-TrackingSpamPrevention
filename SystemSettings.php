@@ -44,7 +44,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         return $this->makeSetting('max_actions_allowed', $default = 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {
             $field->title = 'Max actions per visit to record';
             $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
-            $field->description = 'Define how many actions a visit should max have. Enter 0 to allow unlimited actions (default). Most sites have extremely rarely say more than say 200 actions per visit. It many cases it might be therefore to assume that if someone has more than a specific amount of actions, it might be actually tracking spam, or a bot, or something else unnatural causing these actions and it may be safe to stop recording further actions for that visit to have less inaccurate data and to reduce server load.';
+            $field->description = 'Define how many actions a visit should max have. Enter 0 to allow unlimited actions (default). Most sites have extremely rarely say more than say 200 actions per visit. It many cases it might be therefore to assume that if someone has more than a specific amount of actions, it might be actually tracking spam, or a bot, or something else unnatural causing these actions and it may be safe to stop recording further actions for that visit to have less inaccurate data and to reduce server load. The IP address of this visit will then be blocked for up to 24 hours.';
         });
     }
 
