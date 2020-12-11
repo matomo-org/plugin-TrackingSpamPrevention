@@ -45,6 +45,10 @@ class Aws implements IpRangeProviderInterface
             }
         }
 
+        if (empty($ranges)) {
+            throw new \Exception('Failed to retrieve any AWS IP range.');
+        }
+
         return $ranges;
     }
 

@@ -15,6 +15,7 @@ use Piwik\Http;
 use Piwik\Option;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges\Aws;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges\Azure;
+use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges\Oracle;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\Cache;
 
@@ -114,10 +115,14 @@ class BlockedIpRanges
         return $ranges;
     }
 
+    public function unsetAllIpRanges() {
+        $this->setBlockedRanges([]);
+    }
+
     public function updateBlockedIpRanges()
     {
         if (!SettingsPiwik::isInternetEnabled()) {
-            $this->setBlockedRanges([]);
+            $this->unsetAllIpRanges();
             return;
         }
 
@@ -129,6 +134,9 @@ class BlockedIpRanges
 
         $azure = new Azure();
         $ranges = array_merge($ranges, $azure->getRanges());
+
+        $oracle = new Oracle();
+        $ranges = array_merge($ranges, $oracle->getRanges());
 
         $indexedRange = [];
         if (!empty($ranges)) {

@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\SettingsPiwik;
@@ -46,6 +47,18 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
             $field->description = 'Define how many actions a visit should max have. Enter 0 to allow unlimited actions (default). Most sites have extremely rarely say more than say 200 actions per visit. It many cases it might be therefore to assume that if someone has more than a specific amount of actions, it might be actually tracking spam, or a bot, or something else unnatural causing these actions and it may be safe to stop recording further actions for that visit to have less inaccurate data and to reduce server load. The IP address of this visit will then be blocked for up to 24 hours.';
         });
+    }
+
+    public function save()
+    {
+        parent::save();
+
+        $ranges = StaticContainer::get(BlockedIpRanges::class);
+        if ($this->block_clouds->getValue()) {
+            $ranges->updateBlockedIpRanges();
+        } else {
+            $ranges->unsetAllIpRanges();
+        }
     }
 
 }

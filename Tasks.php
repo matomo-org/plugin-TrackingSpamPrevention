@@ -38,7 +38,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         if ($this->systemSettings->block_clouds->getValue()) {
             $ranges->updateBlockedIpRanges();
         } else {
-            $ranges->setBlockedRanges([]);
+            $ranges->unsetAllIpRanges();
         }
     }
 
