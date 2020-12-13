@@ -65,7 +65,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
     public function test_isExcludedVisit_whenWhiteListUsed()
     {
         Config::getInstance()->TrackingSpamPrevention[Configuration::KEY_RANGE_ALLOW_LIST] = [
-            '10.0.0.4', '10.0.0.3',
+            '10.0.0.4/32', '10.0.0.3/32',
         ];
         $excluded = $this->makeExcluded('10.10.0.2');
         $this->assertTrue($excluded->isExcluded());
@@ -89,5 +89,6 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
     private function setBlockClouds($val)
     {
         StaticContainer::get(SystemSettings::class)->block_clouds->setValue($val);
+        Cache::clearCacheGeneral();
     }
 }

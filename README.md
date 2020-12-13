@@ -1,5 +1,7 @@
 # Matomo Tracking Spam Prevention Plugin
 
+[![Build Status](https://travis-ci.com/matomo-org/plugin-TrackingSpamPrevention.svg?branch=4.x-dev)](https://travis-ci.com/matomo-org/plugin-TrackingSpamPrevention)
+
 ## Description
 
 Ever noticed tracking requests that look unnatural or originated from locations you wouldn't expect to get visits from?

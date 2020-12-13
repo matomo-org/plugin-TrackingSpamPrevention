@@ -71,7 +71,7 @@ class BlockedIpRanges
         // when IP is 10.11.12.13 then we return "10."
         // when IP is f::0 then we return "f:"
         foreach (['.', ':'] as $searchChar) {
-            $posSearchChar = strpos($ipOrRange, $searchChar);
+                $posSearchChar = strpos($ipOrRange, $searchChar);
             if ($posSearchChar !== false) {
                 return Common::mb_substr($ipOrRange, 0, $posSearchChar) . $searchChar;
             }

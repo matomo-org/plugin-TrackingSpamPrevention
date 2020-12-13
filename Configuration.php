@@ -70,7 +70,18 @@ class Configuration
             $value = self::DEFAULT_RANGE_ALLOW_LIST;
         }
 
-        $value = array_filter($value);
+        $value = array_values(array_filter($value));
+        $value = array_map(function ($range) {
+            if (strpos($range, '/') === false) {
+                // we assume user did not enter a range so we make it one that matches that one ip
+                if (strpos($range, '.') !== false) {
+                    $range .= '/32';
+                } elseif (strpos($range, ':') !== false) {
+                    $range .= '/64';
+                }
+            }
+            return $range;
+        }, $value);
 
         return $value;
     }

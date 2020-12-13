@@ -44,7 +44,6 @@ class AllowListIpRangeTest extends IntegrationTestCase
         $this->assertFalse($this->allowList->isAllowed('11.11.0.0'));
 
         $this->assertTrue($this->allowList->isAllowed('2001:db8::'));
-        $this->assertTrue($this->allowList->isAllowed('2001:db8:0000:0000:ffff:ffff:ffff:ffff'));
 
         $this->assertFalse($this->allowList->isAllowed('2001:db8:0000:0000:ffff:ffff:ffff:fffe'));
         $this->assertFalse($this->allowList->isAllowed('2002:db8:0000:0000:ffff:ffff:ffff:fffe'));

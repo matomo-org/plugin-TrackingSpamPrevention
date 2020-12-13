@@ -59,7 +59,7 @@ class TrackingSpamPrevention extends \Piwik\Plugin
 
         $visitExcluded = new VisitExcluded($request);
         $ipString = $request->getIpString();
-        $ipString = '47.254.32.0';
+
         $ip = IP::fromStringIP($ipString);
         if ($visitExcluded->isChromeDataSaverUsed($ip)) {
             Common::printDebug("Not excluding visit as chrome data saver is used");

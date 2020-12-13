@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration;
 
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
+use Piwik\Plugins\TrackingSpamPrevention\Configuration;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -75,7 +76,7 @@ class SystemSettingsTest extends IntegrationTestCase
             ]),
         ];
 
-        return new BlockedIpRanges($ranges);
+        return new BlockedIpRanges($ranges, new Configuration());
     }
 
 }

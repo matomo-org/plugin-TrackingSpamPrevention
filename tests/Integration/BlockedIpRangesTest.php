@@ -71,20 +71,58 @@ class BlockedIpRangesTest extends IntegrationTestCase
 
     public function test_banIp()
     {
-        $this->ranges->banIp(['10.10.10.10']);
-        $this->assertSame(['10' => ['10.10.10.10/32']], $this->ranges->getBlockedRanges());
-        $this->ranges->banIp(['172.172.0.0']);
-        $this->assertSame(['10' => ['10.10.10.10/32'], '172.' => ['172.172.0.0/32']], $this->ranges->getBlockedRanges());
-        $this->ranges->banIp(['2000::']);
-        $this->assertSame(['10' => ['10.10.10.10/32'], '172.' => ['172.172.0.0/32'], '2000:' => '2000::/64'], $this->ranges->getBlockedRanges());
-        $this->ranges->banIp(['172.172.1.0']);
-        $this->assertSame(['10' => ['10.10.10.10/32'], '172.' => ['172.172.0.0/32', '172.172.1.0/32'], '2000:' => '2000::/64'], $this->ranges->getBlockedRanges());
+        $this->ranges->banIp('10.10.10.10');
+        $this->assertSame(['10.' => ['10.10.10.10/32']], $this->ranges->getBlockedRanges());
+        $this->ranges->banIp('172.172.0.0');
+        $this->assertSame(['10.' => ['10.10.10.10/32'], '172.' => ['172.172.0.0/32']], $this->ranges->getBlockedRanges());
+        $this->ranges->banIp('2000::');
+        $this->assertSame(['10.' => ['10.10.10.10/32'], '172.' => ['172.172.0.0/32'], '2000:' => ['2000::/64']], $this->ranges->getBlockedRanges());
+        $this->ranges->banIp('172.172.1.0');
+        $this->assertSame(['10.' => ['10.10.10.10/32'], '172.' => ['172.172.0.0/32', '172.172.1.0/32'], '2000:' => ['2000::/64']], $this->ranges->getBlockedRanges());
     }
 
     public function test_updateBlockedIpRanges()
     {
         $this->ranges->updateBlockedIpRanges();
-        $this->assertSame(['10' => ['10.10.10.10/21']], $this->ranges->getBlockedRanges());
+        $this->assertEquals(array (
+            '10.' =>
+                array (
+                    0 => '10.10.0.0/21',
+                ),
+            '11.' =>
+                array (
+                    0 => '11.11.0.0/22',
+                ),
+            '127.' =>
+                array (
+                    0 => '127.0.0.0/23',
+                    1 => '127.0.255.0/22',
+                ),
+            '2001:' =>
+                array (
+                    0 => '2001:db8::/42',
+                    1 => '2001:db8::/126',
+                    2 => '2001:db9::/42',
+                    3 => '2001:db7::/125',
+                ),
+            '192.' =>
+                array (
+                    0 => '192.168.10.0/24',
+                    1 => '192.168.0.0/23',
+                ),
+            '15.' =>
+                array (
+                    0 => '15.15.15.0/21',
+                ),
+            '2002:' =>
+                array (
+                    0 => '2002:db7::/126',
+                ),
+            '190.' =>
+                array (
+                    0 => '190.168.0.0/23',
+                ),
+        ), $this->ranges->getBlockedRanges());
     }
 
     public function test_updateBlockedIpRanges_withExceptionButCaught()
@@ -102,8 +140,8 @@ class BlockedIpRangesTest extends IntegrationTestCase
 
         $this->ranges->updateBlockedIpRanges();
         $this->assertSame([
-            '15.' => '15.15.15.0/21',
-            '16.' => '16.16.16.0/21'
+            '15.' => ['15.15.15.0/21'],
+            '16.' => ['16.16.16.0/21']
         ], $this->ranges->getBlockedRanges());
     }
 
@@ -111,6 +149,7 @@ class BlockedIpRangesTest extends IntegrationTestCase
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Failed to get any range');
+
         Config::getInstance()->TrackingSpamPrevention[Configuration::KEY_RANGE_THROW_EXCEPTION] = 1;
         $ranges = [
             new BlockedIpRanges\VariableRange([
@@ -122,7 +161,8 @@ class BlockedIpRangesTest extends IntegrationTestCase
             ]),
         ];
 
-        new BlockedIpRanges($ranges, new Configuration());
+        $ranges = new BlockedIpRanges($ranges, new Configuration());
+        $ranges->updateBlockedIpRanges();
     }
 
     public function isExcluded_ipv4()
