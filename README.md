@@ -8,7 +8,7 @@ Ever noticed tracking requests that look unnatural or originated from locations 
 
 These tracking requests may be caused by spammers or bots and make your data less accurate. In some cases they can even
 cause pretty much any metric to become inaccurate. This plugin offers various options to fight these kind of tracking requests
-so you can rely on your data again. 
+so you can rely on your data again. Also your server will need less resources and less database storage.
 
 ### 1. Block requests from cloud providers
 

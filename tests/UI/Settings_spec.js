@@ -12,7 +12,7 @@ describe("TrackingSpamPreventionSettings", function () {
 
     this.fixture = "Piwik\\Plugins\\TrackingSpamPrevention\\tests\\Fixtures\\TrackingFixture";
 
-    var selector = '.card-content:contains(\'TrackingSpamPrevention \')';
+    var selector = '.card-content:contains(\'TrackingSpamPrevention\')';
     var url = "?module=CoreAdminHome&action=generalSettings&idSite=1&period=day&date=yesterday";
 
     it("should display the settings page", async function () {
