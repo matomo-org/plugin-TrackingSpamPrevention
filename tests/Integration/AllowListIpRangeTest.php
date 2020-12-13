@@ -34,7 +34,7 @@ class AllowListIpRangeTest extends IntegrationTestCase
 
     public function test_isAllowed()
     {
-        Config::getInstance()->TrackingSpamPrevention[Configuration::KEY_RANGE_ALLOW_LIST] = ['10.10.0.0/21', '15.15.0.0/21', '2001:db8::'];
+        Config::getInstance()->TrackingSpamPrevention[Configuration::KEY_RANGE_ALLOW_LIST] = ['10.10.0.0/21', '15.15.0.0/21', '2001:db8::/64'];
 
         $this->assertTrue($this->allowList->isAllowed('10.10.0.0'));
         $this->assertTrue($this->allowList->isAllowed('10.10.0.1'));
@@ -44,8 +44,9 @@ class AllowListIpRangeTest extends IntegrationTestCase
         $this->assertFalse($this->allowList->isAllowed('11.11.0.0'));
 
         $this->assertTrue($this->allowList->isAllowed('2001:db8::'));
+        $this->assertTrue($this->allowList->isAllowed('2001:db8:0000:0000:ffff:ffff:ffff:fffe'));
 
-        $this->assertFalse($this->allowList->isAllowed('2001:db8:0000:0000:ffff:ffff:ffff:fffe'));
+        $this->assertFalse($this->allowList->isAllowed('2001:db8:0000:0001:ffff:ffff:ffff:fffe'));
         $this->assertFalse($this->allowList->isAllowed('2002:db8:0000:0000:ffff:ffff:ffff:fffe'));
     }
 

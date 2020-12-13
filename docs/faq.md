@@ -11,3 +11,16 @@ block_cloud_iprange_allowlist[] = "192.168.0.0/21"
 ```
 
 Make sure to enter a valid IP range. 
+
+__What happens when it fails to synchronise public IPs from cloud providers?__
+
+Any error is currently ignored and if it does not synchronise successfully, then the IP for the provider that failed are not synced.
+
+To be aware when such an error happens you can enable the following setting:
+
+```
+[TrackingSpamPrevention]
+iprange_sync_throw_exception_on_error = 1
+```
+
+It is disabled by default as it could stop other scheduled tasks from being executed.
