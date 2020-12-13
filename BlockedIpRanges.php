@@ -130,7 +130,7 @@ class BlockedIpRanges
         if (strpos($ip, '.') !== false) {
             $ip = $ip . '/32';
         } else {
-            $ip = $ip . '/64';
+            $ip = $ip . '/128';
         }
         $ranges[$index][] = $ip;
         $this->setBlockedRanges($ranges);

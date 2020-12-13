@@ -15,6 +15,11 @@ describe("TrackingSpamPreventionSettings", function () {
     var selector = '.card-content:contains(\'TrackingSpamPrevention\')';
     var url = "?module=CoreAdminHome&action=generalSettings&idSite=1&period=day&date=yesterday";
 
+    before(function () {
+        testEnvironment.pluginsToLoad = ['TrackingSpamPrevention'];
+        testEnvironment.save();
+    });
+
     it("should display the settings page", async function () {
         await page.goto(url);
         await page.waitForNetworkIdle();

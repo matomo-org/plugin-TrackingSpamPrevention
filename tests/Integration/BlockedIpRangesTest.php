@@ -76,9 +76,9 @@ class BlockedIpRangesTest extends IntegrationTestCase
         $this->ranges->banIp('172.172.0.0');
         $this->assertSame(['10.' => ['10.10.10.10/32'], '172.' => ['172.172.0.0/32']], $this->ranges->getBlockedRanges());
         $this->ranges->banIp('2000::');
-        $this->assertSame(['10.' => ['10.10.10.10/32'], '172.' => ['172.172.0.0/32'], '2000:' => ['2000::/64']], $this->ranges->getBlockedRanges());
+        $this->assertSame(['10.' => ['10.10.10.10/32'], '172.' => ['172.172.0.0/32'], '2000:' => ['2000::/128']], $this->ranges->getBlockedRanges());
         $this->ranges->banIp('172.172.1.0');
-        $this->assertSame(['10.' => ['10.10.10.10/32'], '172.' => ['172.172.0.0/32', '172.172.1.0/32'], '2000:' => ['2000::/64']], $this->ranges->getBlockedRanges());
+        $this->assertSame(['10.' => ['10.10.10.10/32'], '172.' => ['172.172.0.0/32', '172.172.1.0/32'], '2000:' => ['2000::/128']], $this->ranges->getBlockedRanges());
     }
 
     public function test_updateBlockedIpRanges()

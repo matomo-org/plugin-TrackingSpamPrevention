@@ -65,7 +65,7 @@ class ConfigurationTest extends IntegrationTestCase
         Config::getInstance()->TrackingSpamPrevention = array(
             Configuration::KEY_RANGE_ALLOW_LIST => ['10.12.13.14/32', 'f::f/52', '', '11.12.13.14/21', '12.14.15.16', 'f::f']
         );
-        $this->assertSame(['10.12.13.14/32', 'f::f/52', '11.12.13.14/21', '12.14.15.16/32', 'f::f/64'], $this->configuration->getIpRangesAlwaysAllowed());
+        $this->assertSame(['10.12.13.14/32', 'f::f/52', '11.12.13.14/21', '12.14.15.16/32', 'f::f/128'], $this->configuration->getIpRangesAlwaysAllowed());
     }
 
     public function test_getIpRangesAlwaysAllowed_invalid()

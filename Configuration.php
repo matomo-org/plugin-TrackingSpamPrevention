@@ -77,7 +77,7 @@ class Configuration
                 if (strpos($range, '.') !== false) {
                     $range .= '/32';
                 } elseif (strpos($range, ':') !== false) {
-                    $range .= '/64';
+                    $range .= '/128';
                 }
             }
             return $range;
