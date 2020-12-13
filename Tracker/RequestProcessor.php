@@ -36,10 +36,11 @@ class RequestProcessor extends Tracker\RequestProcessor
     {
         $actions = $visitProperties->getProperty('visit_total_actions');
         $maxActions = $this->systemSettings->max_actions->getValue();
+
         if (empty($maxActions) || !is_numeric($maxActions) || $maxActions <= 0) {
             return; // unlimited
         }
-        if ($actions >= $maxActions) {
+        if ((int)$actions >= $maxActions) {
             $this->blockedIpRanges->banIp($request->getIpString());
 
             Common::printDebug("Stop tracking as max number of actions reached");

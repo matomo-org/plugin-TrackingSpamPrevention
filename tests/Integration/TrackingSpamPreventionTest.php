@@ -42,6 +42,13 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         return new VisitExcluded($req);
     }
 
+    public function test_trackerCache_blockCloudsDisabled()
+    {
+        $this->setBlockClouds(false);
+        $cache = Cache::getCacheGeneral();
+        $this->assertEquals([], $cache[BlockedIpRanges::OPTION_KEY]);
+    }
+
     public function test_trackerCache()
     {
         $cache = Cache::getCacheGeneral();
