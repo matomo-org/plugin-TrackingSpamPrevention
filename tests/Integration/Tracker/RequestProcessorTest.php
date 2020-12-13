@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration\Tracker;
 
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
+use Piwik\Plugins\TrackingSpamPrevention\Configuration;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Plugins\TrackingSpamPrevention\Tracker\RequestProcessor;
 use Piwik\Tests\Framework\Fixture;
@@ -43,7 +44,7 @@ class RequestProcessorTest extends IntegrationTestCase
             ]),
         ];
 
-        $this->ranges = new BlockedIpRanges($ranges);
+        $this->ranges = new BlockedIpRanges($ranges, new Configuration());
         $this->processor = new RequestProcessor($this->settings, $this->ranges);
     }
 

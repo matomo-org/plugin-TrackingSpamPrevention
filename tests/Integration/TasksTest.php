@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration;
 
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
+use Piwik\Plugins\TrackingSpamPrevention\Configuration;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Plugins\TrackingSpamPrevention\Tasks;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -38,7 +39,7 @@ class TasksTest extends IntegrationTestCase
             ]),
         ];
 
-        $this->ranges = new BlockedIpRanges($ranges);
+        $this->ranges = new BlockedIpRanges($ranges, new Configuration());
         $this->task = new Tasks($this->settings, $this->ranges);
     }
 
