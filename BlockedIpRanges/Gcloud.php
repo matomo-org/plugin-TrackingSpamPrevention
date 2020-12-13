@@ -16,7 +16,7 @@ class Gcloud implements IpRangeProviderInterface
     {
         $ranges = [];
 
-        $gcloud = Http::sendHttpRequest('https://www.gstatic.com/ipranges/cloud.json', 30);
+        $gcloud = Http::sendHttpRequest('https://www.gstatic.com/ipranges/cloud.json', 120);
 
         if (empty($gcloud)) {
             throw new \Exception('Failed to retrieve gcloud IP ranges');

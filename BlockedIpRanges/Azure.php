@@ -19,7 +19,7 @@ class Azure implements IpRangeProviderInterface
 
         $downloadUrl = $this->getDownloadUrl();
 
-        $azure = Http::sendHttpRequest($downloadUrl, 30);
+        $azure = Http::sendHttpRequest($downloadUrl, 120);
 
         if (empty($azure)) {
             throw new \Exception('Failed to retrieve azure IP ranges');
@@ -56,7 +56,7 @@ class Azure implements IpRangeProviderInterface
         // might be easiest to fetch "confirmation" page and then extract the URL from there?
         // should look like 'https://download.microsoft.com/download/7/1/D/71D86715-5596-4529-9B13-DA13A5DE5B63/ServiceTags_Public_20201207.json'
 
-        $contentDownloadPage = Http::sendHttpRequest('https://www.microsoft.com/en-us/download/confirmation.aspx?id=56519', 30);
+        $contentDownloadPage = Http::sendHttpRequest('https://www.microsoft.com/en-us/download/confirmation.aspx?id=56519', 120);
         $prefixUrl = 'href="';
         $posStart = strpos($contentDownloadPage, $prefixUrl . 'https://download.microsoft.com/download/');
         $posEnd = strpos($contentDownloadPage, '"', $posStart + strlen($prefixUrl)); // we don't want to match the " in href="

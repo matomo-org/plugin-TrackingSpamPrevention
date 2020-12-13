@@ -8,8 +8,6 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention;
 
-use Piwik\Common;
-
 class Tasks extends \Piwik\Plugin\Tasks
 {
     /**
@@ -17,9 +15,15 @@ class Tasks extends \Piwik\Plugin\Tasks
      */
     private $systemSettings;
 
-    public function __construct(SystemSettings $systemSettings)
+    /**
+     * @var BlockedIpRanges
+     */
+    private $blockedIpRanges;
+
+    public function __construct(SystemSettings $systemSettings, BlockedIpRanges $blockedIpRanges)
     {
         $this->systemSettings = $systemSettings;
+        $this->blockedIpRanges = $blockedIpRanges;
     }
 
     public function schedule()
@@ -34,11 +38,10 @@ class Tasks extends \Piwik\Plugin\Tasks
      */
     public function updateBlockedIpRanges()
     {
-        $ranges = new BlockedIpRanges();
         if ($this->systemSettings->block_clouds->getValue()) {
-            $ranges->updateBlockedIpRanges();
+            $this->blockedIpRanges->updateBlockedIpRanges();
         } else {
-            $ranges->unsetAllIpRanges();
+            $this->blockedIpRanges->unsetAllIpRanges();
         }
     }
 

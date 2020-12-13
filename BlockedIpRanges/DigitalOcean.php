@@ -16,7 +16,7 @@ class DigitalOcean implements IpRangeProviderInterface
     {
         $ranges = [];
 
-        $digitalOcean = Http::sendHttpRequest('https://digitalocean.com/geo/google.csv', 30);
+        $digitalOcean = Http::sendHttpRequest('https://digitalocean.com/geo/google.csv', 120);
 
         if (empty($digitalOcean)) {
             throw new \Exception('Failed to retrieve digital ocean IP ranges');

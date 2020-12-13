@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention\Tracker;
 
+use Piwik\Common;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Tracker\Request;
@@ -20,10 +21,15 @@ class RequestProcessor extends Tracker\RequestProcessor
      * @var SystemSettings
      */
     private $systemSettings;
+    /**
+     * @var BlockedIpRanges
+     */
+    private $blockedIpRanges;
 
-    public function __construct(SystemSettings $systemSettings)
+    public function __construct(SystemSettings $systemSettings, BlockedIpRanges $blockedIpRanges)
     {
         $this->systemSettings = $systemSettings;
+        $this->blockedIpRanges = $blockedIpRanges;
     }
 
     public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
@@ -34,9 +40,9 @@ class RequestProcessor extends Tracker\RequestProcessor
             return; // unlimited
         }
         if ($actions >= $maxActions) {
-            $blockedIpRanges = new BlockedIpRanges();
-            $blockedIpRanges->banIp($request->getIpString());
+            $this->blockedIpRanges->banIp($request->getIpString());
 
+            Common::printDebug("Stop tracking as max number of actions reached");
             return true; // abort
         }
     }

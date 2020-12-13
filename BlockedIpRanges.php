@@ -11,17 +11,34 @@ namespace Piwik\Plugins\TrackingSpamPrevention;
 use Matomo\Network\IP;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
-use Piwik\Http;
 use Piwik\Option;
-use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges\Aws;
-use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges\Azure;
-use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges\Oracle;
+use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges\IpRangeProviderInterface;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\Cache;
 
 class BlockedIpRanges
 {
     const OPTION_KEY = 'TrackingSpamBlockedIpRanges';
+
+    /**
+     * @var IpRangeProviderInterface[]
+     */
+    private $providers;
+
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    /**
+     * @param IpRangeProviderInterface[] $providers
+     * @param Configuration $configuration
+     */
+    public function __construct($providers, Configuration $configuration)
+    {
+        $this->providers = $providers;
+        $this->configuration = $configuration;
+    }
 
     /**
      * will return the array indexed by ip start
@@ -38,7 +55,7 @@ class BlockedIpRanges
 
     /**
      * An array of blocked ranges
-     * @param string[] $ranges
+     * @param array[] $ranges
      */
     public function setBlockedRanges($ranges)
     {
@@ -110,6 +127,11 @@ class BlockedIpRanges
             $ranges[$index] = [];
         }
 
+        if (strpos($ip, '.') !== false) {
+            $ip = $ip . '/32';
+        } else {
+            $ip = $ip . '/64';
+        }
         $ranges[$index][] = $ip;
         $this->setBlockedRanges($ranges);
         return $ranges;
@@ -126,17 +148,17 @@ class BlockedIpRanges
             return;
         }
 
-        $gcloud = new BlockedIpRanges\Gcloud();
-        $ranges = $gcloud->getRanges();
+        $ranges = [];
 
-        $aws = new Aws();
-        $ranges = array_merge($ranges, $aws->getRanges());
-
-        $azure = new Azure();
-        $ranges = array_merge($ranges, $azure->getRanges());
-
-        $oracle = new Oracle();
-        $ranges = array_merge($ranges, $oracle->getRanges());
+        foreach ($this->providers as $provider) {
+            try {
+                $ranges = array_merge($ranges, $provider->getRanges());
+            } catch (\Exception $e) {
+                if ($this->configuration->shouldThrowExceptionOnIpRangeSync()) {
+                    throw $e;
+                }
+            }
+        }
 
         $indexedRange = [];
         if (!empty($ranges)) {
