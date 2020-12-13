@@ -13,9 +13,11 @@ class Configuration
 {
     const DEFAULT_RANGE_THROW_EXCEPTION = 0;
     const DEFAULT_RANGE_ALLOW_LIST = [''];
+    const DEFAULT_GEOIP_MATCH_PROVIDERS = ['alicloud', 'alibaba cloud'];
 
-    const KEY_RANGE_THROW_EXCEPTION = 'iprange_sync_throw_exception_on_error';
-    const KEY_RANGE_ALLOW_LIST = 'block_cloud_iprange_allowlist';
+    const KEY_RANGE_THROW_EXCEPTION = 'block_cloud_sync_throw_exception_on_error';
+    const KEY_RANGE_ALLOW_LIST = 'iprange_allowlist';
+    const KEY_GEOIP_MATCH_PROVIDERS = 'block_geoip_organisations';
 
     public function install()
     {
@@ -31,6 +33,9 @@ class Configuration
         }
         if (empty($default[self::KEY_RANGE_ALLOW_LIST])) {
             $default[self::KEY_RANGE_ALLOW_LIST] = self::DEFAULT_RANGE_ALLOW_LIST;
+        }
+        if (empty($default[self::KEY_GEOIP_MATCH_PROVIDERS])) {
+            $default[self::KEY_GEOIP_MATCH_PROVIDERS] = self::DEFAULT_GEOIP_MATCH_PROVIDERS;
         }
 
         $config->TrackingSpamPrevention = $default;

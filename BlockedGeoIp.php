@@ -32,7 +32,7 @@ class BlockedGeoIp
         if (!empty($result[LocationProvider::ORG_KEY])) {
             $org = $result[LocationProvider::ORG_KEY];
             foreach ($this->blockedProviders as $blockedProvider) {
-                if (stripos($org, $blockedProvider) !== false) {
+                if (!empty($blockedProvider) && stripos($org, $blockedProvider) !== false) {
                     return true;
                 }
             }

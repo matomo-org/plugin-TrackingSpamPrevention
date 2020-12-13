@@ -38,11 +38,6 @@ class TrackingSpamPrevention extends \Piwik\Plugin
 
     public function setTrackerCacheGeneral(&$cache)
     {
-        $systemSettings = $this->getSystemSettings();
-        if (!$systemSettings->block_clouds->getValue()) {
-            $cache[BlockedIpRanges::OPTION_KEY] = [];
-            return;
-        }
         $ranges = $this->getBlockedIpRanges();
         $cache[BlockedIpRanges::OPTION_KEY] = $ranges->getBlockedRanges();
     }
@@ -51,10 +46,6 @@ class TrackingSpamPrevention extends \Piwik\Plugin
     {
         if ($excluded) {
             return; // already excluded, not needed to check
-        }
-
-        if (!$this->getSystemSettings()->block_clouds->getValue()) {
-            return;
         }
 
         $visitExcluded = new VisitExcluded($request);
@@ -71,13 +62,16 @@ class TrackingSpamPrevention extends \Piwik\Plugin
             return;
         }
 
-        if (StaticContainer::get(BlockedGeoIp::class)->isExcluded($ipString, $request->getBrowserLanguage())) {
+        if ($this->getSystemSettings()->block_clouds->getValue()
+            && StaticContainer::get(BlockedGeoIp::class)->isExcluded($ipString, $request->getBrowserLanguage())) {
+            // only needs to be done when cloud providers are blocked specifically
             Common::printDebug("Excluding visit as geoip detects a cloud provider");
             $excluded = true;
             return;
         }
 
         if ($this->getBlockedIpRanges()->isExcluded($ipString)) {
+            // we also execute this when block clouds disabled because it might contain banned ips
             Common::printDebug("Excluding visit as IP originates from a cloud provider");
             $excluded = true;
             return;

@@ -42,13 +42,6 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         return new VisitExcluded($req);
     }
 
-    public function test_trackerCache_blockCloudsDisabled()
-    {
-        $this->setBlockClouds(false);
-        $cache = Cache::getCacheGeneral();
-        $this->assertEquals([], $cache[BlockedIpRanges::OPTION_KEY]);
-    }
-
     public function test_trackerCache()
     {
         $cache = Cache::getCacheGeneral();
@@ -58,9 +51,9 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         ], $cache[BlockedIpRanges::OPTION_KEY]);
     }
 
-    public function test_isExcludedVisit_whenIpIsBlockedButFeatureNotEnabled()
+    public function test_isExcludedVisit_whenNothingBlocked()
     {
-        $this->setBlockClouds(false);
+        StaticContainer::get(BlockedIpRanges::class)->unsetAllIpRanges();
         $excluded = $this->makeExcluded('10.10.0.3');
         $this->assertFalse($excluded->isExcluded());
     }

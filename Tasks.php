@@ -41,6 +41,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         if ($this->systemSettings->block_clouds->getValue()) {
             $this->blockedIpRanges->updateBlockedIpRanges();
         } else {
+            // we also unset any banned IP every 24 hours
             $this->blockedIpRanges->unsetAllIpRanges();
         }
     }

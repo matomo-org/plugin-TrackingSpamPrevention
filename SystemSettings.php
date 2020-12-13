@@ -14,6 +14,7 @@ use Piwik\Plugins\TrackingSpamPrevention\Settings\BlockCloudsSetting;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\SettingsPiwik;
+use Piwik\Tracker\Cache;
 
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
@@ -60,11 +61,15 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
         $ranges = StaticContainer::get(BlockedIpRanges::class);
 
-        if ($this->block_clouds->getValue() && (bool) $this->block_clouds->getValue() !== (bool) $this->block_clouds->getOldValue()) {
-            // was now enabled
-            $ranges->updateBlockedIpRanges();
-        } elseif (!$this->block_clouds->getValue()) {
-            $ranges->unsetAllIpRanges();
+        if ((bool) $this->block_clouds->getValue() !== (bool) $this->block_clouds->getOldValue()) {
+            if ($this->block_clouds->getValue()) {
+                // is now enabled, lets sync ip ranges
+                $ranges->updateBlockedIpRanges();
+            } else {
+                // we also unset any IP that was banned recently
+                $ranges->unsetAllIpRanges();
+            }
+            Cache::clearCacheGeneral();
         }
     }
 

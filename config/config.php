@@ -13,9 +13,17 @@ return array(
     )),
 
     'Piwik\Plugins\TrackingSpamPrevention\BlockedGeoIp' => DI\autowire()
-        ->constructor(DI\get('trackingspam.geoipmatchproviders')),
+        ->constructor(DI\get('ini.TrackingSpamPrevention.block_geoip_organisations')),
 
-    'trackingspam.geoipmatchproviders' => DI\add(array(
-        'alicloud', 'alibaba cloud'
-    ))
+
+    \Piwik\Config::class => DI\decorate(function ($previous) {
+        $tsp = $previous->TrackingSpamPrevention;
+        if (empty($tsp['block_geoip_organisations'])) {
+            // prevent possible tracking error if this config is removed otherwise
+            $tsp['block_geoip_organisations'] = [];
+        }
+        $previous->TrackingSpamPrevention = $tsp;
+
+        return $previous;
+    }),
 );

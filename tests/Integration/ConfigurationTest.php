@@ -39,8 +39,9 @@ class ConfigurationTest extends IntegrationTestCase
 
         $configs = Config::getInstance()->TrackingSpamPrevention;
         $this->assertEquals(array(
-            'iprange_sync_throw_exception_on_error' => 0,
-            'block_cloud_iprange_allowlist' => [''],
+            'block_cloud_sync_throw_exception_on_error' => 0,
+            'iprange_allowlist' => [''],
+            'block_geoip_organisations' => ['alicloud', 'alibaba cloud'],
         ), $configs);
     }
 

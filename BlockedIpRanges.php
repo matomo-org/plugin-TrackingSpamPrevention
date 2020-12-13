@@ -12,6 +12,7 @@ use Matomo\Network\IP;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Option;
+use Piwik\Piwik;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges\IpRangeProviderInterface;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\Cache;
@@ -132,8 +133,20 @@ class BlockedIpRanges
         } else {
             $ip = $ip . '/128';
         }
-        $ranges[$index][] = $ip;
-        $this->setBlockedRanges($ranges);
+
+        if (!in_array($ip, $ranges[$index], true)) {
+            $ranges[$index][] = $ip;
+            $this->setBlockedRanges($ranges);
+
+            /**
+             * This event is posted when an IP is being banned from tracking. You can use it for example to notify someone
+             * that this IP was banned.
+             *
+             * @param string $ip
+             */
+            Piwik::postEvent('TrackingSpamPrevention.banIp', [$ip]);
+        }
+
         return $ranges;
     }
 

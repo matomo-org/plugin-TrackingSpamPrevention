@@ -58,11 +58,22 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->assertNotEmpty($ranges->getBlockedRanges());
     }
 
+    public function test_save_shouldEmptyRangesWhenDisabledButNoChange()
+    {
+        $ranges = $this->makeRanges();
+        $ranges->updateBlockedIpRanges();
+        $this->assertNotEmpty($ranges->getBlockedRanges());
+        $this->settings->block_clouds->setValue(false);
+        $this->settings->save();
+        $this->assertNotEmpty($ranges->getBlockedRanges());
+    }
+
     public function test_save_shouldEmptyRangesWhenDisabled()
     {
         $ranges = $this->makeRanges();
         $ranges->updateBlockedIpRanges();
         $this->assertNotEmpty($ranges->getBlockedRanges());
+        $this->settings->block_clouds->setValue(true);// need to make it think there was a change
         $this->settings->block_clouds->setValue(false);
         $this->settings->save();
         $this->assertEmpty($ranges->getBlockedRanges());
