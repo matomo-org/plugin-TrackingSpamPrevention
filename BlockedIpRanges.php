@@ -124,7 +124,7 @@ class BlockedIpRanges
     {
         $ranges = $this->getBlockedRanges();
         $index = $this->getIndexForIpOrRange($ip);
-        if (empty($ranges)) {
+        if (empty($ranges[$index])) {
             $ranges[$index] = [];
         }
 
