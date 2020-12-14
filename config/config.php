@@ -15,7 +15,6 @@ return array(
     'Piwik\Plugins\TrackingSpamPrevention\BlockedGeoIp' => DI\autowire()
         ->constructor(DI\get('ini.TrackingSpamPrevention.block_geoip_organisations')),
 
-
     \Piwik\Config::class => DI\decorate(function ($previous) {
         $tsp = $previous->TrackingSpamPrevention;
         if (empty($tsp['block_geoip_organisations'])) {
