@@ -17,6 +17,8 @@ use Piwik\Tracker\VisitExcluded;
 
 class TrackingSpamPrevention extends \Piwik\Plugin
 {
+    private $isInstalledInThisRequest = false;
+
     public function registerEvents()
     {
         return [
@@ -28,8 +30,14 @@ class TrackingSpamPrevention extends \Piwik\Plugin
 
     public function install()
     {
+        $this->isInstalledInThisRequest = true;
         $config = new Configuration();
         $config->install();
+    }
+
+    public function activate()
+    {
+        $this->isInstalledInThisRequest = true;
     }
 
     public function uninstall()
@@ -52,6 +60,12 @@ class TrackingSpamPrevention extends \Piwik\Plugin
 
     public function setTrackerCacheGeneral(&$cache)
     {
+        $isTestMode = defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE;
+        if ($this->isInstalledInThisRequest && !$isTestMode) {
+            // dont do anything when plugin gets loaded as DI config would not be loaded yet and it would
+            // cause an issue with activity log since it does a geolocation which uses the tracker cache
+            return;
+        }
         $ranges = $this->getBlockedIpRanges();
         $cache[BlockedIpRanges::OPTION_KEY] = $ranges->getBlockedRanges();
     }
