@@ -72,6 +72,60 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->assertSame('', $this->settings->notification_email->getValue());
     }
 
+    public function test_exclude_countries_default()
+    {
+        $this->assertSame([], $this->settings->excludedCountries->getValue());
+    }
+
+    public function test_exclude_getExcludedCountryCodes_default()
+    {
+        $this->assertSame([], $this->settings->getExcludedCountryCodes());
+    }
+
+    public function test_exclude_countries()
+    {
+        $this->settings->excludedCountries->setValue([
+            ['country' => 'de'],['country' => 'fr'], ['country' => 'nz']
+        ]);
+        $this->assertSame(['de', 'fr', 'nz'], $this->settings->getExcludedCountryCodes());
+    }
+
+    public function test_excludeCountries_setInvalidValue()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid country code');
+        $this->settings->excludedCountries->setValue([
+            ['country' => 'de'],['country' => 'foo']
+        ]);
+    }
+
+    public function test_include_countries_default()
+    {
+        $this->assertSame([], $this->settings->includedCountries->getValue());
+    }
+
+    public function test_include_countries()
+    {
+        $this->settings->includedCountries->setValue([
+            ['country' => 'de'],['country' => 'fr'], ['country' => 'nz']
+        ]);
+        $this->assertSame(['de', 'fr', 'nz'], $this->settings->getIncludedCountryCodes());
+    }
+
+    public function test_includeCountries_setInvalidValue()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Invalid country code');
+        $this->settings->includedCountries->setValue([
+            ['country' => 'de'],['country' => 'foo']
+        ]);
+    }
+
+    public function test_include_getIncludedCountryCodes_default()
+    {
+        $this->assertSame([], $this->settings->getIncludedCountryCodes());
+    }
+
     public function test_save_shouldSyncWhenEnabled()
     {
         $ranges = $this->makeRanges();

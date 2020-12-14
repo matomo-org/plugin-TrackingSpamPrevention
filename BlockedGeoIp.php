@@ -25,12 +25,39 @@ class BlockedGeoIp
 
     public function detectLocation($ip, $language)
     {
+        // we need to use both IP and language so it will use the same cache key as in core!
         $visitorLocator = new VisitorGeolocator();
         $info = array('lang' => $language, 'ip' => $ip);
         return $visitorLocator->getLocation($info, $useClassCache = true);
     }
 
-    public function isExcluded($ip, $language)
+    public function isExcludedCountry($ip, $language, $excludedCountries, $includedCountries)
+    {
+        if (empty($excludedCountries) && empty($includedCountries)) {
+            return false;
+        }
+
+        $result = $this->detectLocation($ip, $language);
+        if (empty($result[LocationProvider::COUNTRY_CODE_KEY])) {
+            return false;
+        }
+
+        $countryCode = strtolower($result[LocationProvider::COUNTRY_CODE_KEY]);
+
+        if (!empty($includedCountries) && in_array($countryCode, $includedCountries, true)) {
+            return false;
+        } elseif (!empty($includedCountries)) {
+            return true;
+        }
+
+        if (!empty($excludedCountries) && in_array($countryCode, $excludedCountries, true)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isExcludedProvider($ip, $language)
     {
         $result = $this->detectLocation($ip, $language);
 

@@ -28,6 +28,8 @@ Most sites have under normal circumstances never say more than say 100 or 200 or
 
 Matomo will in this case stop recording further actions for that visit to have less inaccurate data and to reduce server load. The IP address of this visit will then be blocked for up to 24 hours.
 
+You can also be notified by email when an IP address is banned because a visit had too many actions. 
+
 ### 3. Exlude countries
 
 This feature lets you configure to only accepted tracking requests for visitors from specific countries. For example if you have a German website, then it might be unexpected to have any legit visitors from a country outside of Europe meaning a visitor is likely a spammer or a bot in this case. By only tracking visitors from certain countries you can easily avoid a lot of potential spam and bots plus you might also avoid needing to be compliant with certain privacy laws.

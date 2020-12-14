@@ -39,9 +39,28 @@ class BlockedGeoIpTest extends IntegrationTestCase
     'country_name' => 'General_Unknown'], $this->blockedGeoIp->detectLocation('127.0.0.1', 'en'));
     }
 
+    public function test_isExcludedCountry_noCountriesGiven()
+    {
+        $this->assertFalse($this->blockedGeoIp->isExcludedCountry('127.0.0.1', 'en', [], []));
+    }
+
+    public function test_isExcludedCountry_excludedCountriesGiven()
+    {
+        // this IP matches country "xx"
+        $this->assertTrue($this->blockedGeoIp->isExcludedCountry('127.0.0.1', 'en', ['fr', 'xx'], []));
+        $this->assertFalse($this->blockedGeoIp->isExcludedCountry('127.0.0.1', 'en', ['de', 'nz'], []));
+    }
+
+    public function test_isExcludedCountry_includedCountriesGiven()
+    {
+        // this IP matches country "xx"
+        $this->assertFalse($this->blockedGeoIp->isExcludedCountry('127.0.0.1', 'en', [], ['fr', 'xx']));
+        $this->assertTrue($this->blockedGeoIp->isExcludedCountry('127.0.0.1', 'en', [], ['de', 'nz']));
+    }
+
     public function test_isExcluded()
     {
-        $this->assertFalse($this->blockedGeoIp->isExcluded('127.0.0.1', 'en'));
+        $this->assertFalse($this->blockedGeoIp->isExcludedProvider('127.0.0.1', 'en'));
     }
 
 

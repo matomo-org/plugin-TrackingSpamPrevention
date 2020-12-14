@@ -76,8 +76,12 @@ class TrackingSpamPrevention extends \Piwik\Plugin
             return;
         }
 
-        if ($this->getSystemSettings()->block_clouds->getValue()
-            && $this->getBlockGeoIp()->isExcluded($ipString, $request->getBrowserLanguage())) {
+        $settings = $this->getSystemSettings();
+        $blockGeoIp = $this->getBlockGeoIp();
+        $browserLang = $request->getBrowserLanguage();
+
+        if ($settings->block_clouds->getValue()
+            && $blockGeoIp->isExcludedProvider($ipString, $browserLang)) {
             // only needs to be done when cloud providers are blocked specifically
             Common::printDebug("Excluding visit as geoip detects a cloud provider");
             $excluded = true;
@@ -87,6 +91,13 @@ class TrackingSpamPrevention extends \Piwik\Plugin
         if ($this->getBlockedIpRanges()->isExcluded($ipString)) {
             // we also execute this when block clouds disabled because it might contain banned ips
             Common::printDebug("Excluding visit as IP originates from a cloud provider");
+            $excluded = true;
+            return;
+        }
+
+        if ($blockGeoIp->isExcludedCountry($ipString, $browserLang,
+            $settings->getExcludedCountryCodes(), $settings->getIncludedCountryCodes())) {
+            Common::printDebug("Excluding visit as geoip detects an excluded (or not included) country");
             $excluded = true;
             return;
         }

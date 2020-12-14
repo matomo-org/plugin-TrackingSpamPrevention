@@ -90,6 +90,40 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertFalse($excluded->isExcluded());
     }
 
+    public function test_isExcludedVisit_excludeCountries()
+    {
+        StaticContainer::get(SystemSettings::class)->excludedCountries->setValue(
+            [['country' => 'xx'],['country' => 'fr'], ['country' => 'nz'], ['country' => 'de'], ['country' => 'us']]
+        );
+
+        $excluded = $this->makeExcluded('127.0.0.1');
+        $this->assertTrue($excluded->isExcluded());
+
+        StaticContainer::get(SystemSettings::class)->excludedCountries->setValue(
+            [['country' => 'ai']]
+        );
+
+        $excluded = $this->makeExcluded('127.0.0.1');
+        $this->assertFalse($excluded->isExcluded());
+    }
+
+    public function test_isExcludedVisit_includeCountries()
+    {
+        StaticContainer::get(SystemSettings::class)->includedCountries->setValue(
+            [['country' => 'xx'],['country' => 'fr'], ['country' => 'nz'], ['country' => 'de'], ['country' => 'us']]
+        );
+
+        $excluded = $this->makeExcluded('127.0.0.1');
+        $this->assertFalse($excluded->isExcluded());
+
+        StaticContainer::get(SystemSettings::class)->includedCountries->setValue(
+            [['country' => 'ai']]
+        );
+
+        $excluded = $this->makeExcluded('127.0.0.1');
+        $this->assertTrue($excluded->isExcluded());
+    }
+
     private function setBlockClouds($val)
     {
         StaticContainer::get(SystemSettings::class)->block_clouds->setValue($val);
