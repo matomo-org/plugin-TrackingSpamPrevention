@@ -33,7 +33,6 @@ For this to work the "Block cloud provider" setting must be enabled and a geoloc
 
 You can block any organisation (if the geolocation database you are using includes this information) like this:
 
-
 ```
 [TrackingSpamPrevention]
 block_geoip_organisations[] = "ExampleOrg"

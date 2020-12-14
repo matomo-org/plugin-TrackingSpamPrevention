@@ -23,11 +23,16 @@ class BlockedGeoIp
         $this->blockedProviders = $blockedProviders;
     }
 
-    public function isExcluded($ip, $language)
+    public function detectLocation($ip, $language)
     {
         $visitorLocator = new VisitorGeolocator();
         $info = array('lang' => $language, 'ip' => $ip);
-        $result = $visitorLocator->getLocation($info, $useClassCache = true);
+        return $visitorLocator->getLocation($info, $useClassCache = true);
+    }
+
+    public function isExcluded($ip, $language)
+    {
+        $result = $this->detectLocation($ip, $language);
 
         if (!empty($result[LocationProvider::ORG_KEY])) {
             $org = $result[LocationProvider::ORG_KEY];

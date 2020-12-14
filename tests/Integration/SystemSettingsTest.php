@@ -49,6 +49,29 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->assertSame(false, $this->settings->block_clouds->getOldValue());
     }
 
+    public function test_notification_email_default()
+    {
+        $this->assertSame('', $this->settings->notification_email->getValue());
+    }
+
+    public function test_notification_email_errrosWhenNotValidEmail()
+    {
+        $this->expectException(\Exception::class);
+        $this->settings->notification_email->setValue('foo');
+    }
+
+    public function test_notification_email_setValidEmail()
+    {
+        $this->settings->notification_email->setValue('foo@matomo.org');
+        $this->assertSame('foo@matomo.org', $this->settings->notification_email->getValue());
+    }
+
+    public function test_notification_email_setEmptyValue()
+    {
+        $this->settings->notification_email->setValue('');
+        $this->assertSame('', $this->settings->notification_email->getValue());
+    }
+
     public function test_save_shouldSyncWhenEnabled()
     {
         $ranges = $this->makeRanges();

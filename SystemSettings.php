@@ -15,20 +15,24 @@ use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\Cache;
+use Piwik\Validators\Email;
 
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
     /** @var Setting */
     public $max_actions;
 
+    /** @var Setting */
+    public $notification_email;
+
     /** @var BlockCloudsSetting */
     public $block_clouds;
 
     protected function init()
     {
-        // System setting --> allows selection of a single value
-        $this->max_actions = $this->createMaxActionsSetting();
         $this->block_clouds = $this->createBlockCloudsSetting();
+        $this->max_actions = $this->createMaxActionsSetting();
+        $this->notification_email = $this->createNotificationEmail();
     }
 
     private function createBlockCloudsSetting()
@@ -52,6 +56,17 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingMaxActionsTitle');
             $field->description = Piwik::translate('TrackingSpamPrevention_SettingMaxActionsDescription');
             $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
+        });
+    }
+
+    private function createNotificationEmail()
+    {
+        return $this->makeSetting('notification_email', $default = '', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+            $field->title = Piwik::translate('TrackingSpamPrevention_SettingNotificationEmailTitle');
+            $field->description = Piwik::translate('TrackingSpamPrevention_SettingNotificationEmailDescription');
+            $field->uiControl = FieldConfig::UI_CONTROL_TEXT;
+            $field->condition = 'max_actions_allowed>0';
+            $field->validators[] = new Email();
         });
     }
 

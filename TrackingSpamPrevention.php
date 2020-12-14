@@ -11,6 +11,7 @@ namespace Piwik\Plugins\TrackingSpamPrevention;
 use Matomo\Network\IP;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\Date;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\VisitExcluded;
 
@@ -21,6 +22,7 @@ class TrackingSpamPrevention extends \Piwik\Plugin
         return [
             'Tracker.isExcludedVisit' => 'isExcludedVisit',
             'Tracker.setTrackerCacheGeneral' => 'setTrackerCacheGeneral',
+            'TrackingSpamPrevention.banIp' => 'onBanIp',
         ];
     }
 
@@ -34,6 +36,18 @@ class TrackingSpamPrevention extends \Piwik\Plugin
     {
         $config = new Configuration();
         $config->uninstall();
+    }
+
+    public function onBanIp($ip)
+    {
+        $settings = $this->getSystemSettings();
+        $email = $settings->notification_email->getValue();
+        $maxActions = $settings->max_actions->getValue();
+        $locationData = $this->getBlockGeoIp()->detectLocation($ip, Common::getBrowserLanguage());
+        $now = Date::now()->getDatetime();
+
+        $banIpMail = new BanIpNotificationEmail();
+        $banIpMail->send($ip, $email, $maxActions, $locationData, $now);
     }
 
     public function setTrackerCacheGeneral(&$cache)
@@ -63,7 +77,7 @@ class TrackingSpamPrevention extends \Piwik\Plugin
         }
 
         if ($this->getSystemSettings()->block_clouds->getValue()
-            && StaticContainer::get(BlockedGeoIp::class)->isExcluded($ipString, $request->getBrowserLanguage())) {
+            && $this->getBlockGeoIp()->isExcluded($ipString, $request->getBrowserLanguage())) {
             // only needs to be done when cloud providers are blocked specifically
             Common::printDebug("Excluding visit as geoip detects a cloud provider");
             $excluded = true;
@@ -86,6 +100,11 @@ class TrackingSpamPrevention extends \Piwik\Plugin
     private function getBlockedIpRanges()
     {
         return StaticContainer::get(BlockedIpRanges::class);
+    }
+
+    private function getBlockGeoIp()
+    {
+        return StaticContainer::get(BlockedGeoIp::class);
     }
 
     public function isTrackerPlugin()

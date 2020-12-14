@@ -31,6 +31,14 @@ class BlockedGeoIpTest extends IntegrationTestCase
         $this->blockedGeoIp = new BlockedGeoIp(['mytest']);
     }
 
+    public function test_detectLocation()
+    {
+        $this->assertEquals([  'country_code' => 'xx',
+    'continent_code' => 'unk',
+    'continent_name' => 'General_Unknown',
+    'country_name' => 'General_Unknown'], $this->blockedGeoIp->detectLocation('127.0.0.1', 'en'));
+    }
+
     public function test_isExcluded()
     {
         $this->assertFalse($this->blockedGeoIp->isExcluded('127.0.0.1', 'en'));

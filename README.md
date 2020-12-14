@@ -28,7 +28,11 @@ Most sites have under normal circumstances never say more than say 100 or 200 or
 
 Matomo will in this case stop recording further actions for that visit to have less inaccurate data and to reduce server load. The IP address of this visit will then be blocked for up to 24 hours.
 
-### Further ways Matomo prevents spam
+### 3. Exlude countries
 
-* We maintain a list of spam referrers and Matomo will block tracking requests if such a referrer is detected
-* The [Exclude Countries](https://plugins.matomo.org/ExcludeCountries) plugin lets you configure to only accepted tracking requests for visitors from specific countries. For example if you have a German website, then it might be unexpected to have any legit visitors from a country outside of Europe meaning it is likely a spammer or bot. By only tracking visitors from certain countries you can easily avoid a lot of potential spam and bots plus you might also avoid needing to be compliant with certain privacy laws.
+This feature lets you configure to only accepted tracking requests for visitors from specific countries. For example if you have a German website, then it might be unexpected to have any legit visitors from a country outside of Europe meaning a visitor is likely a spammer or a bot in this case. By only tracking visitors from certain countries you can easily avoid a lot of potential spam and bots plus you might also avoid needing to be compliant with certain privacy laws.
+
+### 4. Referrer spam
+
+This feature is not part of this plugin but part of Matomo core.
+Matomo maintains a [list of spam referrers](https://matomo.org/blog/2015/05/stopping-referrer-spam/) and Matomo will block tracking requests when such a referrer is detected.

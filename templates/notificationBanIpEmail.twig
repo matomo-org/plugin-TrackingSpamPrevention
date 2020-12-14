@@ -1,0 +1,10 @@
+This is for your information. The following IP was banned because visit tried to track more than {{ maxActionsAllowed }} actions:
+
+"{{ ipBanned }}"
+
+{% if instanceId is not empty %}Instance ID: {{ instanceId }}{% endif %}
+Current date (UTC): {{ nowDataTime }}
+IP as detected in header: {{ ipHeader }}
+GET request info: {{ getRequest|json_encode|raw }}
+POST request info: {{ postRequest|json_encode|raw }}
+{% if geoIpInfo is not empty %}Geo IP info: {{ geoIpInfo|json_encode|raw }}{% endif %}
