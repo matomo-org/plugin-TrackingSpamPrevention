@@ -51,7 +51,11 @@ class BlockedIpRanges
         if (empty($ranges)) {
             return [];
         }
-        return json_decode($ranges, true);
+        $ranges = json_decode($ranges, true);
+        if (empty($ranges)) {
+            return [];
+        }
+        return $ranges;
     }
 
     /**

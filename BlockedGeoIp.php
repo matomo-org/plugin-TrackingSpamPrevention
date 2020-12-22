@@ -18,7 +18,7 @@ class BlockedGeoIp
      */
     private $blockedProviders;
 
-    public function __construct($blockedProviders)
+    public function __construct($blockedProviders = [])
     {
         $this->blockedProviders = $blockedProviders;
     }
@@ -59,6 +59,9 @@ class BlockedGeoIp
 
     public function isExcludedProvider($ip, $language)
     {
+        if (empty($this->blockedProviders)) {
+            return false;
+        }
         $result = $this->detectLocation($ip, $language);
 
         if (!empty($result[LocationProvider::ORG_KEY])) {
