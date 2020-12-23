@@ -10,6 +10,8 @@ These tracking requests may be caused by spammers or bots and make your data les
 cause pretty much any metric to become inaccurate. This plugin offers various options to fight these kind of tracking requests
 so you can rely on your data again. Also your server will need less resources and less database storage.
 
+The plugin does not send any information to any other server.
+
 ### 1. Block requests from cloud providers
 
 When enabled, this plugin will automatically detect IP addresses used by popular cloud providers like AWS, Azure, Digital Ocean, Google Cloud and Oracle Cloud.
