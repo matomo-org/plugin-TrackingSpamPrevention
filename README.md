@@ -20,7 +20,15 @@ If you are only tracking using the JavaScript tracker then this should be a safe
 
 If you are sending tracking requests from a cloud server, then you can also configure IP addresses that are always allowed so you can still use this feature.
 
-### 2. Restrict number of actions per visit
+### 2. Block requests from headless browsers
+
+When enabled, this plugin detect the most popular headless browsers and block tracking requests that originate from a headless browser.
+
+Headless browsers are browsers without a user interface and are mostly used for automation. Regular visitors would not use such a browser. It can block additional bots and spam requests that otherwise would not be detected.
+
+It cannot detect a headless browser when the user agent is customised. Often, we can detect them though.
+
+### 3. Restrict number of actions per visit
 
 When enabled, you can configure how many actions a visit should max have. 
 
@@ -30,11 +38,11 @@ Matomo will in this case stop recording further actions for that visit to have l
 
 You can also be notified by email when an IP address is banned because a visit had too many actions. 
 
-### 3. Exlude countries
+### 4. Exlude countries
 
 This feature lets you configure to only accepted tracking requests for visitors from specific countries. For example if you have a German website, then it might be unexpected to have any legit visitors from a country outside of Europe meaning a visitor is likely a spammer or a bot in this case. By only tracking visitors from certain countries you can easily avoid a lot of potential spam and bots plus you might also avoid needing to be compliant with certain privacy laws.
 
-### 4. Referrer spam
+### 5. Referrer spam
 
 This feature is not part of this plugin but part of Matomo core.
 Matomo maintains a [list of spam referrers](https://matomo.org/blog/2015/05/stopping-referrer-spam/) and Matomo will block tracking requests when such a referrer is detected.

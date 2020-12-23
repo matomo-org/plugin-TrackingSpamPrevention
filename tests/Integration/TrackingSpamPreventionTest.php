@@ -51,6 +51,42 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         ], $cache[BlockedIpRanges::OPTION_KEY]);
     }
 
+    public function test_isExcludedVisit_whenBlockedUserAgentWhenGoodUserAgentWontBlock()
+    {
+        StaticContainer::get(SystemSettings::class)->blockHeadless->setValue(1);
+        Cache::clearCacheGeneral();
+
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36';
+        $excluded = $this->makeExcluded('22.22.22.22');
+        $isExcluded = $excluded->isExcluded();
+        unset($_SERVER['HTTP_USER_AGENT']);
+        $this->assertFalse($isExcluded);
+    }
+
+    public function test_isExcludedVisit_whenBlockedUserAgent()
+    {
+        StaticContainer::get(SystemSettings::class)->blockHeadless->setValue(1);
+        Cache::clearCacheGeneral();
+
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/79.0.3945.0 Safari/537.36';
+        $excluded = $this->makeExcluded('22.22.22.22');
+        $isExcluded = $excluded->isExcluded();
+        unset($_SERVER['HTTP_USER_AGENT']);
+        $this->assertTrue($isExcluded);
+    }
+
+    public function test_isExcludedVisit_whenBlockedUserAgentDisabled()
+    {
+        StaticContainer::get(SystemSettings::class)->blockHeadless->setValue(0);
+        Cache::clearCacheGeneral();
+
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/79.0.3945.0 Safari/537.36';
+        $excluded = $this->makeExcluded('22.22.22.22');
+        $isExcluded = $excluded->isExcluded();
+        unset($_SERVER['HTTP_USER_AGENT']);
+        $this->assertFalse($isExcluded);
+    }
+
     public function test_isExcludedVisit_whenNothingBlocked()
     {
         StaticContainer::get(BlockedIpRanges::class)->unsetAllIpRanges();

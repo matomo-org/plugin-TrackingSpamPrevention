@@ -36,9 +36,13 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var Setting */
     public $includedCountries;
 
+    /** @var Setting */
+    public $blockHeadless;
+
     protected function init()
     {
         $this->block_clouds = $this->createBlockCloudsSetting();
+        $this->blockHeadless = $this->createBlockHeadlessSettings();
         $this->max_actions = $this->createMaxActionsSetting();
         $this->notification_email = $this->createNotificationEmail();
 
@@ -59,6 +63,16 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
         $this->addSetting($setting);
         return $setting;
+    }
+
+
+    private function createBlockHeadlessSettings()
+    {
+        return $this->makeSetting('block_headless', $default = 0, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+            $field->title = Piwik::translate('TrackingSpamPrevention_SettingBlockHeadlessTitle');
+            $field->description = Piwik::translate('TrackingSpamPrevention_SettingBlockHeadlessDescription');
+            $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
+        });
     }
 
     private function createMaxActionsSetting()

@@ -94,6 +94,15 @@ class TrackingSpamPrevention extends \Piwik\Plugin
         $blockGeoIp = $this->getBlockGeoIp();
         $browserLang = $request->getBrowserLanguage();
 
+        $blockHeadless = new BrowserDetection();
+        if ($settings->blockHeadless->getValue()
+            && $blockHeadless->isHeadlessBrowser($request->getUserAgent())) {
+            // note above user agent could have been overwritten with UA parameter but that's fine since it's easy to change useragent anyway
+            Common::printDebug("Excluding visit as headless browser detected");
+            $excluded = 'excluded: headless browser';
+            return;
+        }
+
         if ($settings->block_clouds->getValue()
             && $blockGeoIp->isExcludedProvider($ipString, $browserLang)) {
             // only needs to be done when cloud providers are blocked specifically
