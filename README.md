@@ -47,6 +47,10 @@ This feature lets you configure to only accept tracking requests for visitors fr
 This feature is not part of this plugin but part of Matomo core.
 Matomo maintains a [list of spam referrers](https://matomo.org/blog/2015/05/stopping-referrer-spam/) and Matomo will block tracking requests when such a referrer is detected.
 
+### Recommended other features
+
+You might also want to [configure to track only URLs that belong to your website](https://matomo.org/faq/how-to/faq_21077/). This way any URL that does not belong to your website will not be tracked. This feature is part of Matomo core.
+
 ### Privacy
 
 The plugin does not send any information of your visitors to another server. If you enable the "block requests from cloud providers" feature, then your server will download up to date IP ranges from cloud providers directly and store the information in your database.
