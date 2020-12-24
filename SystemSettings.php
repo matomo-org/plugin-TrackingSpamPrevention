@@ -68,7 +68,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createBlockHeadlessSettings()
     {
-        return $this->makeSetting('block_headless', $default = 0, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+        return $this->makeSetting('block_headless', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingBlockHeadlessTitle');
             $field->description = Piwik::translate('TrackingSpamPrevention_SettingBlockHeadlessDescription');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
