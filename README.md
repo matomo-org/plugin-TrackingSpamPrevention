@@ -10,7 +10,7 @@ These tracking requests may be caused by spammers or bots and make your data les
 cause pretty much any metric to become inaccurate. This plugin offers various options to fight these kind of tracking requests
 so you can rely on your data again. Also your server will need less resources and less database storage.
 
-The plugin does not send any information to any other server.
+The plugin does not send any information of your visitors to another server. If you enable the "block requests from cloud providers" feature, then your server will download up to date IP ranges from cloud providers directly and store the information in your database.
 
 ### 1. Block requests from cloud providers
 
