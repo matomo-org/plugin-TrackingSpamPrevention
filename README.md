@@ -6,11 +6,9 @@
 
 Ever noticed tracking requests that look unnatural or originated from locations you wouldn't expect to get visits from?
 
-These tracking requests may be caused by spammers or bots and make your data less accurate. In some cases they can even
-cause pretty much any metric to become inaccurate. This plugin offers various options to fight these kind of tracking requests
-so you can rely on your data again. Also your server will need less resources and less database storage.
+These tracking requests may be caused by spammers or bots and make your data less accurate. The only thing that is worse than having no data is inaccurate data.
 
-The plugin does not send any information of your visitors to another server. If you enable the "block requests from cloud providers" feature, then your server will download up to date IP ranges from cloud providers directly and store the information in your database.
+This plugin offers various options to fight spam and bots, so you can rely on your data:
 
 ### 1. Block requests from cloud providers
 
@@ -20,11 +18,11 @@ When a tracking request matches such an IP address, then the tracking request wi
 
 If you are only tracking using the JavaScript tracker then this should be a safe feature to enable as tracking requests from humans would not originate from these clouds.
 
-If you are sending tracking requests from a cloud server, then you can also configure IP addresses that are always allowed so you can still use this feature.
+If you are sending tracking requests from a cloud server, then you can also configure IP addresses that are always allowed, so you can still use this feature.
 
 ### 2. Block requests from headless browsers
 
-When enabled, this plugin detect the most popular headless browsers and block tracking requests that originate from a headless browser.
+When enabled, this plugin detects the most popular headless browsers and block tracking requests that originate from a headless browser.
 
 Headless browsers are browsers without a user interface and are mostly used for automation. Regular visitors would not use such a browser. It can block additional bots and spam requests that otherwise would not be detected.
 
@@ -40,11 +38,15 @@ Matomo will in this case stop recording further actions for that visit to have l
 
 You can also be notified by email when an IP address is banned because a visit had too many actions. 
 
-### 4. Exlude countries
+### 4. Exclude countries
 
-This feature lets you configure to only accepted tracking requests for visitors from specific countries. For example if you have a German website, then it might be unexpected to have any legit visitors from a country outside of Europe meaning a visitor is likely a spammer or a bot in this case. By only tracking visitors from certain countries you can easily avoid a lot of potential spam and bots plus you might also avoid needing to be compliant with certain privacy laws.
+This feature lets you configure to only accept tracking requests for visitors from specific countries. For example, if you have a German website, then it might be unexpected to have any legit visitors from a country outside of Europe meaning a visitor is likely a spammer or a bot in this case. By only tracking visitors from certain countries you can easily avoid a lot of potential spam and bots plus you might also avoid needing to be compliant with certain privacy laws.
 
 ### 5. Referrer spam
 
 This feature is not part of this plugin but part of Matomo core.
 Matomo maintains a [list of spam referrers](https://matomo.org/blog/2015/05/stopping-referrer-spam/) and Matomo will block tracking requests when such a referrer is detected.
+
+### Privacy
+
+The plugin does not send any information of your visitors to another server. If you enable the "block requests from cloud providers" feature, then your server will download up to date IP ranges from cloud providers directly and store the information in your database.
