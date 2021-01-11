@@ -54,7 +54,7 @@ script: $PIWIK_ROOT_DIR/tests/travis/travis.sh
 
 before_install:
 
-  - if [[ "${TEST_SUITE}" == "UITests" ]]; then git lfs fetch; git lfs checkout; fi
+    - if [[ "${TEST_SUITE}" == "UITests" ]]; then git lfs fetch; git lfs checkout; fi
 
 install:
   # move all contents of current repo (which contains the plugin) to a new directory
