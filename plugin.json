@@ -1,6 +1,6 @@
 {
     "name": "TrackingSpamPrevention",
-    "description": "Tracking Spam Prevention",
+    "description": "This plugin offers various options to prevent spammers and bots from making your data inaccurate so you can rely on your data again.",
     "version": "0.1.0",
     "theme": false,
     "require": {
