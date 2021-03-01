@@ -1,0 +1,9 @@
+{
+    "TrackingSpamPrevention": {
+        "SettingMaxActionsTitle": "Maximale aufzuzeichnende Aktionen pro Besuch",
+        "SettingNotificationEmailTitle": "Benachrichtigungs-E-Mail",
+        "SettingBlockHeadlessTitle": "Headless-Browser blockieren",
+        "SettingBlockCloudTitle": "Tracking request aus der Cloud blockieren",
+        "BanIpNotificationMailSubject": "Eine IP wurde gesperrt weil zu viele Aktionen aufgezeichnet wurden."
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "TrackingSpamPrevention": {
+        "SettingMaxActionsTitle": "Nombre maximal d'actions à enregistrer par visite",
+        "SettingMaxActionsDescription": "Entrez 0 pour autoriser un nombre illimité d'actions (paramètre par défaut). La plupart des sites n'enregistre pas plus de 100, 200 ou 300 actions par visites en temps normal. La plupart du temps, il est donc raisonnable de penser que si quelqu'un effectue plus d'actions que le nombre prévu, nous avons à faire à du spam, un robot ou toute autre cause non-naturelle. Dans ce cas, Matomo cessera d'enregistrer toute action additionnelle pour cette visite afin d'éviter d'avoir des résultats inadaptés et de réduire la charge pesant sur votre serveur. L'adresse IP de cette visite sera par ailleurs bloquée pour 24 heures.",
+        "SettingNotificationEmailTitle": "Notification par email",
+        "SettingNotificationEmailDescription": "Cette adresse email sera notifiée à chaque fois qu'une IP est bannie pour avoir réalisé trop d'actions. Dans le futur, d'autres motifs de notification pourront être ajoutés.",
+        "SettingBlockHeadlessTitle": "Bloquer les navigateurs sans tête",
+        "SettingBlockHeadlessDescription": "Les navigateurs sans tête sont des navigateurs ne disposant pas d'une interface utilisateur et sont principalement utilisés de manière automatisée. Si vous avez uniquement des sites web classiques ou des applications, il serait sage d'activer ce paramètre. Il pourra ainsi bloquer les robots et les requêtes de spam qui passeraient autrement inaperçues.",
+        "SettingBlockCloudTitle": "Bloquer les requêtes de suivi émanant du cloud",
+        "BlockCloudNoteInternetDisabled": "Comme internet est désactivé dans la configuration de Matomo, cette fonctionnalité ne marchera pas.",
+        "BanIpNotificationMailSubject": "Une adresse IP a été bannie car elle a réalisé trop d'actions.",
+        "SettingBlockCloudDescription": "Si ce paramètre est activé, il bloquera les requêtes provenant d'hébergeurs cloud tels que AWS, Azure, Digital Ocean, Google Cloud et Oracle. Si vous utilisez uniquement le tracker javascript pour effectuer votre suivi, vous devriez activer ce paramètre dans la mesure où les requêtes provenant d'êtres humains ne seront pas identifiées comme provenant de ces clouds. Cependant, il pourra également bloquer à tort quelques requêtes lorsqu'un visiteur utilise un VPN (Virtual Private Network) passant à travers un de ces clouds. Cela ne devrait représenter qu'une portion infime de vos visiteurs. Ce paramètre s'applique à tous vos sites. Activer cette fonctionnalité demandera à votre serveur de mettre à jour la liste des adresses IP utilisées par les serveurs de Google, AWS et Azure."
+    }
+}
