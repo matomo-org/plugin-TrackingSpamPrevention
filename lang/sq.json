@@ -1,0 +1,13 @@
+{
+    "TrackingSpamPrevention": {
+        "SettingMaxActionsTitle": "Maksimum veprimesh në një vizitë për t’u regjistruar",
+        "SettingNotificationEmailTitle": "Email njoftimesh",
+        "SettingNotificationEmailDescription": "Kjo adresë email do të njoftohet kurdo që dëbohet një IP për shkak se ka patur shumë veprime. Në të ardhmen mund të shtohen arsye të mëtejshme njoftimi.",
+        "SettingBlockHeadlessTitle": "Blloko shfletues nën mënyrën “headless”",
+        "SettingBlockHeadlessDescription": "Shfletuesit “headless” janë shfletues pa një ndërfaqe përdoruesi dhe kryesisht përdoren për automatizim. Nëse keni vetëm sajte ose aplikacione të rregullt, përdorimi i këtij rregullimi është pa zarar, në u aktivizoftë. Mund të bllokojë robotë dhe kërkesa spam shtesë, që ndryshe s’do të pikasen.",
+        "SettingBlockCloudTitle": "Blloko kërkesa ndjekjeje nga Re",
+        "BlockCloudNoteInternetDisabled": "Ngaqë interneti është i çaktivizuar te formësimi i Matomo-s, kjo veçori s’do të funksionojë.",
+        "BanIpNotificationMailSubject": "U dëbua një IP, ngaqë u ndoqën shumë veprime.",
+        "SettingBlockCloudDescription": "Në u aktivizoftë, do të bllokojë kërkesa ndjekjeje që erdhën prej shërbyes Resh, të tillë si AWS, Azure, Digital Ocean, Google Cloud dhe Orcle. Nëse ndiqni vetëm duke përdorur ndjekësin JavaScript, ky rregullim mund të aktivizohet pa problem, ngaqë nga këto re nuk do vinin kërkesa ndjekjeje nga qenie njerëzore. Por, munde të bllokojë gabimisht pak kërkesa, kur një vizitor po përdor një VPN (Rrjet Privat Virtual) përmes njërit prej këtyre shërbimeve. Por kjo vetëm për shumë pak vizitorë. Ky rregullim zbatohet mbi krejt sajtet tuaj. Aktivizimi i kësaj veçori do të shkaktojë sjelljen nga shërbyesi juaj të listës së përditësuar të intervaleve të IP-ve nga shërbyes Google, AWS dhe Azure."
+    }
+}
