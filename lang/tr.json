@@ -1,0 +1,14 @@
+{
+    "TrackingSpamPrevention": {
+        "SettingMaxActionsTitle": "Bir ziyarette kaydedilecek en fazla işlem",
+        "SettingMaxActionsDescription": "Sınırsız işlem kaydedilmesi için 0 yazın (varsayılan). Çoğu site, normal şartlar altında, bir ziyarette işlem sayısı asla 100, 200 veya 300 üzerinde olmaz. Bu nedenle, çoğu durumda, yapılandırılmış işlem sayısından daha fazla işlem yapan bir ziyaretçinin izlenerek, bu işlemlere neden olan bir spam, bot ya da doğal davranmayan bir şey olduğunu varsaymak güvenli olabilir. Bu durumda Matomo, hatalı veri sayısını ve sunucu yükünü azaltmak için bu ziyaretin işlemlerini kaydetmeyi durdurur. Bu ziyaretin yapıldığı IP adresi 24 saat için engellenir.",
+        "SettingNotificationEmailTitle": "Bildirim e-postası",
+        "SettingNotificationEmailDescription": "Çok fazla işlem yapılan bir IP adresi engellendiğinde bu e-posta adresine bildirim gönderilir. Gelecekte başka bildirim nedenleri de eklenebilir.",
+        "SettingBlockHeadlessTitle": "Başlıksız tarayıcılar engellensin",
+        "SettingBlockHeadlessDescription": "Başlıksız tarayıcılar, kullanıcı arayüzü olmayan tarayıcılardır ve çoğunlukla otomasyon işlemleri için kullanılır. Yalnız normal web siteleri ve uygulamalar kullanıyorsanız, bu ayarın etkinleştirilmesi güvenli olmalıdır. Başka şekilde belirlenemeyen ek bot ve spam isteklerini engelleyebilir.",
+        "SettingBlockCloudTitle": "Buluttan gelen izleme istekleri engellensin",
+        "BlockCloudNoteInternetDisabled": "İnternet Matomo yapılandırmasında devre dışı bırakıldığı için bu özellik çalışmaz.",
+        "BanIpNotificationMailSubject": "Çok fazla işlem yapıldığı için bir IP adresi engellendi.",
+        "SettingBlockCloudDescription": "Bu seçenek etkinleştirildiğinde, AWS, Azure, Digital Ocean, Google Cloud ve Orcle gibi Bulut hizmeti sağlayıcılarından yapılan izleme istekleri engellenir. Yalnız JavaScript izleyici kullanılarak izleme yapılıyorsa, kişilerden gelen izleme istekleri bu bulut hizmetleri tarafından yapılmayacağından, bu ayarın etkinleştirilmesi güvenli olmalıdır. Bununla birlikte, bir ziyaretçi bu bulut hizmeti sağlayıcılarından biri aracılığıyla bir VPN (Sanal Özel Ağ) kullandığında da yapacağı birkaç istek yanlışlıkla engellenebilir. Yine de bu durumdan çok az ziyaretçi etkilenir. Bu ayar tüm sitelere uygulanır. Bu özellik etkinleştirildiğinde, Matomo sunucusu Google, AWS ve Azure sunucularından güncel IP adresi aralıkları listesini alır."
+    }
+}
