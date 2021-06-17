@@ -16,7 +16,8 @@ class Aws implements IpRangeProviderInterface
     {
         $ranges = [];
 
-        $aws = Http::sendHttpRequest('https://ip-ranges.amazonaws.com/ip-ranges.json', 120);
+        $aws = Http::sendHttpRequest('https://ip-ranges.amazonaws.com/ip-ranges.json', 120, null, null, 0,
+            false, false, false, 'GET', null, null, false);
 
         if (empty($aws)) {
             throw new \Exception('Failed to retrieve AWS IP ranges');
