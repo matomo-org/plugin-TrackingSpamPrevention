@@ -39,6 +39,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var Setting */
     public $blockHeadless;
 
+    /** @var Setting */
+    public $blockUserAgents;
+
     protected function init()
     {
         $this->block_clouds = $this->createBlockCloudsSetting();
@@ -48,6 +51,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
         $this->excludedCountries = $this->createExcludedCountriesSetting();
         $this->includedCountries = $this->createIncludedCountriesSetting();
+        $this->blockUserAgents = $this->createBlockUserAgentsSetting();
     }
 
     private function createBlockCloudsSetting()
@@ -184,6 +188,17 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                     }
                 }
             };
+        });
+    }
+
+    private function createBlockUserAgentsSetting() {
+        return $this->makeSetting('blockUserAgents', [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
+            $field->title = 'Block User Agents';
+            $field->uiControl = FieldConfig::UI_CONTROL_MULTI_TUPLE;
+            $field->description = 'Block one or multiple UAs';
+            $field->uiControl = FieldConfig::UI_CONTROL_MULTI_TUPLE;
+            $field1 = new FieldConfig\MultiPair('User Agent', 'blockUserAgent', FieldConfig::UI_CONTROL_TEXT);
+            $field->uiControlAttributes['field1'] = $field1->toArray();
         });
     }
 

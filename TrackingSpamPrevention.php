@@ -124,6 +124,16 @@ class TrackingSpamPrevention extends \Piwik\Plugin
             $excluded = 'excluded: country';
             return;
         }
+
+        $blockedUserAgents = new BlockedUserAgents();
+        if (
+            $settings->blockUserAgents->getValue() &&
+            $blockedUserAgents->isBlockedUserAgent($request->getUserAgent(), $settings->blockUserAgents->getValue())
+        ) {
+            Common::printDebug("Excluding visit as blocked User Agent detected");
+            $excluded = 'excluded: blockUserAgents';
+            return;
+        }
     }
 
     private function getSystemSettings()
