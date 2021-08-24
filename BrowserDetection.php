@@ -28,7 +28,13 @@ class BrowserDetection
         $browsers = [
             'HeadlessChrome',
             'PhantomJS',
-            'Electron'
+            'Electron',
+            'Scrapy',
+            'ApacheBench',
+            'Siege',
+            'k6',
+            'Radview',
+            'Locust'
         ];
         foreach ($browsers as $browser) {
             if (stripos($userAgent, $browser) !== false) {
