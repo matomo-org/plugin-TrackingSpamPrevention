@@ -9,6 +9,12 @@
     "SettingBlockCloudTitle": "Block tracking requests from Cloud",
     "BlockCloudNoteInternetDisabled": "As internet is disabled in Matomo configuration, this feature won't work.",
     "BanIpNotificationMailSubject": "An IP was banned as too many actions were tracked.",
-    "SettingBlockCloudDescription": "If enabled, it will block tracking requests that originated from Cloud providers like AWS, Azure, Digital Ocean, Google Cloud and Orcle. If you are only tracking using the JavaScript tracker then this setting should be safe to enable as tracking requests from humans would not originate from these clouds. However, it might also falsely block a few requests when a visitor is using a VPN (Virtual Private Network) through one of those cloud providers. This should be very few visitors though. The setting applies to all your sites. Enabling this feature will cause your server to fetch the up to date list of IP ranges from Google, AWS and Azure servers."
+    "SettingBlockCloudDescription": "If enabled, it will block tracking requests that originated from Cloud providers like AWS, Azure, Digital Ocean, Google Cloud and Orcle. If you are only tracking using the JavaScript tracker then this setting should be safe to enable as tracking requests from humans would not originate from these clouds. However, it might also falsely block a few requests when a visitor is using a VPN (Virtual Private Network) through one of those cloud providers. This should be very few visitors though. The setting applies to all your sites. Enabling this feature will cause your server to fetch the up to date list of IP ranges from Google, AWS and Azure servers.",
+    "SettingExcludeServerSideLibrariesTitle": "Exclude Server Side Libraries",
+    "SettingExcludeServerSideLibrariesDescription": "Server Side Libraries Like %1$s are excluded.",
+    "SettingExcludedCountriesTitle": "Exclude Countries",
+    "SettingExcludedCountriesDescription": "Don't track visitors from these countries. This feature lets you configure to only accepted tracking requests for visitors from specific countries. For example if you have a German website, then it might be unexpected to have any legit visitors from a country outside of Europe meaning a visitor is likely a spammer or a bot in this case. By only tracking visitors from certain countries you can easily avoid a lot of potential spam and bots plus you might also avoid needing to be compliant with certain privacy laws.",
+    "SettingIncludedCountriesTitle": "Only track visitors from these countries",
+    "SettingIncludedCountriesDescription": "If you specify any country here, then all other countries are automatically excluded. For more details see exclude countries setting."
   }
 }
