@@ -194,7 +194,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createExcludeServerSideLibrariesSetting() {
         return $this->makeSetting('excludeServerSideLibraries', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
-            $clients = implode(',' ,ClientLibrary::getAvailableClients());
+            $clients = implode(',', ClientLibrary::getAvailableClients());
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingExcludeServerSideLibrariesTitle');
             $field->description = Piwik::translate('TrackingSpamPrevention_SettingExcludeServerSideLibrariesDescription', array($clients));
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
