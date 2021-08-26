@@ -18,7 +18,6 @@ use Piwik\Settings\FieldConfig;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\Cache;
 use Piwik\Validators\Email;
-use DeviceDetector\Parser\Client\Library as ClientLibrary;
 
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
@@ -41,18 +40,18 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     public $blockHeadless;
 
     /** @var Setting */
-    public $excludeServerSideLibraries;
+    public $blockeServerSideLibraries;
 
     protected function init()
     {
         $this->block_clouds = $this->createBlockCloudsSetting();
         $this->blockHeadless = $this->createBlockHeadlessSettings();
+        $this->blockeServerSideLibraries = $this->createBlockServerSideLibrariesSetting();
         $this->max_actions = $this->createMaxActionsSetting();
         $this->notification_email = $this->createNotificationEmail();
 
         $this->excludedCountries = $this->createExcludedCountriesSetting();
         $this->includedCountries = $this->createIncludedCountriesSetting();
-        $this->excludeServerSideLibraries = $this->createExcludeServerSideLibrariesSetting();
     }
 
     private function createBlockCloudsSetting()
@@ -192,11 +191,10 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
     }
 
-    private function createExcludeServerSideLibrariesSetting() {
-        return $this->makeSetting('excludeServerSideLibraries', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
-            $clients = implode(',', ClientLibrary::getAvailableClients());
-            $field->title = Piwik::translate('TrackingSpamPrevention_SettingExcludeServerSideLibrariesTitle');
-            $field->description = Piwik::translate('TrackingSpamPrevention_SettingExcludeServerSideLibrariesDescription', array($clients));
+    private function createBlockServerSideLibrariesSetting() {
+        return $this->makeSetting('blockServerSideLibraries', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+            $field->title = Piwik::translate('TrackingSpamPrevention_SettingBlockServerSideLibrariesTitle');
+            $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingBlockServerSideLibrariesDescription', array('<strong>','</strong>','<br>','<strong>','</strong>'));
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
     }

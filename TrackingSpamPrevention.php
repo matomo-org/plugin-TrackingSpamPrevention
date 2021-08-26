@@ -14,7 +14,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\VisitExcluded;
-use DeviceDetector\DeviceDetector;
 
 class TrackingSpamPrevention extends \Piwik\Plugin
 {
@@ -126,11 +125,10 @@ class TrackingSpamPrevention extends \Piwik\Plugin
             return;
         }
 
-        $deviceDetector = new DeviceDetector($request->getUserAgent());
-        $deviceDetector->parse();
+        $serverSideLibraryDetection = new ServerSideLibraryDetection();
         if (
-            $settings->excludeServerSideLibraries->getValue() &&
-            $deviceDetector->isLibrary()
+            $settings->blockeServerSideLibraries->getValue() &&
+            $serverSideLibraryDetection->isLibrary($request->getUserAgent())
         ) {
             Common::printDebug("Excluding visit as Server Side Library detected");
             $excluded = 'excluded: ServerSideLibraries-';
