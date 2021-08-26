@@ -192,7 +192,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     }
 
     private function createBlockServerSideLibrariesSetting() {
-        return $this->makeSetting('blockServerSideLibraries', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+        return $this->makeSetting('blockServerSideLibraries', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingBlockServerSideLibrariesTitle');
             $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingBlockServerSideLibrariesDescription', array('<strong>','</strong>','<br>','<strong>','</strong>'));
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
