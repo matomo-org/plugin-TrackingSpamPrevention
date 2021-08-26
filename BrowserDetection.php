@@ -31,11 +31,10 @@ class BrowserDetection
             'Electron',
             'ApacheBench', // Load test
             'Siege', // Load test
-            'k6', // Load test
+            'k6/', // Load test
             'Radview', // Load test
             'Locust', // Load test
             'Cypress', //Testing Tool
-            'Site24x7', //Site Monitoring
             'Pingdom' //Site Monitoring
         ];
         foreach ($browsers as $browser) {
