@@ -11,6 +11,8 @@ namespace Piwik\Plugins\TrackingSpamPrevention;
 use Matomo\Network\IP;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\DeviceDetector\DeviceDetectorFactory;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges\IpRangeProviderInterface;
@@ -36,6 +38,16 @@ class BrowserDetection
             }
         }
         return false;
+    }
+
+    public function isLibrary($userAgent)
+    {
+        if (empty($userAgent)) {
+            return false;
+        }
+        $staticContainer = StaticContainer::get(DeviceDetectorFactory::class)->makeInstance($userAgent);
+
+        return $staticContainer->isLibrary();
     }
 
 }

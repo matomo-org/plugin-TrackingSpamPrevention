@@ -52,4 +52,23 @@ class BrowserDetectionTest extends IntegrationTestCase
             [true, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) electron/1.0.0 Chrome/53.0.2785.113 Electron/1.4.3 Safari/537.36'],
         ];
     }
+
+    /**
+     * @dataProvider getServerSideLibraries
+     */
+    public function test_isLibrary($expected, $userAgent) {
+        $this->assertSame($expected, $this->browser->isLibrary($userAgent));
+    }
+
+    public function getServerSideLibraries()
+    {
+        return [
+            [false, ''],
+            [false, null],
+            [false, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'],
+            [false, 'Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0'],
+            [true, 'curl/7.68.0'],
+            [true, 'Wget/1.20.3 (linux-gnu)'],
+        ];
+    }
 }

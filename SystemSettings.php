@@ -40,13 +40,13 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     public $blockHeadless;
 
     /** @var Setting */
-    public $blockeServerSideLibraries;
+    public $blockServerSideLibraries;
 
     protected function init()
     {
         $this->block_clouds = $this->createBlockCloudsSetting();
         $this->blockHeadless = $this->createBlockHeadlessSettings();
-        $this->blockeServerSideLibraries = $this->createBlockServerSideLibrariesSetting();
+        $this->blockServerSideLibraries = $this->createBlockServerSideLibrariesSetting();
         $this->max_actions = $this->createMaxActionsSetting();
         $this->notification_email = $this->createNotificationEmail();
 

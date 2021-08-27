@@ -95,7 +95,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
     }
 
     public function test_isExcludedVisit_whenBlockServerSideLibraryDisabledAndNotServerSideUserAgent() {
-        StaticContainer::get(SystemSettings::class)->blockeServerSideLibraries->setValue(0);
+        StaticContainer::get(SystemSettings::class)->blockServerSideLibraries->setValue(0);
         Cache::clearCacheGeneral();
 
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36';
@@ -106,7 +106,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
     }
 
     public function test_isExcludedVisit_whenBlockServerSideLibraryDisabledAndServerSideUserAgent() {
-        StaticContainer::get(SystemSettings::class)->blockeServerSideLibraries->setValue(0);
+        StaticContainer::get(SystemSettings::class)->blockServerSideLibraries->setValue(0);
         Cache::clearCacheGeneral();
 
         $_SERVER['HTTP_USER_AGENT'] = 'curl/7.68.0';
@@ -117,7 +117,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
     }
 
     public function test_isExcludedVisit_whenBlockServerSideLibraryEnabledAndNotServerSideUserAgent() {
-        StaticContainer::get(SystemSettings::class)->blockeServerSideLibraries->setValue(1);
+        StaticContainer::get(SystemSettings::class)->blockServerSideLibraries->setValue(1);
         Cache::clearCacheGeneral();
 
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36';
@@ -128,7 +128,7 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
     }
 
     public function test_isExcludedVisit_whenBlockServerSideLibraryEnabledAndServerSideUserAgent() {
-        StaticContainer::get(SystemSettings::class)->blockeServerSideLibraries->setValue(1);
+        StaticContainer::get(SystemSettings::class)->blockServerSideLibraries->setValue(1);
         Cache::clearCacheGeneral();
 
         $_SERVER['HTTP_USER_AGENT'] = 'curl/7.68.0';
