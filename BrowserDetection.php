@@ -31,11 +31,10 @@ class BrowserDetection
             'Electron',
             'ApacheBench', // Load test
             'Siege', // Load test
-            'k6/', // Load test
+            'https://k6.io/', // Load test, Added full URL to handle case where UA can be fook6bar or fook6/
             'Radview', // Load test
             'Locust', // Load test
-            'Cypress', //Testing Tool
-            'Pingdom' //Site Monitoring
+            'Cypress' //Testing Tool
         ];
         foreach ($browsers as $browser) {
             if (stripos($userAgent, $browser) !== false) {
