@@ -94,9 +94,9 @@ class TrackingSpamPrevention extends \Piwik\Plugin
         $blockGeoIp = $this->getBlockGeoIp();
         $browserLang = $request->getBrowserLanguage();
 
-        $blockHeadless = new BrowserDetection();
+        $browserDetection = new BrowserDetection();
         if ($settings->blockHeadless->getValue()
-            && $blockHeadless->isHeadlessBrowser($request->getUserAgent())) {
+            && $browserDetection->isHeadlessBrowser($request->getUserAgent())) {
             // note above user agent could have been overwritten with UA parameter but that's fine since it's easy to change useragent anyway
             Common::printDebug("Excluding visit as headless browser detected");
             $excluded = 'excluded: headless browser';
@@ -122,6 +122,15 @@ class TrackingSpamPrevention extends \Piwik\Plugin
             $settings->getExcludedCountryCodes(), $settings->getIncludedCountryCodes())) {
             Common::printDebug("Excluding visit as geoip detects an excluded (or not included) country");
             $excluded = 'excluded: country';
+            return;
+        }
+
+        if (
+            $settings->blockServerSideLibraries->getValue() &&
+            $browserDetection->isLibrary($request->getUserAgent())
+        ) {
+            Common::printDebug("Excluding visit as Server Side Library detected");
+            $excluded = 'excluded: ServerSideLibraries-';
             return;
         }
     }
