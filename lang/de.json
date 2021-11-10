@@ -7,6 +7,7 @@
         "SettingBlockHeadlessDescription": "Headless-Browser sind Browser ohne Benutzerschnittstelle und werden normalerweise für Automatisierungen eingesetzt. Wenn Sie normale Webseiten oder Apps haben, sollte es sicher sein, diese Einstellung zu aktivieren. Sie blockiert zusätzliche Bots und Spamanfragen, welche sonst nicht entdeckt würden.",
         "SettingBlockHeadlessTitle": "Headless-Browser blockieren",
         "SettingBlockServerSideLibrariesTitle": "Tracking-Anfragen von serverseitigen Bibliotheken blockieren",
+        "SettingExcludedCountriesDescription": "Keine Besucher aus diesen Ländern tracken. Mit diesem Feature können Sie einstellen, dass nur Tracking-Anfragen für Besucher aus bestimmten Ländern akzeptiert werden. Wenn Sie z. B. eine deutsche Webseite haben, könnte es unerwartet sein, Besucher aus einem Land außerhalb Europas zu haben und somit ist der Besucher in diesem Fall wahrscheinlich ein Spammer oder ein Bot. Wenn Sie nur Besucher aus bestimmten Ländern verfolgen, können Sie eine Menge potenziellen Spam und Bots vermeiden und müssen auch nicht mit bestimmten Datenschutzgesetzen einverstanden sein.",
         "SettingExcludedCountriesTitle": "Länder ausschließen",
         "SettingIncludedCountriesDescription": "Wenn Sie hier ein Land angeben, werden alle anderen Länder automatisch ausgeschlossen. Weitere Einzelheiten finden Sie unter den Einstellungen \"Länder ausschließen\".",
         "SettingIncludedCountriesTitle": "Nur Besucher aus diesen Ländern erfassen",
