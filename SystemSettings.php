@@ -39,10 +39,14 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var Setting */
     public $blockHeadless;
 
+    /** @var Setting */
+    public $blockServerSideLibraries;
+
     protected function init()
     {
         $this->block_clouds = $this->createBlockCloudsSetting();
         $this->blockHeadless = $this->createBlockHeadlessSettings();
+        $this->blockServerSideLibraries = $this->createBlockServerSideLibrariesSetting();
         $this->max_actions = $this->createMaxActionsSetting();
         $this->notification_email = $this->createNotificationEmail();
 
@@ -115,8 +119,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createExcludedCountriesSetting() {
         return $this->makeSetting('excluded_countries', [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
-            $field->title = 'Exclude Countries';
-            $field->description = "Don't track visitors from these countries. This feature lets you configure to only accepted tracking requests for visitors from specific countries. For example if you have a German website, then it might be unexpected to have any legit visitors from a country outside of Europe meaning a visitor is likely a spammer or a bot in this case. By only tracking visitors from certain countries you can easily avoid a lot of potential spam and bots plus you might also avoid needing to be compliant with certain privacy laws.";
+            $field->title = Piwik::translate('TrackingSpamPrevention_SettingExcludedCountriesTitle');
+            $field->description = Piwik::translate('TrackingSpamPrevention_SettingExcludedCountriesDescription');
             $field->uiControl = FieldConfig::UI_CONTROL_MULTI_TUPLE;
             $field1 = new FieldConfig\MultiPair("Country", 'country', FieldConfig::UI_CONTROL_SINGLE_SELECT);
             $field1->availableValues = $this->listCountries();
@@ -160,8 +164,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function createIncludedCountriesSetting() {
         return $this->makeSetting('included_countries', [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
-            $field->title = 'Only track visitors from these countries';
-            $field->description = "If you specify any country here, then all other countries are automatically excluded. For more details see exclude countries setting.";
+            $field->title = Piwik::translate('TrackingSpamPrevention_SettingIncludedCountriesTitle');
+            $field->description = Piwik::translate('TrackingSpamPrevention_SettingIncludedCountriesDescription');
             $field->uiControl = FieldConfig::UI_CONTROL_MULTI_TUPLE;
             $field1 = new FieldConfig\MultiPair("Country", 'country', FieldConfig::UI_CONTROL_SINGLE_SELECT);
             $field1->availableValues = $this->listCountries();
@@ -184,6 +188,14 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                     }
                 }
             };
+        });
+    }
+
+    private function createBlockServerSideLibrariesSetting() {
+        return $this->makeSetting('blockServerSideLibraries', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+            $field->title = Piwik::translate('TrackingSpamPrevention_SettingBlockServerSideLibrariesTitle');
+            $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingBlockServerSideLibrariesDescription', array('<strong>','</strong>','<br>'));
+            $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
     }
 

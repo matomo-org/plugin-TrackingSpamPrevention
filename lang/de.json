@@ -1,9 +1,20 @@
 {
     "TrackingSpamPrevention": {
-        "SettingMaxActionsTitle": "Maximale aufzuzeichnende Aktionen pro Besuch",
-        "SettingNotificationEmailTitle": "Benachrichtigungs-E-Mail",
-        "SettingBlockHeadlessTitle": "Headless-Browser blockieren",
+        "BanIpNotificationMailSubject": "Eine IP wurde gesperrt weil zu viele Aktionen aufgezeichnet wurden.",
+        "BlockCloudNoteInternetDisabled": "Weil in der Matomo Konfiguration Internet deaktiviert ist, wird dieses Feature nicht funktionieren.",
+        "SettingBlockCloudDescription": "Wenn angewählt, werden Trackinganfragen welche von Cloud Providern wie AWS, Azure, Digital Ocean, Google Cloud und Oracle kommen, blockiert. Wenn Sie nur mit der Hilfe des JavaScript Trackers tracken, sollte es sicher sein, diese Einstellung zu aktivieren, weil Tracking Anfragen von Personen üblicherweise nicht aus der Cloud kommen. Trotzdem ist es möglich, dass fälschlicherweise einzelne Anfragen blockiert werden, wenn ein Benutzer VPN (Virtual Private Network) über einen dieser Cloud Dienste verwendet. Das sollten aber sehr wenige Benutzer sein. Dieses Feature zu aktivieren wird dazu führen, dass Ihre Server die aktuelle Liste der IP Bereichen von Google, AWS und Azure Servern abruft.",
         "SettingBlockCloudTitle": "Tracking request aus der Cloud blockieren",
-        "BanIpNotificationMailSubject": "Eine IP wurde gesperrt weil zu viele Aktionen aufgezeichnet wurden."
+        "SettingBlockHeadlessDescription": "Headless-Browser sind Browser ohne Benutzerschnittstelle und werden normalerweise für Automatisierungen eingesetzt. Wenn Sie normale Webseiten oder Apps haben, sollte es sicher sein, diese Einstellung zu aktivieren. Sie blockiert zusätzliche Bots und Spamanfragen, welche sonst nicht entdeckt würden.",
+        "SettingBlockHeadlessTitle": "Headless-Browser blockieren",
+        "SettingBlockServerSideLibrariesDescription": "Wählen Sie dieses Feature nur an, wenn Sie nur über %1$sJavascript Tracker%2$s tracken. Es wird Tracking-Anfragen von serverseitigen Bibliotheken blockieren, wie curl, HTTP, Guzzle und Postman. Für gewöhnlich, wenn Sie Daten nur über den Javascript Tracker tracken, werden Anfragen von solchen serverseitigen Büchereien als Spam angesehen und Sie können bedenkenlos dieses Feature anwählen.%3$s%1$sHinweis: Wenn Sie eine serverseitige SDK benutzen wie unsere PHP-trackende SDK, Java SDK, Android oder iOS SDK oder sonstige serverseitige Programmiersprachen um Daten zu tracken, sollten Sie dieses Feature nicht anwählen.%2$s",
+        "SettingBlockServerSideLibrariesTitle": "Tracking-Anfragen von serverseitigen Bibliotheken blockieren",
+        "SettingExcludedCountriesDescription": "Keine Besucher aus diesen Ländern tracken. Mit diesem Feature können Sie einstellen, dass nur Tracking-Anfragen für Besucher aus bestimmten Ländern akzeptiert werden. Wenn Sie z. B. eine deutsche Webseite haben, könnte es unerwartet sein, Besucher aus einem Land außerhalb Europas zu haben und somit ist der Besucher in diesem Fall wahrscheinlich ein Spammer oder ein Bot. Wenn Sie nur Besucher aus bestimmten Ländern verfolgen, können Sie eine Menge potenziellen Spam und Bots vermeiden und müssen auch nicht mit bestimmten Datenschutzgesetzen einverstanden sein.",
+        "SettingExcludedCountriesTitle": "Länder ausschließen",
+        "SettingIncludedCountriesDescription": "Wenn Sie hier ein Land angeben, werden alle anderen Länder automatisch ausgeschlossen. Weitere Einzelheiten finden Sie unter den Einstellungen \"Länder ausschließen\".",
+        "SettingIncludedCountriesTitle": "Nur Besucher aus diesen Ländern erfassen",
+        "SettingMaxActionsDescription": "Geben Sie 0 ein für unbeschränkten Zugriff (Standard). Die meisten Seiten haben unter normalen Umständen kaum mehr als 100 oder 200 oder 300 Aktionen pro Besuch. In vielen Fällen ist es deshalb sicher davon auszugehen, dass wenn jemand mehr Aktionen ausführt als konfiguriert, es tatsächlich um Spam geht oder um einen Bot oder etwas anderes Unnatürliches diese Aktionen ausführt. Matomo wird in solchen Fällen die Aufzeichnung für diesen Besuch einstellen, um weniger ungenaue Daten zu sammeln und die Serverlast zu reduzieren. Die IP-Adresse des Besuchs wird für bis zu 20 Stunden blockiert.",
+        "SettingMaxActionsTitle": "Maximale aufzuzeichnende Aktionen pro Besuch",
+        "SettingNotificationEmailDescription": "Diese E-Mail-Adresse wird informiert, wenn eine IP verbannt wurde, weil sie zu viele Aktionen ausgeführt hat. In Zukunft werden möglicherweise weitere Gründe für Benachrichtigungen dazukommen.",
+        "SettingNotificationEmailTitle": "Benachrichtigungs-E-Mail"
     }
 }
