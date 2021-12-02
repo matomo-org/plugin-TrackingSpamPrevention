@@ -8,6 +8,7 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention;
 
+use Piwik\Common;
 use Piwik\Log;
 use Piwik\Mail;
 use Piwik\Piwik;
@@ -27,13 +28,10 @@ class BanIpNotificationEmail
         $mail->setSubject(Piwik::translate('TrackingSpamPrevention_BanIpNotificationMailSubject'));
         $mail->setDefaultFromPiwik();
 
-        $view = new View('@TrackingSpamPrevention/notificationBanIpEmail.twig');
-        $view->instanceId = SettingsPiwik::getPiwikInstanceId();
-        $view->maxActionsAllowed = $maxActionsAllowed;
-        $view->ipBanned = $ip;
-        $view->ipHeader = \Piwik\IP::getIpFromHeader();
-        $view->nowDataTime = $nowDateTime;
-        $view->geoIpInfo = $locationData;
+        $mailBody = 'This is for your information. The following IP was banned because visit tried to track more than '.$maxActionsAllowed.' actions:';
+        $mailBody.='<br> "'.$ip.'" <br>';
+        $instanceId = SettingsPiwik::getPiwikInstanceId();
+
 
         if (!empty($_GET)) {
             $get = $_GET;
@@ -53,9 +51,18 @@ class BanIpNotificationEmail
             $post = [];
         }
 
-        $view->getRequest = $get;
-        $view->postRequest = $post;
-        $mail->setBodyText($view->render());
+        if (!empty($instanceId)) {
+            $mailBody.='Current date (UTC): '.$nowDateTime.'
+                        <br> IP as detected in header: '.\Piwik\IP::getIpFromHeader().'
+                        <br> GET request info: '.json_encode($get, JSON_HEX_APOS).'
+                        <br> POST request info: '.json_encode($post, JSON_HEX_APOS);
+        }
+
+        if(!empty($locationData)) {
+            $mailBody.='<br> '.json_encode($locationData, JSON_HEX_APOS);
+        }
+
+        $mail->setBodyHtml(Common::sanitizeInputValue($mailBody));
 
         $testMode = (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE);
         if ($testMode) {
