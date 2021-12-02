@@ -66,12 +66,12 @@ class BanIpNotificationEmail
 
         $testMode = (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE);
         if ($testMode) {
-            Log::info($mail->getSubject() .':' . $mail->getBodyText());
+            Log::info($mail->getSubject() .':' . $mail->getBodyHtml());
         } else {
             $mail->send();
         }
 
-        return $mail->getBodyText();
+        return $mail->getBodyHtml();
     }
 
 }

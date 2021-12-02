@@ -37,15 +37,7 @@ class NotificationEmailTest extends IntegrationTestCase
 
     public function test_send_ValidEmail()
     {
-        $this->assertEquals('This is for your information. The following IP was banned because visit tried to track more than 112 actions:
-
-"10.10.10.10"
-
-Current date (UTC): 2020-12-14 01:42:27
-IP as detected in header: 127.0.0.1
-GET request info: []
-POST request info: []
-Geo IP info: {"test":"foo","bar":"baz"}', trim($this->email->send('10.10.10.10', 'foo@matomo.org', 112, ['test' => 'foo', 'bar' => 'baz'], '2020-12-14 01:42:27')));
+        $this->assertEquals('This is for your information. The following IP was banned because visit tried to track more than 112 actions:&lt;br&gt; &quot;10.10.10.10&quot; &lt;br&gt;&lt;br&gt; {&quot;test&quot;:&quot;foo&quot;,&quot;bar&quot;:&quot;baz&quot;}', trim($this->email->send('10.10.10.10', 'foo@matomo.org', 112, ['test' => 'foo', 'bar' => 'baz'], '2020-12-14 01:42:27')));
     }
 
 
