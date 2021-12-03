@@ -13,7 +13,6 @@ use Piwik\Log;
 use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
-use Piwik\View;
 
 class BanIpNotificationEmail
 {
@@ -25,11 +24,11 @@ class BanIpNotificationEmail
 
         $mail = new Mail();
         $mail->addTo($email);
-        $mail->setSubject(Piwik::translate('TrackingSpamPrevention_BanIpNotificationMailSubject'));
+        $mail->setSubject('An IP was banned as too many actions were tracked.');
         $mail->setDefaultFromPiwik();
 
-        $mailBody = 'This is for your information. The following IP was banned because visit tried to track more than '.$maxActionsAllowed.' actions:';
-        $mailBody.='<br> "'.$ip.'" <br>';
+        $mailBody = 'This is for your information. The following IP was banned because visit tried to track more than ' . Common::sanitizeInputValue($maxActionsAllowed) . ' actions:';
+        $mailBody .= '<br><br> "' . Common::sanitizeInputValue($ip) . '" <br>';
         $instanceId = SettingsPiwik::getPiwikInstanceId();
 
 
@@ -52,21 +51,21 @@ class BanIpNotificationEmail
         }
 
         if (!empty($instanceId)) {
-            $mailBody.='Current date (UTC): '.$nowDateTime.'
-                        <br> IP as detected in header: '.\Piwik\IP::getIpFromHeader().'
-                        <br> GET request info: '.json_encode($get, JSON_HEX_APOS).'
-                        <br> POST request info: '.json_encode($post, JSON_HEX_APOS);
+            $mailBody .= '<br> Current date (UTC): ' . Common::sanitizeInputValue($nowDateTime) . '
+                        <br> IP as detected in header: ' . Common::sanitizeInputValue(\Piwik\IP::getIpFromHeader()) . '
+                        <br> GET request info: ' . Common::sanitizeInputValue(json_encode($get, JSON_HEX_APOS)) . '
+                        <br> POST request info: ' . Common::sanitizeInputValue(json_encode($post, JSON_HEX_APOS));
         }
 
-        if(!empty($locationData)) {
-            $mailBody.='<br> '.json_encode($locationData, JSON_HEX_APOS);
+        if (!empty($locationData)) {
+            $mailBody .= '<br> Geo IP info: ' . Common::sanitizeInputValue(json_encode($locationData, JSON_HEX_APOS));
         }
 
-        $mail->setBodyHtml(Common::sanitizeInputValue($mailBody));
+        $mail->setBodyHtml($mailBody);
 
         $testMode = (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE);
         if ($testMode) {
-            Log::info($mail->getSubject() .':' . $mail->getBodyHtml());
+            Log::info($mail->getSubject() . ':' . $mail->getBodyHtml());
         } else {
             $mail->send();
         }
