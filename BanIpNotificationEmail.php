@@ -28,7 +28,7 @@ class BanIpNotificationEmail
         $mail->setDefaultFromPiwik();
 
         $mailBody = 'This is for your information. The following IP was banned because visit tried to track more than ' . Common::sanitizeInputValue($maxActionsAllowed) . ' actions:';
-        $mailBody .= '<br><br> "' . Common::sanitizeInputValue($ip) . '" <br>';
+        $mailBody .= PHP_EOL.PHP_EOL.'"' . Common::sanitizeInputValue($ip) . '"'.PHP_EOL;
         $instanceId = SettingsPiwik::getPiwikInstanceId();
 
 
@@ -51,26 +51,29 @@ class BanIpNotificationEmail
         }
 
         if (!empty($instanceId)) {
-            $mailBody .= '<br> Current date (UTC): ' . Common::sanitizeInputValue($nowDateTime) . '
-                        <br> IP as detected in header: ' . Common::sanitizeInputValue(\Piwik\IP::getIpFromHeader()) . '
-                        <br> GET request info: ' . Common::sanitizeInputValue(json_encode($get, JSON_HEX_APOS)) . '
-                        <br> POST request info: ' . Common::sanitizeInputValue(json_encode($post, JSON_HEX_APOS));
+            $mailBody .= PHP_EOL.'Instance ID: ' . Common::sanitizeInputValue($instanceId);
         }
+        $mailBody .= PHP_EOL.'Current date (UTC): ' . Common::sanitizeInputValue($nowDateTime) . '
+IP as detected in header: ' . Common::sanitizeInputValue($ip) . '
+GET request info: ' . json_encode($get, JSON_HEX_APOS) . '
+POST request info: ' . json_encode($post, JSON_HEX_APOS). PHP_EOL;
 
         if (!empty($locationData)) {
-            $mailBody .= '<br> Geo IP info: ' . Common::sanitizeInputValue(json_encode($locationData, JSON_HEX_APOS));
+            $mailBody .= 'Geo IP info: ' . json_encode($locationData, JSON_HEX_APOS);
         }
 
-        $mail->setBodyHtml($mailBody);
+        $mail->setBodyText($mailBody);
 
         $testMode = (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE);
         if ($testMode) {
-            Log::info($mail->getSubject() . ':' . $mail->getBodyHtml());
+            Log::info($mail->getSubject() . ':' . $mail->getBodyText());
         } else {
             $mail->send();
         }
 
-        return $mail->getBodyHtml();
+        $a=$mail->getBodyText();
+
+        return $mail->getBodyText();
     }
 
 }
