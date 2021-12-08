@@ -55,11 +55,11 @@ class BanIpNotificationEmail
         }
         $mailBody .= PHP_EOL.'Current date (UTC): ' . Common::sanitizeInputValue($nowDateTime) . '
 IP as detected in header: ' . Common::sanitizeInputValue(\Piwik\IP::getIpFromHeader()) . '
-GET request info: ' . json_encode($get, JSON_HEX_APOS) . '
-POST request info: ' . json_encode($post, JSON_HEX_APOS). PHP_EOL;
+GET request info: ' . json_encode($get) . '
+POST request info: ' . json_encode($post). PHP_EOL;
 
         if (!empty($locationData)) {
-            $mailBody .= 'Geo IP info: ' . json_encode($locationData, JSON_HEX_APOS);
+            $mailBody .= 'Geo IP info: ' . json_encode($locationData);
         }
 
         $mail->setBodyText($mailBody);
