@@ -54,7 +54,7 @@ class BanIpNotificationEmail
             $mailBody .= PHP_EOL.'Instance ID: ' . Common::sanitizeInputValue($instanceId);
         }
         $mailBody .= PHP_EOL.'Current date (UTC): ' . Common::sanitizeInputValue($nowDateTime) . '
-IP as detected in header: ' . Common::sanitizeInputValue($ip) . '
+IP as detected in header: ' . Common::sanitizeInputValue(\Piwik\IP::getIpFromHeader()) . '
 GET request info: ' . json_encode($get, JSON_HEX_APOS) . '
 POST request info: ' . json_encode($post, JSON_HEX_APOS). PHP_EOL;
 

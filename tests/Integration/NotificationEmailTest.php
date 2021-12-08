@@ -43,7 +43,7 @@ class NotificationEmailTest extends IntegrationTestCase
 "10.10.10.10"
 
 Current date (UTC): 2020-12-14 01:42:27
-IP as detected in header: 10.10.10.10
+IP as detected in header: 127.0.0.1
 GET request info: []
 POST request info: []
 Geo IP info: {"test":"foo","bar":"baz"}',
