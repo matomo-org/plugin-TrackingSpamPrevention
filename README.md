@@ -32,7 +32,7 @@ It cannot detect a headless browser when the user agent is customised. Often, we
 
 When enabled, you can configure how many actions a visit should max have. 
 
-Most sites, under normal circumstances, may have no more than 100 or 200 or 300 actions within one visit. In many cases it might be therefore safe to assume that if someone has caused more than the configured amount of actions, it might be a spammer, or a bot, or something else unnatural causing these actions. 
+Most sites never have more than around 100 to 300 actions within one visit under normal circumstances. In many cases it might therefore be safe to assume that if someone has caused more actions than the configured amount of actions, it might be actually tracking spam or a bot or something else like non-human activity is causing these actions. 
 
 Matomo will in this case stop recording further actions for that visit to have less inaccurate data and to reduce server load. The IP address of this visit will then be blocked for up to 24 hours.
 

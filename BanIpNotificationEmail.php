@@ -8,11 +8,11 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention;
 
+use Piwik\Common;
 use Piwik\Log;
 use Piwik\Mail;
 use Piwik\Piwik;
 use Piwik\SettingsPiwik;
-use Piwik\View;
 
 class BanIpNotificationEmail
 {
@@ -24,16 +24,13 @@ class BanIpNotificationEmail
 
         $mail = new Mail();
         $mail->addTo($email);
-        $mail->setSubject(Piwik::translate('TrackingSpamPrevention_BanIpNotificationMailSubject'));
+        $mail->setSubject('An IP was banned as too many actions were tracked.');
         $mail->setDefaultFromPiwik();
 
-        $view = new View('@TrackingSpamPrevention/notificationBanIpEmail.twig');
-        $view->instanceId = SettingsPiwik::getPiwikInstanceId();
-        $view->maxActionsAllowed = $maxActionsAllowed;
-        $view->ipBanned = $ip;
-        $view->ipHeader = \Piwik\IP::getIpFromHeader();
-        $view->nowDataTime = $nowDateTime;
-        $view->geoIpInfo = $locationData;
+        $mailBody = 'This is for your information. The following IP was banned because visit tried to track more than ' . Common::sanitizeInputValue($maxActionsAllowed) . ' actions:';
+        $mailBody .= PHP_EOL.PHP_EOL.'"' . Common::sanitizeInputValue($ip) . '"'.PHP_EOL;
+        $instanceId = SettingsPiwik::getPiwikInstanceId();
+
 
         if (!empty($_GET)) {
             $get = $_GET;
@@ -53,16 +50,28 @@ class BanIpNotificationEmail
             $post = [];
         }
 
-        $view->getRequest = $get;
-        $view->postRequest = $post;
-        $mail->setBodyText($view->render());
+        if (!empty($instanceId)) {
+            $mailBody .= PHP_EOL.'Instance ID: ' . Common::sanitizeInputValue($instanceId);
+        }
+        $mailBody .= PHP_EOL.'Current date (UTC): ' . Common::sanitizeInputValue($nowDateTime) . '
+IP as detected in header: ' . Common::sanitizeInputValue(\Piwik\IP::getIpFromHeader()) . '
+GET request info: ' . json_encode($get) . '
+POST request info: ' . json_encode($post). PHP_EOL;
+
+        if (!empty($locationData)) {
+            $mailBody .= 'Geo IP info: ' . json_encode($locationData);
+        }
+
+        $mail->setBodyText($mailBody);
 
         $testMode = (defined('PIWIK_TEST_MODE') && PIWIK_TEST_MODE);
         if ($testMode) {
-            Log::info($mail->getSubject() .':' . $mail->getBodyText());
+            Log::info($mail->getSubject() . ':' . $mail->getBodyText());
         } else {
             $mail->send();
         }
+
+        $a=$mail->getBodyText();
 
         return $mail->getBodyText();
     }
