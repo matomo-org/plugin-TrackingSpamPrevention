@@ -1,1 +1,13 @@
-{}
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "En IP-adresse ble bannlyst siden for mange handlinger ble sporet.",
+        "BlockCloudNoteInternetDisabled": "Siden Internett er avskrudd i Matomo-oppsettet vil ikke denne funksjonen fungere.",
+        "SettingBlockCloudTitle": "Blokker sporingsforespørsler fra skyen",
+        "SettingBlockHeadlessDescription": "Dette er nettlesere uten brukergrensesnitt, og brukes for det meste til automasjon. Hvis du kun har vanlige nettsider eller programmer bør dette være trygt å slå på. Det kan blokkere ytterligere botter og spam-forespørsler som ellers ikke ville blitt oppdaget.",
+        "SettingBlockHeadlessTitle": "Blokker hodeløse nettlesere",
+        "SettingExcludedCountriesTitle": "Ekskluder land",
+        "SettingIncludedCountriesTitle": "Kun spor besøkende fra disse landene",
+        "SettingMaxActionsTitle": "Maksimalt antall handlinger per besøk å registrere",
+        "SettingNotificationEmailTitle": "Merknads-e-post"
+    }
+}
