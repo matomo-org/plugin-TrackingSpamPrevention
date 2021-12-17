@@ -8,10 +8,7 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration;
 
-use Piwik\Config;
-use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
 use Piwik\Plugins\TrackingSpamPrevention\BrowserDetection;
-use Piwik\Plugins\TrackingSpamPrevention\Configuration;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**

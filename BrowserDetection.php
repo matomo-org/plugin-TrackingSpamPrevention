@@ -8,16 +8,8 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention;
 
-use Matomo\Network\IP;
-use Piwik\Cache as PiwikCache;
-use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DeviceDetector\DeviceDetectorFactory;
-use Piwik\Option;
-use Piwik\Piwik;
-use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges\IpRangeProviderInterface;
-use Piwik\SettingsPiwik;
-use Piwik\Tracker\Cache;
 
 class BrowserDetection
 {

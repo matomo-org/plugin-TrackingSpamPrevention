@@ -11,7 +11,6 @@ namespace Piwik\Plugins\TrackingSpamPrevention;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Piwik;
-use Piwik\Plugins\ExcludeCountries\ExcludeCountries;
 use Piwik\Plugins\TrackingSpamPrevention\Settings\BlockCloudsSetting;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
