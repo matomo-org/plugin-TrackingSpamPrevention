@@ -16,7 +16,7 @@ use Piwik\SettingsPiwik;
 
 class BanIpNotificationEmail
 {
-    public function send($ip, $email, $maxActionsAllowed, $locationData, $nowDateTime)
+    public function send($ipRange, $ip, $email, $maxActionsAllowed, $locationData, $nowDateTime)
     {
         if (empty($email) || !Piwik::isValidEmailString($email)) {
             return;
@@ -28,7 +28,7 @@ class BanIpNotificationEmail
         $mail->setDefaultFromPiwik();
 
         $mailBody = 'This is for your information. The following IP was banned because visit tried to track more than ' . Common::sanitizeInputValue($maxActionsAllowed) . ' actions:';
-        $mailBody .= PHP_EOL.PHP_EOL.'"' . Common::sanitizeInputValue($ip) . '"'.PHP_EOL;
+        $mailBody .= PHP_EOL.PHP_EOL.'"' . Common::sanitizeInputValue($ipRange) . '"'.PHP_EOL;
         $instanceId = SettingsPiwik::getPiwikInstanceId();
 
 
@@ -54,7 +54,7 @@ class BanIpNotificationEmail
             $mailBody .= PHP_EOL.'Instance ID: ' . Common::sanitizeInputValue($instanceId);
         }
         $mailBody .= PHP_EOL.'Current date (UTC): ' . Common::sanitizeInputValue($nowDateTime) . '
-IP as detected in header: ' . Common::sanitizeInputValue(\Piwik\IP::getIpFromHeader()) . '
+IP as detected in header: ' . Common::sanitizeInputValue($ip) . '
 GET request info: ' . json_encode($get) . '
 POST request info: ' . json_encode($post). PHP_EOL;
 

@@ -133,22 +133,23 @@ class BlockedIpRanges
         }
 
         if (strpos($ip, '.') !== false) {
-            $ip = $ip . '/32';
+            $ipRange = $ip . '/32';
         } else {
-            $ip = $ip . '/128';
+            $ipRange = $ip . '/128';
         }
 
-        if (!in_array($ip, $ranges[$index], true)) {
-            $ranges[$index][] = $ip;
+        if (!in_array($ipRange, $ranges[$index], true)) {
+            $ranges[$index][] = $ipRange;
             $this->setBlockedRanges($ranges);
 
             /**
              * This event is posted when an IP is being banned from tracking. You can use it for example to notify someone
              * that this IP was banned.
              *
-             * @param string $ip
+             * @param string $ipRange The IP range that will be blocked
+             * @param string $ip The IP that caused this range to be blocked
              */
-            Piwik::postEvent('TrackingSpamPrevention.banIp', [$ip]);
+            Piwik::postEvent('TrackingSpamPrevention.banIp', [$ipRange, $ip]);
         }
 
         return $ranges;

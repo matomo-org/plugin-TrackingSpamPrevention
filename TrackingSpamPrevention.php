@@ -46,7 +46,7 @@ class TrackingSpamPrevention extends \Piwik\Plugin
         $config->uninstall();
     }
 
-    public function onBanIp($ip)
+    public function onBanIp($ipRange, $ip)
     {
         $settings = $this->getSystemSettings();
         $email = $settings->notification_email->getValue();
@@ -55,7 +55,7 @@ class TrackingSpamPrevention extends \Piwik\Plugin
         $now = Date::now()->getDatetime();
 
         $banIpMail = new BanIpNotificationEmail();
-        $banIpMail->send($ip, $email, $maxActions, $locationData, $now);
+        $banIpMail->send($ipRange, $ip, $email, $maxActions, $locationData, $now);
     }
 
     public function setTrackerCacheGeneral(&$cache)

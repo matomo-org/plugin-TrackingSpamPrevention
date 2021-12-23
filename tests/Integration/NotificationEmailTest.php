@@ -32,7 +32,7 @@ class NotificationEmailTest extends IntegrationTestCase
 
     public function test_send_noValidEmail()
     {
-        $this->assertNull($this->email->send('10.10.10.10', 'foo', 100, ['test'], '2020-12-14 01:42:27'));
+        $this->assertNull($this->email->send('10.10.10.10/32', '10.10.10.10', 'foo', 100, ['test'], '2020-12-14 01:42:27'));
     }
 
     public function test_send_ValidEmail()
@@ -40,7 +40,7 @@ class NotificationEmailTest extends IntegrationTestCase
         $this->assertEquals(
             'This is for your information. The following IP was banned because visit tried to track more than 112 actions:
 
-"10.10.10.10"
+"10.10.10.10/12"
 
 Current date (UTC): 2020-12-14 01:42:27
 IP as detected in header: 127.0.0.1
@@ -49,7 +49,8 @@ POST request info: []
 Geo IP info: {"test":"foo","bar":"baz"}',
             trim(
                 $this->email->send(
-                    '10.10.10.10',
+                    '10.10.10.10/12',
+                    '127.0.0.1',
                     'foo@matomo.org',
                     112,
                     ['test' => 'foo', 'bar' => 'baz'],
