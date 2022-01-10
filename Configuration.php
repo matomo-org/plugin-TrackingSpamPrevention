@@ -13,7 +13,7 @@ class Configuration
 {
     const DEFAULT_RANGE_THROW_EXCEPTION = 0;
     const DEFAULT_RANGE_ALLOW_LIST = [''];
-    const DEFAULT_GEOIP_MATCH_PROVIDERS = ['alicloud', 'alibaba cloud'];
+    const DEFAULT_GEOIP_MATCH_PROVIDERS = ['alicloud', 'alibaba cloud', 'digitalocean', 'digital ocean'];
 
     const KEY_RANGE_THROW_EXCEPTION = 'block_cloud_sync_throw_exception_on_error';
     const KEY_RANGE_ALLOW_LIST = 'iprange_allowlist';
