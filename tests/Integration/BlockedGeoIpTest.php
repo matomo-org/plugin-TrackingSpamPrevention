@@ -63,5 +63,10 @@ class BlockedGeoIpTest extends IntegrationTestCase
         $this->assertFalse($this->blockedGeoIp->isExcludedProvider('127.0.0.1', 'en'));
     }
 
+    public function test_isExcluded_When_UserCountryPluginIsDisabled()
+    {
+        \Piwik\Plugin\Manager::getInstance()->deactivatePlugin('UserCountry');
+        $this->assertFalse($this->blockedGeoIp->isExcludedProvider('127.0.0.1', 'en'));
+    }
 
 }
