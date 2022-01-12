@@ -59,7 +59,7 @@ class BlockedGeoIp
 
     public function isExcludedProvider($ip, $language)
     {
-        if (empty($this->blockedProviders)) {
+        if (empty($this->blockedProviders) || !(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('UserCountry'))) {
             return false;
         }
         $result = $this->detectLocation($ip, $language);
