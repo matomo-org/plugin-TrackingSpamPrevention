@@ -1,5 +1,11 @@
 ## Changelog
 
+#4.1.2
+- Fix location data in email to show IP instead of IP range
+- Started blocking digital ocean through providers.
+- Stopped checking GeoIp DB if UserCountry plugin is disabled
+- Azure IP ranges download code updated
+
 #4.1.1
 - Fixed IP ban notification email leading to internal sever error
 
