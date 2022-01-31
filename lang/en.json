@@ -13,7 +13,7 @@
         "SettingBlockServerSideLibrariesTitle": "Block tracking requests from server-side libraries",
         "SettingBlockServerSideLibrariesDescription": "Use this if only using %1$sJavaScript Tracker%2$s, as other traffic will be attacks or spam anyway. It blocks tracking requests from cURL, HTTP, Guzzle, and Postman.%3$s%1$sNote: Do not use it if track data using a server-side SDK like the Matomo PHP tracking SDK, Java SDK, Python SDK, Android or iOS SDK, or other server-side programming languages.%2$s",
         "SettingExcludedCountriesTitle": "Exclude Countries",
-        "SettingExcludedCountriesDescription": "Don't track visitors from these countries. Anything else bacomes a whitelist of visitors unlikely to be bots or spammers, or you can use it to avoid privacy laws in other judisdictions.",
+        "SettingExcludedCountriesDescription": "Don't track visitors from these countries. Anything else becomes an allowlist of visitors unlikely to be bots or spammers, or you can use it to avoid privacy laws in other jurisdictions.",
         "SettingIncludedCountriesTitle": "Only track visitors from these countries",
         "SettingIncludedCountriesDescription": "This excludes all other countries. The  \"exclude countries\" setting has more info."
     }
