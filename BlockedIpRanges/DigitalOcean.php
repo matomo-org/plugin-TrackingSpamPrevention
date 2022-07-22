@@ -16,13 +16,17 @@ class DigitalOcean implements IpRangeProviderInterface
     {
         $ranges = [];
 
-        $digitalOcean = Http::sendHttpRequest('https://digitalocean.com/geo/google.csv', 120);
+        $digitalOcean = Http::sendHttpRequest('https://www.digitalocean.com/geo/google.csv', 120, null, null, 0, false, false, true);
 
-        if (empty($digitalOcean)) {
+        if (empty($digitalOcean) || empty($digitalOcean['status']) || $digitalOcean['status'] != 200) {
             throw new \Exception('Failed to retrieve digital ocean IP ranges');
         }
 
-        $digitalOcean = str_getcsv($digitalOcean, ',', '');
+        if (empty($digitalOcean['data'])) {
+            return [];
+        }
+
+        $digitalOcean = str_getcsv($digitalOcean['data'], ',', '');
 
         if (empty($digitalOcean)) {
             throw new \Exception('Failed to parse digital ocean IP ranges');
