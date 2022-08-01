@@ -1,5 +1,8 @@
 ## Changelog
 
+#4.1.3
+- Translation changes
+
 #4.1.2
 - Fix location data in email to show IP instead of IP range
 - Started blocking digital ocean through providers.
