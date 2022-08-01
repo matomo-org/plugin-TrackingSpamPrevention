@@ -2,6 +2,7 @@
 
 #4.1.3
 - Translation changes
+- Added code to not throw exception if digitalOcean file is empty
 
 #4.1.2
 - Fix location data in email to show IP instead of IP range
