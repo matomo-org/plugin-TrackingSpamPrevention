@@ -1,7 +1,7 @@
 {
     "TrackingSpamPrevention": {
-        "BanIpNotificationMailSubject": "Eine IP wurde gesperrt weil zu viele Aktionen aufgezeichnet wurden.",
-        "BlockCloudNoteInternetDisabled": "Weil in der Matomo Konfiguration Internet deaktiviert ist, wird dieses Feature nicht funktionieren.",
+        "BanIpNotificationMailSubject": "Eine IP wurde gesperrt, weil sie zu viele Aktionen generiert hat.",
+        "BlockCloudNoteInternetDisabled": "Da das Internet in der Matomo-Konfiguration deaktiviert ist, wird diese Funktion nicht funktionieren.",
         "SettingBlockCloudDescription": "Wenn angewählt, werden Trackinganfragen welche von Cloud Providern wie AWS, Azure, Digital Ocean, Google Cloud und Oracle kommen, blockiert. Wenn Sie das Tracking nur mit der Hilfe des JavaScript Trackers durchführen, sollte es sicher sein, diese Einstellung zu aktivieren, weil Tracking Anfragen von Personen üblicherweise nicht aus der Cloud kommen. Trotzdem ist es möglich, dass fälschlicherweise einzelne Anfragen blockiert werden, wenn ein Benutzer VPN (Virtual Private Network) über einen dieser Cloud Dienste verwendet. Das sollten aber sehr wenige Benutzer sein. Die Einstellung gilt für alle Ihre Seiten. Dieses Feature zu aktivieren führt dazu, dass Ihre Server die aktuelle Liste der IP-Bereiche von Google, AWS und Azure Servern abruft.",
         "SettingBlockCloudTitle": "Tracking request aus der Cloud blockieren",
         "SettingBlockHeadlessDescription": "Headless-Browser sind Browser ohne Benutzerschnittstelle und werden normalerweise für Automatisierungen eingesetzt. Wenn Sie normale Webseiten oder Apps haben, sollte es sicher sein, diese Einstellung zu aktivieren. Sie blockiert zusätzliche Bots und Spamanfragen, welche sonst nicht entdeckt würden.",
@@ -12,7 +12,7 @@
         "SettingExcludedCountriesTitle": "Länder ausschließen",
         "SettingIncludedCountriesDescription": "Wenn Sie hier ein Land angeben, werden alle anderen Länder automatisch ausgeschlossen. Weitere Einzelheiten finden Sie unter den Einstellungen \"Länder ausschließen\".",
         "SettingIncludedCountriesTitle": "Nur Besucher aus diesen Ländern erfassen",
-        "SettingMaxActionsDescription": "Geben Sie 0 ein für unbeschränkten Zugriff (Standard). Die meisten Seiten haben im Normalfall nie mehr als 100 bis 300 Aktionen pro Besuch. In vielen Fällen kann daher davon ausgegangen werden, dass, wenn jemand mehr Aktionen als die konfigurierte Anzahl von Aktionen verursacht hat, es sich um Tracking-Spam, einen Bot oder eine andere nicht-menschliche Aktivität handeln könnte, die diese Aktionen verursacht. Matomo wird in solchen Fällen die Aufzeichnung für diesen Besuch einstellen, um weniger ungenaue Daten zu sammeln und die Serverlast zu reduzieren. Die IP-Adresse des Besuchs wird für bis zu 24 Stunden blockiert.",
+        "SettingMaxActionsDescription": "Ein Standardwert von \"0\" zeichnet alle Aktionen auf. Die meisten Websites haben normalerweise nicht mehr als 100 bis 300. Es kann davon ausgegangen werden, dass andere Aktivitäten das Verfolgen von Spam, einem Bot oder einem Angriff sind. Matomo stoppt die Aufzeichnung weiterer Aktionen und blockiert ihre IP-Adressen für bis zu 24 Stunden, um die Serverlast zu reduzieren und die Datengenauigkeit zu wahren.",
         "SettingMaxActionsTitle": "Maximale aufzuzeichnende Aktionen pro Besuch",
         "SettingNotificationEmailDescription": "Diese E-Mail-Adresse wird informiert, wenn eine IP verbannt wurde, weil sie zu viele Aktionen ausgeführt hat. In Zukunft werden möglicherweise weitere Gründe für Benachrichtigungen dazukommen.",
         "SettingNotificationEmailTitle": "Benachrichtigungs-E-Mail"
