@@ -1,1 +1,14 @@
-{}
+{
+    "TrackingSpamPrevention": {
+        "BanIpNotificationMailSubject": "IP-адресу було заблоковано через генерування завеликої кількості дій.",
+        "BlockCloudNoteInternetDisabled": "Оскільки у вашій конфігурації Matomo інтернет вимкнено, ця функція не працюватиме.",
+        "SettingBlockCloudTitle": "Блокувати запити відстеження з хмари",
+        "SettingBlockHeadlessTitle": "Блокувати браузери без заголовків",
+        "SettingBlockServerSideLibrariesTitle": "Блокувати запити відстеження від серверних бібліотек",
+        "SettingExcludedCountriesTitle": "Виключити країни",
+        "SettingIncludedCountriesDescription": "Це виключає всі інші країни. Налаштування «виключити країни» містить додаткову інформацію.",
+        "SettingIncludedCountriesTitle": "Відстежувати відвідувачів лише з цих країн",
+        "SettingMaxActionsTitle": "Максимальна кількість дій для запису за відвідування",
+        "SettingNotificationEmailTitle": "Сповіщення електронною поштою"
+    }
+}
