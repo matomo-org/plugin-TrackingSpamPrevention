@@ -31,9 +31,7 @@ class BanIpNotificationEmail
                 'CoreHome_WebAnalyticsReports',
                 'TagManager_MatomoTagName'
             ])) {
-            $fromEmailAddress = Config::getInstance()->General['noreply_email_address'];
-            $fromEmailName = Config::getInstance()->General['noreply_email_name'] ?: 'Web Analytics Reports';
-            $mail->setFrom($fromEmailAddress, $fromEmailName);
+            $mail->setFrom($mail->getFrom(), 'Web Analytics Reports');
         }
 
         $mailBody = 'This is for your information. The following IP was banned because visit tried to track more than ' . Common::sanitizeInputValue($maxActionsAllowed) . ' actions:';
