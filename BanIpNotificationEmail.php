@@ -9,6 +9,7 @@
 namespace Piwik\Plugins\TrackingSpamPrevention;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Log;
 use Piwik\Mail;
 use Piwik\Piwik;
@@ -26,6 +27,12 @@ class BanIpNotificationEmail
         $mail->addTo($email);
         $mail->setSubject('An IP was banned as too many actions were tracked.');
         $mail->setDefaultFromPiwik();
+        if (empty($mail->getFromName()) || in_array($mail->getFromName(), [
+                'CoreHome_WebAnalyticsReports',
+                'TagManager_MatomoTagName'
+            ])) {
+            $mail->setFrom($mail->getFrom(), 'Web Analytics Reports');
+        }
 
         $mailBody = 'This is for your information. The following IP was banned because visit tried to track more than ' . Common::sanitizeInputValue($maxActionsAllowed) . ' actions:';
         $mailBody .= PHP_EOL.PHP_EOL.'"' . Common::sanitizeInputValue($ipRange) . '"'.PHP_EOL;
