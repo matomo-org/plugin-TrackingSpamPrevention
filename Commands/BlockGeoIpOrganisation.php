@@ -34,7 +34,10 @@ class BlockGeoIpOrganisation extends ConsoleCommand
         if (empty($pluginConfig[Configuration::KEY_GEOIP_MATCH_PROVIDERS])) {
             $pluginConfig[Configuration::KEY_GEOIP_MATCH_PROVIDERS] = [];
         }
-        $pluginConfig[Configuration::KEY_GEOIP_MATCH_PROVIDERS][] = mb_strtolower(trim($input->getOption('organisation-name')));
+
+        $name = $input->getOption('organisation-name');
+        $pluginConfig[Configuration::KEY_GEOIP_MATCH_PROVIDERS][] = mb_strtolower(trim($name));
+        
         $pluginConfig[Configuration::KEY_GEOIP_MATCH_PROVIDERS] = array_values(array_unique($pluginConfig[Configuration::KEY_GEOIP_MATCH_PROVIDERS]));
 
         $config->TrackingSpamPrevention = $pluginConfig;
