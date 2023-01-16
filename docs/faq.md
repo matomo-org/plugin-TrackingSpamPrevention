@@ -39,6 +39,12 @@ block_geoip_organisations[] = "ExampleOrg"
 block_geoip_organisations[] = "another example"
 ```
 
+Alternatively, you can execute a command to block a new organisation like this:
+
+```bash
+./console trackingspamprevention:block-geo-ip-organisation --organisation-name="Example"
+```
+
 Each organisation will be compared lower case and the organisation only needs to contain the configured value, it does not need to match it exactly.
 
 You can find out the organisation name for an IP address by visiting the website of your geolocation database and using their demo tool.
