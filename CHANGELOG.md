@@ -1,5 +1,8 @@
 ## Changelog
 
+#4.1.4
+- Add new command to block new organisations `./console trackingspamprevention:block-geo-ip-organisation --organisation-name="Example"`
+
 #4.1.3
 - Translation changes
 - Added code to not throw exception if digitalOcean file is empty
