@@ -45,7 +45,7 @@ class Azure implements IpRangeProviderInterface
         return $ranges;
     }
 
-    private function getDownloadUrl()
+    public function getDownloadUrl()
     {
         //  get info somehow for up to date from url https://www.microsoft.com/en-us/download/confirmation.aspx?id=56519
 
@@ -60,7 +60,7 @@ class Azure implements IpRangeProviderInterface
         $prefixUrl = 'href="';
         $posStart = strpos($contentDownloadPage, $prefixUrl . 'https://download.microsoft.com/download/');
         $posEnd = strpos($contentDownloadPage, '.json"', $posStart + strlen($prefixUrl)); // we don't want to match the " in href="
-        $contentDownloadPage = Common::mb_substr($contentDownloadPage, $posStart - strlen($prefixUrl) + 2,
+        $contentDownloadPage = Common::mb_substr($contentDownloadPage, $posStart - strlen($prefixUrl) + 1,
           $posEnd - $posStart - strlen($prefixUrl));
         $downloadUrl = trim($contentDownloadPage, '="' . "'") . '.json';
         $downloadUrl = trim($downloadUrl);

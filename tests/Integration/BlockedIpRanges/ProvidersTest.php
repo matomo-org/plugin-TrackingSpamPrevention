@@ -29,6 +29,13 @@ class ProvidersTest extends IntegrationTestCase
         $this->assertGreaterThan(5, count($ranges));
     }
 
+    public function test_getDownloadUrl_Azure()
+    {
+        $azure = new BlockedIpRanges\Azure();
+        $url = $azure->getDownloadUrl();
+        $this->assertStringStartsWith('https://download.microsoft.com/download/', $url);
+    }
+
     public function getIpRangeProviderDataProvider()
     {
         return [
