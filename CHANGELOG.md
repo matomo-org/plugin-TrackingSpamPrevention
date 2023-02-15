@@ -3,7 +3,10 @@
 # 5.0.0
 - Compatibility with Matomo 5.0
 
-# 4.1.5
+# 4.1.6
+- Started including userAgent in the banned IP email
+
+#  4.1.5
 - Azure IP ranges download code updated and added tests to alert if download fails
 
 # 4.1.4
