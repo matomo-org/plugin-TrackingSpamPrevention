@@ -66,7 +66,11 @@ GET request info: ' . json_encode($get) . '
 POST request info: ' . json_encode($post). PHP_EOL;
 
         if (!empty($locationData)) {
-            $mailBody .= 'Geo IP info: ' . json_encode($locationData);
+            $mailBody .= 'Geo IP info: ' . json_encode($locationData) . PHP_EOL;
+        }
+
+        if (!empty($_SERVER['HTTP_USER_AGENT'])) {
+            $mailBody .= 'User Agent: ' . Common::sanitizeInputValue($_SERVER['HTTP_USER_AGENT']) . PHP_EOL;
         }
 
         $mail->setBodyText($mailBody);
