@@ -1,5 +1,8 @@
 ## Changelog
 
+#4.1.7
+- Fixed Azure IP ranges download URL parsing code better accounting for character encoding
+
 #4.1.6
 - Started including userAgent in the banned IP email
 
