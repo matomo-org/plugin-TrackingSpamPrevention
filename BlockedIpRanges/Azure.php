@@ -58,17 +58,11 @@ class Azure implements IpRangeProviderInterface
 
         $contentDownloadPage = Http::sendHttpRequest('https://www.microsoft.com/en-us/download/confirmation.aspx?id=56519', 120);
         $prefixUrl = 'href="';
-        $posStart = strpos($contentDownloadPage, $prefixUrl . 'https://download.microsoft.com/download/');
-        $posEnd = strpos($contentDownloadPage, '.json"', $posStart + strlen($prefixUrl)); // we don't want to match the " in href="
-        $contentDownloadPageSubstr = mb_substr($contentDownloadPage, $posStart - strlen($prefixUrl) + 2,
-          $posEnd - $posStart - strlen($prefixUrl), 'UTF-8');
-        // There was an issue for a while where the URL wasn't valid because the start position was off by one character
-        // It stopped happening, but let's check just in case it happens again
-        if (stripos($contentDownloadPageSubstr, 'https') === false) {
-            $contentDownloadPageSubstr = mb_substr($contentDownloadPage, $posStart - strlen($prefixUrl) + 1,
-                $posEnd - $posStart - strlen($prefixUrl), 'UTF-8');
-        }
-        $downloadUrl = trim($contentDownloadPageSubstr, '="' . "'") . '.json';
+        $posStart = mb_strpos($contentDownloadPage, $prefixUrl . 'https://download.microsoft.com/download/');
+        $posEnd = mb_strpos($contentDownloadPage, '.json"', $posStart + mb_strlen($prefixUrl)); // we don't want to match the " in href="
+        $contentDownloadPage = mb_substr($contentDownloadPage, $posStart + mb_strlen($prefixUrl),
+          $posEnd - $posStart - mb_strlen($prefixUrl), 'UTF-8');
+        $downloadUrl = trim($contentDownloadPage, '="' . "'") . '.json';
         $downloadUrl = trim($downloadUrl);
 
         if (strpos($downloadUrl, 'http') !== 0) {
