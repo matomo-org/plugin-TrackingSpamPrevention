@@ -62,6 +62,8 @@ class Azure implements IpRangeProviderInterface
         $posEnd = strpos($contentDownloadPage, '.json"', $posStart + strlen($prefixUrl)); // we don't want to match the " in href="
         $contentDownloadPageSubstr = mb_substr($contentDownloadPage, $posStart - strlen($prefixUrl) + 2,
           $posEnd - $posStart - strlen($prefixUrl), 'UTF-8');
+        // There was an issue for a while where the URL wasn't valid because the start position was off by one character
+        // It stopped happening, but let's check just in case it happens again
         if (stripos($contentDownloadPageSubstr, 'https') === false) {
             $contentDownloadPageSubstr = mb_substr($contentDownloadPage, $posStart - strlen($prefixUrl) + 1,
                 $posEnd - $posStart - strlen($prefixUrl), 'UTF-8');
