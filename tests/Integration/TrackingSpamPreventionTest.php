@@ -137,9 +137,9 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $isExcluded = $excluded->isExcluded();
         unset($_SERVER['HTTP_USER_AGENT']);
         if (version_compare(Version::VERSION, '4.7.0-b1', '>=') || version_compare(PHP_VERSION, '8.0.0', '<')) {
-            $this->assertFalse($isExcluded);
-        } else {
             $this->assertTrue($isExcluded);
+        } else {
+            $this->assertFalse($isExcluded);
         }
     }
 
