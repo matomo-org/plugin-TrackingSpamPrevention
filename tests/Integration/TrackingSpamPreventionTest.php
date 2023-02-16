@@ -18,6 +18,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\VisitExcluded;
+use Piwik\Version;
 
 /**
  * @group TrackingSpamPrevention
@@ -113,7 +114,11 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $excluded = $this->makeExcluded('22.22.22.22');
         $isExcluded = $excluded->isExcluded();
         unset($_SERVER['HTTP_USER_AGENT']);
-        $this->assertFalse($isExcluded);
+        if (version_compare(Version::VERSION, '4.7.0-b1', '>=') || version_compare(PHP_VERSION, '8.0.0', '<')) {
+            $this->assertFalse($isExcluded);
+        } else {
+            $this->assertTrue($isExcluded);
+        }
     }
 
     public function test_isExcludedVisit_whenBlockServerSideLibraryEnabledAndNotServerSideUserAgent() {
