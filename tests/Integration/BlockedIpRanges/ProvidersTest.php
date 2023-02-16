@@ -34,6 +34,12 @@ class ProvidersTest extends IntegrationTestCase
         $azure = new BlockedIpRanges\Azure();
         $url = $azure->getDownloadUrl();
         $this->assertStringStartsWith('https://download.microsoft.com/download/', $url);
+        $substr = trim($url, '.json');
+        $parts = explode('_', $substr);
+        $dateStr = $parts[count($parts) - 1];
+        $this->assertSame(8, strlen($dateStr), 'The string should be a valid Ymd (8 digit) date');
+        $time = strtotime($dateStr);
+        $this->assertGreaterThan(0, $time, 'The date string should have parsed into a valid time');
     }
 
     public function getIpRangeProviderDataProvider()
