@@ -58,9 +58,9 @@ class Azure implements IpRangeProviderInterface
 
         $contentDownloadPage = Http::sendHttpRequest('https://www.microsoft.com/en-us/download/confirmation.aspx?id=56519', 120);
         $prefixUrl = 'href="';
-        $posStart = mb_strpos($contentDownloadPage, $prefixUrl . 'https://download.microsoft.com/download/');
-        $posEnd = mb_strpos($contentDownloadPage, '.json"', $posStart + mb_strlen($prefixUrl)); // we don't want to match the " in href="
-        $contentDownloadPage = mb_substr($contentDownloadPage, $posStart + mb_strlen($prefixUrl),
+        $posStart = mb_strpos($contentDownloadPage, $prefixUrl . 'https://download.microsoft.com/download/', 0, 'UTF-8');
+        $posEnd = mb_strpos($contentDownloadPage, '.json"', $posStart + mb_strlen($prefixUrl, 'UTF-8'), 'UTF-8'); // we don't want to match the " in href="
+        $contentDownloadPage = mb_substr($contentDownloadPage, $posStart + mb_strlen($prefixUrl, 'UTF-8'),
           $posEnd - $posStart - mb_strlen($prefixUrl), 'UTF-8');
         $downloadUrl = trim($contentDownloadPage, '="' . "'") . '.json';
         $downloadUrl = trim($downloadUrl);
