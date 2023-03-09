@@ -1,6 +1,6 @@
 # Matomo Tracking Spam Prevention Plugin
 
-[![Build Status](https://travis-ci.com/matomo-org/plugin-TrackingSpamPrevention.svg?branch=4.x-dev)](https://travis-ci.com/matomo-org/plugin-TrackingSpamPrevention)
+[![Build Status](https://github.com/matomo-org/plugin-TrackingSpamPrevention/actions/workflows/matomo-tests.yml/badge.svg?branch=4.x-dev)](https://github.com/matomo-org/plugin-TrackingSpamPrevention/actions/workflows/matomo-tests.yml)
 
 ## Description
 
