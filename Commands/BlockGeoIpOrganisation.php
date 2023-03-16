@@ -24,6 +24,12 @@ class BlockGeoIpOrganisation extends ConsoleCommand
         $this->addOption('organisation-name', null, InputOption::VALUE_REQUIRED, 'Name of the organisation to block:');
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     */
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->checkAllRequiredOptionsAreNotEmpty($input);
@@ -42,5 +48,7 @@ class BlockGeoIpOrganisation extends ConsoleCommand
 
         $config->TrackingSpamPrevention = $pluginConfig;
         $config->forceSave();
+
+        return self::SUCCESS;
     }
 }
