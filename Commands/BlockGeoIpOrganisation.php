@@ -11,9 +11,7 @@ namespace Piwik\Plugins\TrackingSpamPrevention\Commands;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Config;
 use Piwik\Plugins\TrackingSpamPrevention\Configuration;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class BlockGeoIpOrganisation extends ConsoleCommand
 {
@@ -25,14 +23,13 @@ class BlockGeoIpOrganisation extends ConsoleCommand
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @return int
      */
-
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $this->checkAllRequiredOptionsAreNotEmpty($input);
+        $input = $this->getInput();
+        $output = $this->getOutput();
+        $this->checkAllRequiredOptionsAreNotEmpty();
 
         $config = Config::getInstance();
         $pluginConfig = $config->TrackingSpamPrevention;
