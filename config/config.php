@@ -15,7 +15,7 @@ return array(
     'Piwik\Plugins\TrackingSpamPrevention\BlockedGeoIp' => Piwik\DI::autowire()
         ->constructor(Piwik\DI::get('trackingspam.block_geoip_organisations')),
 
-    'trackingspam.block_geoip_organisations' => function (\Psr\Container\ContainerInterface  $c) {
+    'trackingspam.block_geoip_organisations' => function (\Piwik\Container\Container  $c) {
             if ($c->has('ini.TrackingSpamPrevention.block_geoip_organisations')) {
                 return $c->get('ini.TrackingSpamPrevention.block_geoip_organisations');
             }
