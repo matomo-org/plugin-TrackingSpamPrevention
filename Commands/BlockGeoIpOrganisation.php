@@ -11,9 +11,6 @@ namespace Piwik\Plugins\TrackingSpamPrevention\Commands;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Config;
 use Piwik\Plugins\TrackingSpamPrevention\Configuration;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class BlockGeoIpOrganisation extends ConsoleCommand
 {
@@ -21,18 +18,17 @@ class BlockGeoIpOrganisation extends ConsoleCommand
     {
         $this->setName('trackingspamprevention:block-geo-ip-organisation');
         $this->setDescription('Blocks a new GeoIP organisation. It will save the organisation in the config file.');
-        $this->addOption('organisation-name', null, InputOption::VALUE_REQUIRED, 'Name of the organisation to block:');
+        $this->addRequiredValueOption('organisation-name', null, 'Name of the organisation to block:');
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @return int
      */
-
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
-        $this->checkAllRequiredOptionsAreNotEmpty($input);
+        $input = $this->getInput();
+        $output = $this->getOutput();
+        $this->checkAllRequiredOptionsAreNotEmpty();
 
         $config = Config::getInstance();
         $pluginConfig = $config->TrackingSpamPrevention;
