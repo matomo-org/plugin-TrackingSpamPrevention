@@ -1,20 +1,20 @@
 {
     "TrackingSpamPrevention": {
-        "SettingMaxActionsTitle": "Max actions to record per visit",
-        "SettingMaxActionsDescription": "A default of  \"0\" records all actions. Most sites usually have no more than 100 to 300. It might be safe to assume other activity is tracking spam, a bot or an attack. Matomo stops recording further actions and blocks their IP addresses for up to 24 hours to reduce server load and preserve data accuracy.",
-        "SettingNotificationEmailTitle": "Notification email",
-        "SettingNotificationEmailDescription": "This e-mail address will be notified whenever an IP is banned for having too many actions. In the future further notification reasons might be added.",
+        "SettingMaxActionsTitle": "Max recorded actions per visit",
+        "SettingMaxActionsDescription": "\"0\" records all actions. Most sites usually have no more than 100–300. IP addresses generating anything beyond the limit are considered malicious and blocked for up to 24 hours.",
+        "SettingNotificationEmailTitle": "Notification e-mail",
+        "SettingNotificationEmailDescription": "This e-mail address is notified whenever an IP is banned for too many actions. In the future further notification reasons might be added.",
         "SettingBlockHeadlessTitle": "Block headless browsers",
-        "SettingBlockHeadlessDescription": "These are browsers without a user interface, mostly used for automation. It should be safe to turn this on if you only have regular websites or apps. It can block additional bots and spam requests that otherwise would not be detected.",
+        "SettingBlockHeadlessDescription": "These are web browsers without a user interface, mostly used for automation. Turning it on to block block additional bots and spam requests that otherwise would not be detected should be safe (if you only have regular websites or apps).",
         "SettingBlockCloudTitle": "Block tracking requests from the cloud",
-        "BlockCloudNoteInternetDisabled": "As Internet is off in your Matomo configuration, this feature won't work.",
+        "BlockCloudNoteInternetDisabled": "As Internet access is off in your Matomo configuration, this won't work.",
         "BanIpNotificationMailSubject": "An IP was banned for generating too many actions.",
-        "SettingBlockCloudDescription": "Blocks tracking requests originating from cloud providers like AWS, Azure, Digital Ocean, Google Cloud and Oracle by fetching a list of their IP ranges. It should be safe to turn on if you are only tracking using the JavaScript tracker, as their tracking requests do not orginate from clouds, unless they use a VPN that routes data through cloud providers. The setting applies to all your sites.",
+        "SettingBlockCloudDescription": "Blocks tracking requests originating from cloud providers like AWS, Azure, Digital Ocean, Google Cloud and Oracle by fetching a list of their IP ranges. It should be safe to turn this on (if you are only tracking using the JavaScript tracker, as their tracking requests do not orginate from clouds, unless they use a VPN that routes data through cloud providers.) The setting applies to all your sites.",
         "SettingBlockServerSideLibrariesTitle": "Block tracking requests from server-side libraries",
-        "SettingBlockServerSideLibrariesDescription": "Use this if only using %1$sJavaScript Tracker%2$s, as other traffic will be attacks or spam anyway. It blocks tracking requests from cURL, HTTP, Guzzle, and Postman.%3$s%1$sNote: Do not use it if track data using a server-side SDK like the Matomo PHP tracking SDK, Java SDK, Python SDK, Android or iOS SDK, or other server-side programming languages.%2$s",
+        "SettingBlockServerSideLibrariesDescription": "Use this if only using %1$sJavaScript Tracker%2$s, as other traffic will be attacks or spam anyway. It blocks tracking requests from cURL, HTTP, Guzzle, and Postman.%3$s%1$sNote: Do not use it if tracking data using a server-side SDK like the Matomo PHP tracking SDK, Java SDK, Python SDK, Android or iOS SDK, or other server-side programming languages.%2$s",
         "SettingExcludedCountriesTitle": "Exclude Countries",
         "SettingExcludedCountriesDescription": "Don't track visitors from these countries. Visitors outside your target area will likely be bots or spammers, or you can use it to avoid privacy laws in other jurisdictions.",
-        "SettingIncludedCountriesTitle": "Only track visitors from these countries",
-        "SettingIncludedCountriesDescription": "This excludes all other countries. The  \"exclude countries\" setting has more info."
+        "SettingIncludedCountriesTitle": "Only track traffic from these countries",
+        "SettingIncludedCountriesDescription": "This excludes all other countries. The \"exclude countries\" setting has more info."
     }
 }
