@@ -8,7 +8,10 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention\Tracker;
 
+use Matomo\Network\IP;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\TrackingSpamPrevention\AllowListIpRange;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Tracker\Request;
@@ -41,7 +44,13 @@ class RequestProcessor extends Tracker\RequestProcessor
             return; // unlimited
         }
         if ((int)$actions >= $maxActions) {
-            $this->blockedIpRanges->banIp($request->getIpString());
+            $ipString = $request->getIpString();
+            if (StaticContainer::get(AllowListIpRange::class)->isAllowed($ipString)) {
+                Common::printDebug("Ignoring max visits as the visit matches an IP range that is always allowed");
+                return;
+            }
+
+            $this->blockedIpRanges->banIp($ipString);
 
             Common::printDebug("Stop tracking as max number of actions reached");
             return true; // abort

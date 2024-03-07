@@ -1,5 +1,8 @@
 ## Changelog
 
+# 5.0.1
+- Fix issue where max action limit was blocking IP addresses from the allow list
+
 # 5.0.0
 - Compatibility with Matomo 5.0
 
