@@ -19,5 +19,6 @@
     },
     "homepage": "https://matomo.org",
     "license": "GPL v3+",
-    "keywords": ["spam", "prevent", "cloud", "requests", "ddos"]
+    "keywords": ["spam", "prevent", "cloud", "requests", "ddos"],
+    "category": "security"
 }
