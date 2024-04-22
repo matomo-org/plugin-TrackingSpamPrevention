@@ -1,7 +1,7 @@
 {
     "name": "TrackingSpamPrevention",
     "description": "This plugin offers various options to prevent spammers and bots from making your data inaccurate so you can rely on your data again.",
-    "version": "5.0.1",
+    "version": "5.0.2",
     "theme": false,
     "require": {
         "matomo": ">=5.0.0-b1,<6.0.0-b1"

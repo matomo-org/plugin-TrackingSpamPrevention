@@ -1,5 +1,8 @@
 ## Changelog
 
+# 5.0.2
+- Added plugin category for Marketplace
+
 # 5.0.1
 - Fix issue where max action limit was blocking IP addresses from the allow list
 
