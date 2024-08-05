@@ -1,7 +1,7 @@
 {
     "TrackingSpamPrevention": {
         "SettingMaxActionsTitle": "Max actions to record per visit",
-        "SettingMaxActionsDescription": "A default of  \"0\" records all actions. Most sites usually have no more than 100 to 300. It might be safe to assume other activity is tracking spam, a bot or an attack. Matomo stops recording further actions and blocks their IP addresses for up to 24 hours to reduce server load and preserve data accuracy.",
+        "SettingMaxActionsDescription": "A default of \"0\" records all actions. Most sites usually have no more than 100 to 300. It might be safe to assume other activity is tracking spam, a bot or an attack. Matomo stops recording further actions and blocks their IP addresses for up to 24 hours to reduce server load and preserve data accuracy.",
         "SettingNotificationEmailTitle": "Notification email",
         "SettingNotificationEmailDescription": "This e-mail address will be notified whenever an IP is banned for having too many actions. In the future further notification reasons might be added.",
         "SettingBlockHeadlessTitle": "Block headless browsers",
@@ -15,6 +15,6 @@
         "SettingExcludedCountriesTitle": "Exclude Countries",
         "SettingExcludedCountriesDescription": "Don't track visitors from these countries. Visitors outside your target area will likely be bots or spammers, or you can use it to avoid privacy laws in other jurisdictions.",
         "SettingIncludedCountriesTitle": "Only track visitors from these countries",
-        "SettingIncludedCountriesDescription": "This excludes all other countries. The  \"exclude countries\" setting has more info."
+        "SettingIncludedCountriesDescription": "This excludes all other countries. The \"exclude countries\" setting has more info."
     }
 }
