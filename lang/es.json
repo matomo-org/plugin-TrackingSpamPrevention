@@ -10,7 +10,7 @@
         "SettingBlockServerSideLibrariesTitle": "Bloquee las solicitudes de seguimiento de la biblioteca a través del servidor",
         "SettingExcludedCountriesDescription": "No realice un seguimiento de los visitantes de estos países. Los visitantes fuera de su área de destino probablemente serán bots o spammers, o puede usarlo para evitar las leyes de privacidad en otras jurisdicciones.",
         "SettingExcludedCountriesTitle": "Excluir países",
-        "SettingIncludedCountriesDescription": "Esto excluye a todos los demás países. Él  La configuración \"excluir países\" tiene más información.",
+        "SettingIncludedCountriesDescription": "Esto excluye a todos los demás países. Él La configuración \"excluir países\" tiene más información.",
         "SettingIncludedCountriesTitle": "Seguir solo a los visitantes de estos países",
         "SettingMaxActionsDescription": "Un valor predeterminado de \"0\" da como resultado el registro de todas las acciones. La mayoría de los sitios normalmente no tienen más de 100 a 300. Puede ser seguro asumir que otra actividad está rastreando spam, un bot o un ataque. Matomo deja de registrar otras actividades y bloquea sus direcciones IP hasta por 24 horas para reducir la carga del servidor y mantener la precisión de los datos.",
         "SettingMaxActionsTitle": "Número máximo de acciones para registrar por visita",
