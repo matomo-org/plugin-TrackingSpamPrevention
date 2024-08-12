@@ -1,5 +1,8 @@
 ## Changelog
 
+# 5.0.3
+- Textual changes
+
 # 5.0.2
 - Added plugin category for Marketplace
 
