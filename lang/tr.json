@@ -12,7 +12,7 @@
         "SettingExcludedCountriesTitle": "Katılmayacak ülkeler",
         "SettingIncludedCountriesDescription": "Bu seçenek diğer ülkelerin katılmamasını sağlar . Ayrıntılı bilgi almak için \"katılmayacak ülkeler\" seçeneğine bakabilirsiniz.",
         "SettingIncludedCountriesTitle": "Yalnızca şu ülkelerden gelen ziyaretçiler izlensin",
-        "SettingMaxActionsDescription": "Varsayılan \"0\" değeri tüm işlemleri kaydeder. Çoğu sitede, genellikle 100 ile 300 arasındadır. Daha yüksek işlem sayısının spam, bir bot ya da bir saldırı izlemesi olduğunu varsaymak güvenli olabilir. Bu durumda Matomo, sunucu yükünü azaltmak ve veri tutarlılığını korumak için bu IP adreslerinin işlemleri kaydetmeyi durdurur ve 24 saat için engeller.",
+        "SettingMaxActionsDescription": "Varsayılan \"0\" değeri tüm işlemleri kaydeder. Çoğu sitede, genellikle 100 ile 300 arasındadır. Daha yüksek işlem sayısının spam, bir bot ya da bir saldırı izlemesi olduğunu varsaymak güvenli olabilir. Bu durumda Matomo, sunucu yükünü azaltmak ve veri tutarlılığını korumak için bu IP adreslerini 24 saat süreyle engelleyerek işlemlerini kaydetmeyi durdurur.",
         "SettingMaxActionsTitle": "Bir ziyarette kaydedilecek en fazla işlem",
         "SettingNotificationEmailDescription": "Çok fazla işlem yapılan bir IP adresi engellendiğinde bu e-posta adresine bildirim gönderilir. Gelecekte başka bildirim nedenleri de eklenebilir.",
         "SettingNotificationEmailTitle": "Bildirim e-postası"
