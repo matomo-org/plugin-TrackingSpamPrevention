@@ -26,7 +26,7 @@ class DigitalOcean implements IpRangeProviderInterface
             return [];
         }
 
-        $digitalOcean = str_getcsv($digitalOcean['data'], ',', '');
+        $digitalOcean = str_getcsv($digitalOcean['data'], ',', '"');
 
         if (empty($digitalOcean)) {
             throw new \Exception('Failed to parse digital ocean IP ranges');
