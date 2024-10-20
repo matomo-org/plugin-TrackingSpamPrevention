@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -47,5 +48,4 @@ class Oracle implements IpRangeProviderInterface
 
         return $ranges;
     }
-
 }

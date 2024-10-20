@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -19,7 +20,7 @@ use Piwik\Tracker\Cache;
 
 class BlockedIpRanges
 {
-    const OPTION_KEY = 'TrackingSpamBlockedIpRanges';
+    public const OPTION_KEY = 'TrackingSpamBlockedIpRanges';
 
     /**
      * @var IpRangeProviderInterface[]
@@ -155,7 +156,8 @@ class BlockedIpRanges
         return $ranges;
     }
 
-    public function unsetAllIpRanges() {
+    public function unsetAllIpRanges()
+    {
         $this->setBlockedRanges([]);
     }
 
@@ -190,5 +192,4 @@ class BlockedIpRanges
         }
         $this->setBlockedRanges($indexedRange);
     }
-
 }

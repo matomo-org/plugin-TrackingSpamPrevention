@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -16,8 +17,20 @@ class Aws implements IpRangeProviderInterface
     {
         $ranges = [];
 
-        $aws = Http::sendHttpRequest('https://ip-ranges.amazonaws.com/ip-ranges.json', 120, null, null, 0,
-            false, false, false, 'GET', null, null, false);
+        $aws = Http::sendHttpRequest(
+            'https://ip-ranges.amazonaws.com/ip-ranges.json',
+            120,
+            null,
+            null,
+            0,
+            false,
+            false,
+            false,
+            'GET',
+            null,
+            null,
+            false
+        );
 
         if (empty($aws)) {
             throw new \Exception('Failed to retrieve AWS IP ranges');
@@ -52,5 +65,4 @@ class Aws implements IpRangeProviderInterface
 
         return $ranges;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Piwik - free/libre analytics platform
  *
@@ -45,7 +46,6 @@ class CheckDirectDependencyUseCommandTest extends SystemTestCase
             'Matomo\Network' => [
                 'TrackingSpamPrevention/AllowListIpRange.php',
                 'TrackingSpamPrevention/BlockedIpRanges.php',
-                'TrackingSpamPrevention/Tracker/RequestProcessor.php',
                 'TrackingSpamPrevention/TrackingSpamPrevention.php',
             ],
             'DI' => [

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -9,7 +10,6 @@
 namespace Piwik\Plugins\TrackingSpamPrevention;
 
 use Piwik\Common;
-use Piwik\Config;
 use Piwik\Log;
 use Piwik\Mail;
 use Piwik\Piwik;
@@ -27,15 +27,17 @@ class BanIpNotificationEmail
         $mail->addTo($email);
         $mail->setSubject('An IP was banned as too many actions were tracked.');
         $mail->setDefaultFromPiwik();
-        if (empty($mail->getFromName()) || in_array($mail->getFromName(), [
+        if (
+            empty($mail->getFromName()) || in_array($mail->getFromName(), [
                 'CoreHome_WebAnalyticsReports',
                 'TagManager_MatomoTagName'
-            ])) {
+            ])
+        ) {
             $mail->setFrom($mail->getFrom(), 'Web Analytics Reports');
         }
 
         $mailBody = 'This is for your information. The following IP was banned because visit tried to track more than ' . Common::sanitizeInputValue($maxActionsAllowed) . ' actions:';
-        $mailBody .= PHP_EOL.PHP_EOL.'"' . Common::sanitizeInputValue($ipRange) . '"'.PHP_EOL;
+        $mailBody .= PHP_EOL . PHP_EOL . '"' . Common::sanitizeInputValue($ipRange) . '"' . PHP_EOL;
         $instanceId = SettingsPiwik::getPiwikInstanceId();
 
 
@@ -58,12 +60,12 @@ class BanIpNotificationEmail
         }
 
         if (!empty($instanceId)) {
-            $mailBody .= PHP_EOL.'Instance ID: ' . Common::sanitizeInputValue($instanceId);
+            $mailBody .= PHP_EOL . 'Instance ID: ' . Common::sanitizeInputValue($instanceId);
         }
-        $mailBody .= PHP_EOL.'Current date (UTC): ' . Common::sanitizeInputValue($nowDateTime) . '
+        $mailBody .= PHP_EOL . 'Current date (UTC): ' . Common::sanitizeInputValue($nowDateTime) . '
 IP as detected in header: ' . Common::sanitizeInputValue($ip) . '
 GET request info: ' . json_encode($get) . '
-POST request info: ' . json_encode($post). PHP_EOL;
+POST request info: ' . json_encode($post) . PHP_EOL;
 
         if (!empty($locationData)) {
             $mailBody .= 'Geo IP info: ' . json_encode($locationData) . PHP_EOL;
@@ -82,9 +84,8 @@ POST request info: ' . json_encode($post). PHP_EOL;
             $mail->send();
         }
 
-        $a=$mail->getBodyText();
+        $a = $mail->getBodyText();
 
         return $mail->getBodyText();
     }
-
 }

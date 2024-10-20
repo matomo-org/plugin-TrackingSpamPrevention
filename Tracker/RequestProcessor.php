@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -8,7 +9,6 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention\Tracker;
 
-use Matomo\Network\IP;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\TrackingSpamPrevention\AllowListIpRange;

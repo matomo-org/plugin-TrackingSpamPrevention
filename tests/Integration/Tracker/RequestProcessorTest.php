@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -112,5 +113,4 @@ class RequestProcessorTest extends IntegrationTestCase
         $req->isAuthenticated();
         return $req;
     }
-
 }

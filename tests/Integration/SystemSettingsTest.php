@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -177,5 +178,4 @@ class SystemSettingsTest extends IntegrationTestCase
 
         return new BlockedIpRanges($ranges, new Configuration());
     }
-
 }

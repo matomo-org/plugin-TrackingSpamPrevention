@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -59,6 +60,4 @@ Geo IP info: {"test":"foo","bar":"baz"}',
             )
         );
     }
-
-
 }

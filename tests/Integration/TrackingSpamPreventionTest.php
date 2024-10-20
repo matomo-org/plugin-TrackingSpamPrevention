@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -95,7 +96,8 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertFalse($excluded->isExcluded());
     }
 
-    public function test_isExcludedVisit_whenBlockServerSideLibraryDisabledAndNotServerSideUserAgent() {
+    public function test_isExcludedVisit_whenBlockServerSideLibraryDisabledAndNotServerSideUserAgent()
+    {
         StaticContainer::get(SystemSettings::class)->blockServerSideLibraries->setValue(0);
         Cache::clearCacheGeneral();
 
@@ -106,7 +108,8 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertFalse($isExcluded);
     }
 
-    public function test_isExcludedVisit_whenBlockServerSideLibraryDisabledAndServerSideUserAgent() {
+    public function test_isExcludedVisit_whenBlockServerSideLibraryDisabledAndServerSideUserAgent()
+    {
         StaticContainer::get(SystemSettings::class)->blockServerSideLibraries->setValue(0);
         Cache::clearCacheGeneral();
 
@@ -117,7 +120,8 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertFalse($isExcluded);
     }
 
-    public function test_isExcludedVisit_whenBlockServerSideLibraryEnabledAndNotServerSideUserAgent() {
+    public function test_isExcludedVisit_whenBlockServerSideLibraryEnabledAndNotServerSideUserAgent()
+    {
         StaticContainer::get(SystemSettings::class)->blockServerSideLibraries->setValue(1);
         Cache::clearCacheGeneral();
 
@@ -128,7 +132,8 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertFalse($isExcluded);
     }
 
-    public function test_isExcludedVisit_whenBlockServerSideLibraryEnabledAndServerSideUserAgent() {
+    public function test_isExcludedVisit_whenBlockServerSideLibraryEnabledAndServerSideUserAgent()
+    {
         StaticContainer::get(SystemSettings::class)->blockServerSideLibraries->setValue(1);
         Cache::clearCacheGeneral();
 

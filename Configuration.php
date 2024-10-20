@@ -1,23 +1,25 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
  * @link https://matomo.org
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 namespace Piwik\Plugins\TrackingSpamPrevention;
 
 use Piwik\Config;
 
 class Configuration
 {
-    const DEFAULT_RANGE_THROW_EXCEPTION = 0;
-    const DEFAULT_RANGE_ALLOW_LIST = [''];
-    const DEFAULT_GEOIP_MATCH_PROVIDERS = ['alicloud', 'alibaba cloud', 'digitalocean', 'digital ocean'];
+    public const DEFAULT_RANGE_THROW_EXCEPTION = 0;
+    public const DEFAULT_RANGE_ALLOW_LIST = [''];
+    public const DEFAULT_GEOIP_MATCH_PROVIDERS = ['alicloud', 'alibaba cloud', 'digitalocean', 'digital ocean'];
 
-    const KEY_RANGE_THROW_EXCEPTION = 'block_cloud_sync_throw_exception_on_error';
-    const KEY_RANGE_ALLOW_LIST = 'iprange_allowlist';
-    const KEY_GEOIP_MATCH_PROVIDERS = 'block_geoip_organisations';
+    public const KEY_RANGE_THROW_EXCEPTION = 'block_cloud_sync_throw_exception_on_error';
+    public const KEY_RANGE_ALLOW_LIST = 'iprange_allowlist';
+    public const KEY_GEOIP_MATCH_PROVIDERS = 'block_geoip_organisations';
 
     public function install()
     {

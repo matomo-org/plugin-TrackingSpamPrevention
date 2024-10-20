@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -52,5 +53,4 @@ class ProvidersTest extends IntegrationTestCase
             [new BlockedIpRanges\Oracle()],
         ];
     }
-
 }

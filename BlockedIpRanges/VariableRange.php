@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -27,5 +28,4 @@ class VariableRange implements IpRangeProviderInterface
     {
         return $this->ranges;
     }
-
 }

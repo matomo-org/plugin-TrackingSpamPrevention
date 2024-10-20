@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -75,5 +76,4 @@ class BlockedGeoIp
 
         return false;
     }
-
 }

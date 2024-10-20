@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -42,5 +43,4 @@ class DigitalOcean implements IpRangeProviderInterface
 
         return $ranges;
     }
-
 }
