@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -13,10 +14,8 @@ namespace Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
  */
 class ExceptionRange implements IpRangeProviderInterface
 {
-
     public function getRanges(): array
     {
         throw new \Exception('Failed to get any range');
     }
-
 }

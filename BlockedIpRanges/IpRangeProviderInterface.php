@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -11,5 +12,4 @@ namespace Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
 interface IpRangeProviderInterface
 {
     public function getRanges(): array;
-
 }

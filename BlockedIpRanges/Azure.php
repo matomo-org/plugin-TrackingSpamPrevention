@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -41,7 +42,7 @@ class Azure implements IpRangeProviderInterface
                 $ranges[] = $ip;
             }
         }
-        
+
         return $ranges;
     }
 
@@ -61,8 +62,12 @@ class Azure implements IpRangeProviderInterface
         $prefixStrLen = mb_strlen($prefixUrl, 'UTF-8');
         $posStart = mb_strpos($contentDownloadPage, $prefixUrl . 'https://download.microsoft.com/download/', 0, 'UTF-8');
         $posEnd = mb_strpos($contentDownloadPage, '.json"', $posStart + $prefixStrLen, 'UTF-8'); // we don't want to match the " in href="
-        $contentDownloadPage = mb_substr($contentDownloadPage, $posStart + $prefixStrLen,
-          $posEnd - $posStart - $prefixStrLen, 'UTF-8');
+        $contentDownloadPage = mb_substr(
+            $contentDownloadPage,
+            $posStart + $prefixStrLen,
+            $posEnd - $posStart - $prefixStrLen,
+            'UTF-8'
+        );
         $downloadUrl = trim($contentDownloadPage, '="' . "'") . '.json';
         $downloadUrl = trim($downloadUrl);
 
@@ -76,5 +81,4 @@ class Azure implements IpRangeProviderInterface
 
         return $downloadUrl;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -62,5 +63,4 @@ class TasksTest extends IntegrationTestCase
         $this->task->updateBlockedIpRanges();
         $this->assertSame(['10.' => ['10.10.0.0/21']], $this->ranges->getBlockedRanges());
     }
-
 }

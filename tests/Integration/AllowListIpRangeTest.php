@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -49,6 +50,4 @@ class AllowListIpRangeTest extends IntegrationTestCase
         $this->assertFalse($this->allowList->isAllowed('2001:db8:0000:0001:ffff:ffff:ffff:fffe'));
         $this->assertFalse($this->allowList->isAllowed('2002:db8:0000:0000:ffff:ffff:ffff:fffe'));
     }
-
-
 }

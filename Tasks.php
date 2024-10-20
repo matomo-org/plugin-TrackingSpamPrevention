@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -45,5 +46,4 @@ class Tasks extends \Piwik\Plugin\Tasks
             $this->blockedIpRanges->unsetAllIpRanges();
         }
     }
-
 }

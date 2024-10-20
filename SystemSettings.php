@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -116,7 +117,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         }
     }
 
-    private function createExcludedCountriesSetting() {
+    private function createExcludedCountriesSetting()
+    {
         return $this->makeSetting('excluded_countries', [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingExcludedCountriesTitle');
             $field->description = Piwik::translate('TrackingSpamPrevention_SettingExcludedCountriesDescription');
@@ -161,7 +163,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         return $value;
     }
 
-    private function createIncludedCountriesSetting() {
+    private function createIncludedCountriesSetting()
+    {
         return $this->makeSetting('included_countries', [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingIncludedCountriesTitle');
             $field->description = Piwik::translate('TrackingSpamPrevention_SettingIncludedCountriesDescription');
@@ -190,7 +193,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
     }
 
-    private function createBlockServerSideLibrariesSetting() {
+    private function createBlockServerSideLibrariesSetting()
+    {
         return $this->makeSetting('blockServerSideLibraries', false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingBlockServerSideLibrariesTitle');
             $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingBlockServerSideLibrariesDescription', array('<strong>','</strong>','<br>'));
@@ -199,7 +203,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     }
 
 
-    private function listCountries() {
+    private function listCountries()
+    {
         $regionDataProvider = StaticContainer::get(RegionDataProvider::class);
         $countryList = $regionDataProvider->getCountryList();
         array_walk($countryList, function (&$item, $key) {
@@ -219,7 +224,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         return $this->settingToCountryCodes($this->includedCountries);
     }
 
-    private function settingToCountryCodes(Setting $setting) {
+    private function settingToCountryCodes(Setting $setting)
+    {
         $val = $setting->getValue();
 
         if (empty($val) || !is_array($val)) {
@@ -234,5 +240,4 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         }
         return $codes;
     }
-
 }

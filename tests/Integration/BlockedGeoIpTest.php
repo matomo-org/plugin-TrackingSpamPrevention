@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -34,9 +35,9 @@ class BlockedGeoIpTest extends IntegrationTestCase
     public function test_detectLocation()
     {
         $this->assertEquals([  'country_code' => 'xx',
-    'continent_code' => 'unk',
-    'continent_name' => 'General_Unknown',
-    'country_name' => 'General_Unknown'], $this->blockedGeoIp->detectLocation('127.0.0.1', 'en'));
+        'continent_code' => 'unk',
+        'continent_name' => 'General_Unknown',
+        'country_name' => 'General_Unknown'], $this->blockedGeoIp->detectLocation('127.0.0.1', 'en'));
     }
 
     public function test_isExcludedCountry_noCountriesGiven()
@@ -68,5 +69,4 @@ class BlockedGeoIpTest extends IntegrationTestCase
         \Piwik\Plugin\Manager::getInstance()->deactivatePlugin('UserCountry');
         $this->assertFalse($this->blockedGeoIp->isExcludedProvider('127.0.0.1', 'en'));
     }
-
 }

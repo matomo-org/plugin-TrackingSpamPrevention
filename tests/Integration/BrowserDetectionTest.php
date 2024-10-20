@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -54,7 +55,8 @@ class BrowserDetectionTest extends IntegrationTestCase
     /**
      * @dataProvider getServerSideLibraries
      */
-    public function test_isLibrary($expected, $userAgent) {
+    public function test_isLibrary($expected, $userAgent)
+    {
         $this->assertSame($expected, $this->browser->isLibrary($userAgent));
     }
 

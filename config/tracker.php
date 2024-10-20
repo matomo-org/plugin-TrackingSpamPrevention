@@ -1,3 +1,4 @@
-<?php 
+<?php
+
 return array(
 );

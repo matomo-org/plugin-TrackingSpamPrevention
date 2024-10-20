@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -206,5 +207,4 @@ class BlockedIpRangesTest extends IntegrationTestCase
         $this->assertFalse($this->ranges->isExcluded('2001:db8:0000:0000:ffff:ffff:ffff:fffe'));
         $this->assertFalse($this->ranges->isExcluded('2002:db8:0000:0000:ffff:ffff:ffff:fffe'));
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -76,6 +77,4 @@ class ConfigurationTest extends IntegrationTestCase
         );
         $this->assertSame([], $this->configuration->getIpRangesAlwaysAllowed());
     }
-
-
 }

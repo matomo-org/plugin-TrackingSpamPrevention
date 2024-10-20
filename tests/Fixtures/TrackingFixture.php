@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -9,9 +10,9 @@
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Fixtures;
 
 use Piwik\Tests\Framework\Fixture;
+
 class TrackingFixture extends Fixture
 {
-
     public function setUp(): void
     {
         self::createWebsite('2020-01-01 01:00:00');
