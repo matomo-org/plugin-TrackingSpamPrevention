@@ -1,5 +1,8 @@
 ## Changelog
 
+# 5.0.4
+- Compatability with PHP 8.4
+
 # 5.0.3
 - Textual changes
 
