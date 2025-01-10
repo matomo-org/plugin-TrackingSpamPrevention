@@ -58,7 +58,7 @@ class Azure implements IpRangeProviderInterface
         // should look like 'https://download.microsoft.com/download/7/1/D/71D86715-5596-4529-9B13-DA13A5DE5B63/ServiceTags_Public_20201207.json'
 
         // Need to set this custom UA as Azure was returning a 404 page for CURL requests
-        $contentDownloadPage = Http::sendHttpRequestBy(Http::getTransportMethod(), 'https://www.microsoft.com/en-us/download/details.aspx?id=56519', 120, null, null , null, 0, false, false, false, false, 'GET', null, null, null, ['User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/81.0']);
+        $contentDownloadPage = Http::sendHttpRequestBy(Http::getTransportMethod(), 'https://www.microsoft.com/en-us/download/details.aspx?id=56519', 120, null, null, null, 0, false, false, false, false, 'GET', null, null, null, ['User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/81.0']);
         $prefixUrl = 'href="';
         $prefixStrLen = mb_strlen($prefixUrl, 'UTF-8');
         $posStart = mb_strpos($contentDownloadPage, $prefixUrl . 'https://download.microsoft.com/download/', 0, 'UTF-8');
