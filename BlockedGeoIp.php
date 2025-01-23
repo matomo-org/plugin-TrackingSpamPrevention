@@ -76,4 +76,14 @@ class BlockedGeoIp
 
         return false;
     }
+
+    public function isEmptyAsnName($ip, $language)
+    {
+        $result = $this->detectLocation($ip, $language);
+        if (isset($result[LocationProvider::ISP_KEY]) && empty($result[LocationProvider::ISP_KEY])) {
+            return true;
+        }
+
+        return false;
+    }
 }

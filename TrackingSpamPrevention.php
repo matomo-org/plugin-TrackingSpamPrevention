@@ -128,6 +128,15 @@ class TrackingSpamPrevention extends \Piwik\Plugin
         }
 
         if (
+            $settings->excludeEmptyAsnName->getValue() &&
+            $blockGeoIp->isEmptyAsnName($ipString, $browserLang)
+        ) {
+            Common::printDebug("Excluding visit as ASN name is empty");
+            $excluded = 'excluded: asn name';
+            return;
+        }
+
+        if (
             $blockGeoIp->isExcludedCountry(
                 $ipString,
                 $browserLang,

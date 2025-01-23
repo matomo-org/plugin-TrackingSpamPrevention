@@ -42,6 +42,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var Setting */
     public $blockServerSideLibraries;
 
+    /** @var Setting */
+    public $excludeEmptyAsnName;
+
     protected function init()
     {
         $this->block_clouds = $this->createBlockCloudsSetting();
@@ -52,6 +55,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
         $this->excludedCountries = $this->createExcludedCountriesSetting();
         $this->includedCountries = $this->createIncludedCountriesSetting();
+
+        $this->excludeEmptyAsnName = $this->createExcludeEmptyAsnName();
     }
 
     private function createBlockCloudsSetting()
@@ -190,6 +195,15 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                     }
                 }
             };
+        });
+    }
+
+    private function createExcludeEmptyAsnName()
+    {
+        return $this->makeSetting('block_empty_asn_name', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+            $field->title = Piwik::translate('TrackingSpamPrevention_SettingBlockEmptyAsnNameTitle');
+            $field->description = Piwik::translate('TrackingSpamPrevention_SettingBlockEmptyAsnNameDescription');
+            $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
     }
 
