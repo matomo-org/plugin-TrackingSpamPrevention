@@ -16,7 +16,7 @@
         "SettingExcludedCountriesDescription": "Don't track visitors from these countries. Visitors outside your target area will likely be bots or spammers, or you can use it to avoid privacy laws in other jurisdictions.",
         "SettingIncludedCountriesTitle": "Only track visitors from these countries",
         "SettingIncludedCountriesDescription": "This excludes all other countries. The \"exclude countries\" setting has more info.",
-        "SettingBlockEmptyAsnNameTitle": "Block empty asn name requests",
-        "SettingBlockEmptyAsnNameDescription": "If enabled, this will block requests where asn_name was determined as empty. Note: If no asn_name key is determined it will keep tracking the requests."
+        "SettingBlockEmptyIspNameTitle": "Block empty ISP name requests",
+        "SettingBlockEmptyIspNameDescription": "If enabled, this will block requests where isp name was determined as empty. Note: If no isp name key is determined it will keep tracking the requests."
     }
 }
