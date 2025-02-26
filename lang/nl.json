@@ -10,9 +10,9 @@
         "SettingBlockServerSideLibrariesTitle": "Blokkeer volgverzoeken van bibliotheken aan serverzijde",
         "SettingExcludedCountriesDescription": "Volg geen bezoekers uit deze landen. Bezoekers buiten uw doelgebied zijn waarschijnlijk bots of spammers, of u kunt het gebruiken om privacywetgeving in andere rechtsgebieden te vermijden.",
         "SettingExcludedCountriesTitle": "Landen uitsluiten",
-        "SettingIncludedCountriesDescription": "Dit sluit alle andere landen uit. De instelling \"landen uitsluiten\" geeft meer informatie.",
+        "SettingIncludedCountriesDescription": "Dit sluit alle andere landen uit. De \"landen uitsluiten\" instelling geeft meer informatie.",
         "SettingIncludedCountriesTitle": "Volg alleen bezoekers uit deze landen",
-        "SettingMaxActionsDescription": "De standaard \"0\" registreert alle activiteit. De meeste sites hebben er doorgaans niet meer dan 100 tot 300. Het is waarschijnlijk veiliger om aan te nemen dat de overige activiteit spam, een bot of een aanval is. Matomo stopt het registreren van verdere activiteit en blokkeert hun IP-adressen tot 24 uren om de serverbelasting te beperken en de betrouwbaarheid van de data.",
+        "SettingMaxActionsDescription": "Een standaard \"0\" registreert alle activiteit. De meeste sites hebben er doorgaans niet meer dan 100 tot 300. Het is waarschijnlijk veiliger om aan te nemen dat de overige activiteit spam, een bot of een aanval is. Matomo stopt het registreren van verdere activiteit en blokkeert hun IP-adressen tot 24 uren om de serverbelasting te beperken en voor de betrouwbaarheid van de gegevens.",
         "SettingMaxActionsTitle": "Maximum activiteiten te registreren per bezoek",
         "SettingNotificationEmailDescription": "Dit e-mailadres krijgt een notificatie wanneer een IP uitgesloten is wegens te veel activiteit. In de toekomst kunnen mogelijks notificatieredenen worden toegevoegd.",
         "SettingNotificationEmailTitle": "Notificatie e-mail"
