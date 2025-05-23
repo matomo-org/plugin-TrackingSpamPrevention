@@ -61,7 +61,7 @@ class Azure implements IpRangeProviderInterface
         $prefixUrl = 'url":"';
         $prefixStrLen = mb_strlen($prefixUrl, 'UTF-8');
         $posStart = mb_strpos($contentDownloadPage, $prefixUrl . 'https://download.microsoft.com/download/', 0, 'UTF-8');
-        $posEnd = mb_strpos($contentDownloadPage, '.json"', $posStart + $prefixStrLen, 'UTF-8'); // we don't want to match the " in href="
+        $posEnd = mb_strpos($contentDownloadPage, '.json"', $posStart + $prefixStrLen, 'UTF-8'); // we don't want to match the " in url":"
         $contentDownloadPage = mb_substr(
             $contentDownloadPage,
             $posStart + $prefixStrLen,
