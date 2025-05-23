@@ -58,10 +58,10 @@ class Azure implements IpRangeProviderInterface
         // should look like 'https://download.microsoft.com/download/7/1/D/71D86715-5596-4529-9B13-DA13A5DE5B63/ServiceTags_Public_20201207.json'
 
         $contentDownloadPage = Http::sendHttpRequest('https://www.microsoft.com/en-us/download/details.aspx?id=56519', 120);
-        $prefixUrl = 'href="';
+        $prefixUrl = 'url":"';
         $prefixStrLen = mb_strlen($prefixUrl, 'UTF-8');
         $posStart = mb_strpos($contentDownloadPage, $prefixUrl . 'https://download.microsoft.com/download/', 0, 'UTF-8');
-        $posEnd = mb_strpos($contentDownloadPage, '.json"', $posStart + $prefixStrLen, 'UTF-8'); // we don't want to match the " in href="
+        $posEnd = mb_strpos($contentDownloadPage, '.json"', $posStart + $prefixStrLen, 'UTF-8'); // we don't want to match the " in url":"
         $contentDownloadPage = mb_substr(
             $contentDownloadPage,
             $posStart + $prefixStrLen,
