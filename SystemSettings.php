@@ -41,6 +41,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     /** @var Setting */
     public $blockServerSideLibraries;
+	
+	/** @var Setting */
+	public $iprange_allowlist_raw;
 
     protected function init()
     {
@@ -52,6 +55,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
         $this->excludedCountries = $this->createExcludedCountriesSetting();
         $this->includedCountries = $this->createIncludedCountriesSetting();
+		$this->iprange_allowlist_raw = $this->createIpRangeAllowlistSetting();
     }
 
     private function createBlockCloudsSetting()
@@ -240,4 +244,48 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         }
         return $codes;
     }
+	
+	private function createIpRangeAllowlistSetting()
+{
+    // Textarea
+    return $this->makeSetting('iprange_allowlist_raw', $default = '', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
+        $field->title = Piwik::translate('TrackingSpamPrevention_IpAllowlistTitle');
+        $field->description = Piwik::translate('TrackingSpamPrevention_IpAllowlistDescription');
+        $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
+        $field->uiControlAttributes['rows'] = 6;
+        $field->uiControlAttributes['placeholder'] = "203.0.112.0/24\n2001:db8::/32";
+
+		$field->validate = function ($value) {
+			$value = (string)$value;
+			if ($value === '') return;
+
+			foreach (preg_split('/\R+/', $value) as $line) {
+				$cidr = trim($line);
+				if ($cidr === '') continue;
+
+				$ip = $cidr;
+				$prefix = null;
+				if (strpos($cidr, '/') !== false) {
+					[$ip, $prefix] = explode('/', $cidr, 2);
+				}
+
+				if (@inet_pton($ip) === false) {
+					throw new \Exception("Invalid IP in CIDR: $cidr");
+				}
+
+				if ($prefix !== null) {
+					if ($prefix === '' || !ctype_digit($prefix)) {
+						throw new \Exception("Invalid prefix in CIDR: $cidr");
+					}
+					$isV6 = strpos($ip, ':') !== false;
+					$max = $isV6 ? 128 : 32;
+					$p = (int)$prefix;
+					if ($p < 0 || $p > $max) {
+						throw new \Exception("Invalid prefix length in CIDR: $cidr");
+					}
+				}
+			}
+		};
+    });
+}
 }

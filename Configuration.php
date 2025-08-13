@@ -70,28 +70,60 @@ class Configuration
      * @return array
      */
     public function getIpRangesAlwaysAllowed()
-    {
-        $value = $this->getConfigValue(self::KEY_RANGE_ALLOW_LIST, self::DEFAULT_RANGE_ALLOW_LIST);
+{
+    // existing: read from config.ini.php
+    $value = $this->getConfigValue(self::KEY_RANGE_ALLOW_LIST, self::DEFAULT_RANGE_ALLOW_LIST);
+    if (empty($value) || !is_array($value)) {
+        $value = self::DEFAULT_RANGE_ALLOW_LIST;
+    }
+    $fromConfig = array_values(array_filter($value));
 
-        if (empty($value) || !is_array($value)) {
-            $value = self::DEFAULT_RANGE_ALLOW_LIST;
+    // normalize: add /32 or /128 if user provided single IP
+    $fromConfig = array_map(function ($range) {
+        $range = trim($range);
+        if ($range === '') return $range;
+        if (strpos($range, '/') === false) {
+            if (strpos($range, '.') !== false) {
+                $range .= '/32';
+            } elseif (strpos($range, ':') !== false) {
+                $range .= '/128';
+            }
         }
+        return $range;
+    }, $fromConfig);
 
-        $value = array_values(array_filter($value));
-        $value = array_map(function ($range) {
-            if (strpos($range, '/') === false) {
-                // we assume user did not enter a range so we make it one that matches that one ip
-                if (strpos($range, '.') !== false) {
-                    $range .= '/32';
-                } elseif (strpos($range, ':') !== false) {
-                    $range .= '/128';
+    // NEW: read from SystemSettings textarea (UI)
+    $fromUi = [];
+    try {
+        /** @var \Piwik\Plugins\TrackingSpamPrevention\SystemSettings $settings */
+        $settings = \Piwik\Container\StaticContainer::get(\Piwik\Plugins\TrackingSpamPrevention\SystemSettings::class);
+        $raw = (string)$settings->iprange_allowlist_raw->getValue();
+        if ($raw !== '') {
+            foreach (preg_split('/\R+/', $raw) as $line) {
+                $cidr = trim($line);
+                if ($cidr !== '') {
+                    // same normalization as above
+                    if (strpos($cidr, '/') === false) {
+                        if (strpos($cidr, '.') !== false) {
+                            $cidr .= '/32';
+                        } elseif (strpos($cidr, ':') !== false) {
+                            $cidr .= '/128';
+                        }
+                    }
+                    $fromUi[] = $cidr;
                 }
             }
-            return $range;
-        }, $value);
-
-        return $value;
+        }
+    } catch (\Throwable $e) {
+        // ok in CLI/tests where settings container isn't available
     }
+
+    // merge + dedupe, preserve order (config first, then UI)
+    $all = array_values(array_unique(array_merge($fromConfig, $fromUi)));
+
+    return $all;
+}
+
 
     private function getConfig()
     {

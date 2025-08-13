@@ -15,6 +15,8 @@
         "SettingExcludedCountriesTitle": "Exclude Countries",
         "SettingExcludedCountriesDescription": "Don't track visitors from these countries. Visitors outside your target area will likely be bots or spammers, or you can use it to avoid privacy laws in other jurisdictions.",
         "SettingIncludedCountriesTitle": "Only track visitors from these countries",
-        "SettingIncludedCountriesDescription": "This excludes all other countries. The \"exclude countries\" setting has more info."
+        "SettingIncludedCountriesDescription": "This excludes all other countries. The \"exclude countries\" setting has more info.",
+		"IpAllowlistTitle": "Always-allow IP ranges",
+		"IpAllowlistDescription": "One CIDR per line (e.g. 203.0.113.0/24, 2001:db8::/32). Traffic from these ranges bypasses all spam checks, including cloud/headless/server-side blocks and max-actions. Values from config.ini.php iprange_allowlist[] are also applied."
     }
 }
