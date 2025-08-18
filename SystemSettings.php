@@ -256,7 +256,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         $field->uiControlAttributes['placeholder'] = "203.0.112.0/24\n2001:db8::/32";
 
 		$field->validate = function ($value) {
-			$value = (string)$value;
+			$value = (string) $value;
 			if ($value === '') return;
 
 			foreach (preg_split('/\R+/', $value) as $line) {
