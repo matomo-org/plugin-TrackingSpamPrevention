@@ -69,7 +69,7 @@ class Configuration
     /**
      * @return array
      */
-    public function getIpRangesAlwaysAllowed()
+    public function getIpRangesAlwaysAllowed(): array
 {
     // existing: read from config.ini.php
     $value = $this->getConfigValue(self::KEY_RANGE_ALLOW_LIST, self::DEFAULT_RANGE_ALLOW_LIST);
