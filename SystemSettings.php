@@ -18,6 +18,7 @@ use Piwik\Settings\FieldConfig;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\Cache;
 use Piwik\Validators\Email;
+use Piwik\Network\IPUtils;
 
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
@@ -43,7 +44,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     public $blockServerSideLibraries;
 	
 	/** @var Setting */
-	public $iprange_allowlist_raw;
+	public $iprange_allowlist;
 
     protected function init()
     {
@@ -55,7 +56,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
         $this->excludedCountries = $this->createExcludedCountriesSetting();
         $this->includedCountries = $this->createIncludedCountriesSetting();
-		$this->iprange_allowlist_raw = $this->createIpRangeAllowlistSetting();
+		$this->iprange_allowlist = $this->createIpRangeAllowlistSetting();
     }
 
     private function createBlockCloudsSetting()
@@ -206,7 +207,6 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
     }
 
-
     private function listCountries()
     {
         $regionDataProvider = StaticContainer::get(RegionDataProvider::class);
@@ -246,46 +246,77 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     }
 	
 	private function createIpRangeAllowlistSetting()
-{
-    // Textarea
-    return $this->makeSetting('iprange_allowlist_raw', $default = '', FieldConfig::TYPE_STRING, function (FieldConfig $field) {
-        $field->title = Piwik::translate('TrackingSpamPrevention_IpAllowlistTitle');
-        $field->description = Piwik::translate('TrackingSpamPrevention_IpAllowlistDescription');
-        $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
-        $field->uiControlAttributes['rows'] = 6;
-        $field->uiControlAttributes['placeholder'] = "203.0.112.0/24\n2001:db8::/32";
+	{
+		return $this->makeSetting('iprange_allowlist', [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
+			$field->title = Piwik::translate('TrackingSpamPrevention_IpAllowlistTitle');
+			$field->description = Piwik::translate('TrackingSpamPrevention_IpAllowlistDescription');
+			$field->uiControl = FieldConfig::UI_CONTROL_MULTI_TUPLE;
 
-		$field->validate = function ($value) {
-			$value = (string) $value;
-			if ($value === '') return;
+			$field1 = new FieldConfig\MultiPair('CIDR', 'cidr', FieldConfig::UI_CONTROL_TEXT);
+			$field->uiControlAttributes['field1'] = $field1->toArray();
 
-			foreach (preg_split('/\R+/', $value) as $line) {
-				$cidr = trim($line);
-				if ($cidr === '') continue;
+			$self = $this;
+			$field->transform = function ($value) use ($self) {
+				return $self->transformCidrsList($value);
+			};
 
-				$ip = $cidr;
-				$prefix = null;
-				if (strpos($cidr, '/') !== false) {
+			$field->validate = function ($rows) {
+				if (empty($rows) || !is_array($rows)) {
+					return;
+				}
+				foreach ($rows as $row) {
+					$cidr = is_array($row) ? (string) ($row['cidr'] ?? '') : (string) $row;
+					$cidr = trim($cidr);
+					if ($cidr === '') {
+						continue;
+					}
+
+					if (strpos($cidr, '/') === false) {
+						if (IPUtils::stringToBinaryIP($cidr) === false) {
+							throw new \Exception("Invalid IP or CIDR: {$cidr}");
+						}
+						continue;
+					}
+
 					[$ip, $prefix] = explode('/', $cidr, 2);
-				}
-
-				if (@inet_pton($ip) === false) {
-					throw new \Exception("Invalid IP in CIDR: $cidr");
-				}
-
-				if ($prefix !== null) {
+					if (IPUtils::stringToBinaryIP($ip) === false) {
+						throw new \Exception("Invalid IP in CIDR: {$cidr}");
+					}
 					if ($prefix === '' || !ctype_digit($prefix)) {
-						throw new \Exception("Invalid prefix in CIDR: $cidr");
+						throw new \Exception("Invalid prefix in CIDR: {$cidr}");
 					}
-					$isV6 = strpos($ip, ':') !== false;
-					$max = $isV6 ? 128 : 32;
-					$p = (int)$prefix;
+					$max = (strpos($ip, ':') !== false) ? 128 : 32;
+					$p = (int) $prefix;
 					if ($p < 0 || $p > $max) {
-						throw new \Exception("Invalid prefix length in CIDR: $cidr");
+						throw new \Exception("Invalid prefix length in CIDR: {$cidr}");
 					}
+				}
+			};
+		});
+	}
+
+	public function transformCidrsList($value)
+	{
+		$out = [];
+		if (is_array($value)) {
+			foreach ($value as $row) {
+				$cidr = is_array($row) ? (string) ($row['cidr'] ?? '') : (string) $row;
+				$cidr = trim($cidr);
+				if ($cidr !== '') {
+					$out[] = ['cidr' => $cidr];
 				}
 			}
-		};
-    });
-}
+		}
+		$seen = [];
+		$dedup = [];
+		foreach ($out as $r) {
+			$k = $r['cidr'];
+			if (!isset($seen[$k])) {
+				$seen[$k] = true;
+				$dedup[] = $r;
+			}
+		}
+		return $dedup;
+	}
+
 }
