@@ -271,26 +271,31 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 						continue;
 					}
 
-					if (strpos($cidr, '/') === false) {
-						if (IPUtils::stringToBinaryIP($cidr) === false) {
-							throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidCidrExceptionMessage', [$cidr]));
-						}
-						continue;
-					}
+                    if (strpos($cidr, '/') === false) {
+                        if (IPUtils::stringToBinaryIP($cidr) === false) {
+                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$cidr]));
+                        }
+                        continue;
+                    }
 
-					[$ip, $prefix] = explode('/', $cidr, 2);
-					if (IPUtils::stringToBinaryIP($ip) === false) {
+                    [$ip, $prefix] = explode('/', $cidr, 2);
+
+                    if (IPUtils::stringToBinaryIP($ip) === false) {
                         throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$ip]));
-					}
-					if ($prefix === '' || !ctype_digit($prefix)) {
+                    }
+
+                    if ($prefix === '' || !ctype_digit($prefix)) {
                         throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
-					}
-					$max = (strpos($ip, ':') !== false) ? 128 : 32;
-					$p = (int) $prefix;
-					if ($p < 0 || $p > $max) {
+                    }
+
+                    $max = (strpos($ip, ':') !== false) ? 128 : 32;
+                    $p = (int) $prefix;
+
+                    if ($p < 0 || $p > $max) {
                         throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidCidrPrefix', [$cidr]));
-					}
-				}
+                    }
+
+                }
 			};
 		});
 	}
