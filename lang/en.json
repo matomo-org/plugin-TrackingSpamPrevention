@@ -17,6 +17,10 @@
         "SettingIncludedCountriesTitle": "Only track visitors from these countries",
         "SettingIncludedCountriesDescription": "This excludes all other countries. The \"exclude countries\" setting has more info.",
 		"IpAllowlistTitle": "Always-allow IP ranges",
-		"IpAllowlistDescription": "One CIDR per line (e.g. 203.0.113.0/24, 2001:db8::/32). Traffic from these ranges bypasses all spam checks, including cloud/headless/server-side blocks and max-actions. Values from config.ini.php iprange_allowlist[] are also applied."
+		"IpAllowlistDescription": "Enter IPv4/IPv6 CIDRs or single IPs (one per row). Requests from these IPs bypass spam checks.",
+		"InvalidIPExceptionMessage": "Invalid IP address: %s",
+		"InvalidCidrExceptionMessage": "Invalid CIDR range: %s",
+        "InvalidCidrPrefix": "Invalid prefix length in CIDR: %s",
+		"InvalidIPOrCIDRExceptionMessage": "Invalid IP address or CIDR range: %s"
     }
 }
