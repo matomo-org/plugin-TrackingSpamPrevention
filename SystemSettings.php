@@ -273,22 +273,22 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
 					if (strpos($cidr, '/') === false) {
 						if (IPUtils::stringToBinaryIP($cidr) === false) {
-							throw new \Exception("Invalid IP or CIDR: {$cidr}");
+							throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage'));
 						}
 						continue;
 					}
 
 					[$ip, $prefix] = explode('/', $cidr, 2);
 					if (IPUtils::stringToBinaryIP($ip) === false) {
-						throw new \Exception("Invalid IP in CIDR: {$cidr}");
+                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$ip]));
 					}
 					if ($prefix === '' || !ctype_digit($prefix)) {
-						throw new \Exception("Invalid prefix in CIDR: {$cidr}");
+                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
 					}
 					$max = (strpos($ip, ':') !== false) ? 128 : 32;
 					$p = (int) $prefix;
 					if ($p < 0 || $p > $max) {
-						throw new \Exception("Invalid prefix length in CIDR: {$cidr}");
+                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidCidrPrefix', [$cidr]));
 					}
 				}
 			};
