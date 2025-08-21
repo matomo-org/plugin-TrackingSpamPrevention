@@ -19,7 +19,6 @@
 		"IpAllowlistTitle": "Always-allow IP ranges",
 		"IpAllowlistDescription": "Enter IPv4/IPv6 CIDRs or single IPs (one per row). Requests from these IPs bypass spam checks.",
 		"InvalidIPExceptionMessage": "Invalid IP address: %s",
-		"InvalidCidrExceptionMessage": "Invalid CIDR range: %s",
         "InvalidCidrPrefix": "Invalid prefix length in CIDR: %s",
 		"InvalidIPOrCIDRExceptionMessage": "Invalid IP address or CIDR range: %s"
     }
