@@ -273,7 +273,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
 					if (strpos($cidr, '/') === false) {
 						if (IPUtils::stringToBinaryIP($cidr) === false) {
-							throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage'));
+							throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidCidrExceptionMessage', [$cidr]));
 						}
 						continue;
 					}
