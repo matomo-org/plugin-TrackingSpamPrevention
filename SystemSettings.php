@@ -312,25 +312,12 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 	public function transformCidrsList($value)
 	{
 		$out = [];
-		if (is_array($value)) {
-			foreach ($value as $row) {
-				$cidr = is_array($row) ? (string) ($row['cidr'] ?? '') : (string) $row;
-				$cidr = trim($cidr);
-				if ($cidr !== '') {
-					$out[] = ['cidr' => $cidr];
-				}
+		foreach ($value as $v) {
+			if (!empty($v['cidr']) && is_string($v['cidr'])) {
+				$out[] = $v['cidr'];
 			}
 		}
-		$seen = [];
-		$dedup = [];
-		foreach ($out as $r) {
-			$k = $r['cidr'];
-			if (!isset($seen[$k])) {
-				$seen[$k] = true;
-				$dedup[] = $r;
-			}
-		}
-		return $dedup;
+		return array_unique($out);
 	}
 
 }
