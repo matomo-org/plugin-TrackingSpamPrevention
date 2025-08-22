@@ -18,7 +18,7 @@ use Piwik\Settings\FieldConfig;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\Cache;
 use Piwik\Validators\Email;
-use Piwik\Network\IPUtils;
+use Matomo\Network\IPUtils;
 
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
