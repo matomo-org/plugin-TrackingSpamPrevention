@@ -13,8 +13,6 @@ use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 
-
-
 /**
  * Update for version 5.1.0.
  */
@@ -84,7 +82,5 @@ class Updates_5_1_0 extends PiwikUpdates
             $ui->setValue($rows);
             $ui->save();
         }
-        
     }
-
 }
