@@ -12,9 +12,8 @@ namespace Piwik\Plugins\TrackingSpamPrevention;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
-use Piwik\Config;
-use Piwik\Settings\Plugin\SystemSetting;
-use Piwik\Settings\FieldConfig;
+
+
 
 /**
  * Update for version 5.1.0.
@@ -85,6 +84,7 @@ class Updates_5_1_0 extends PiwikUpdates
             $ui->setValue($rows);
             $ui->save();
         }
+        
     }
 
 }
