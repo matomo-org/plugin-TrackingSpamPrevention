@@ -265,47 +265,47 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                     return;
                 }
 
-                	foreach ($rows as $row) {
-                        $cidr = is_array($row) ? (string) ($row['cidr'] ?? '') : (string) $row;
-                        $cidr = trim($cidr);
-                    	if ($cidr === '') {
-                            continue;
-                    	}
-
-                    	if (strpos($cidr, '/') === false) {
-                            $ok = IPUtils::stringToBinaryIP($cidr) !== false
-                                && filter_var($cidr, FILTER_VALIDATE_IP) !== false;
-                        	if (!$ok) {
-                                throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$cidr]));
-                        	}
-                            continue;
-                    	}
-
-                        [$ip, $prefix] = explode('/', $cidr, 2);
-                        $ip = trim($ip);
-                        $prefix = trim($prefix);
-
-                        $ok = IPUtils::stringToBinaryIP($ip) !== false
-                            && filter_var($ip, FILTER_VALIDATE_IP) !== false;
-                    	if (!$ok) {
-                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$ip]));
-                    	}
-
-                    	if ($prefix === '' || !ctype_digit($prefix)) {
-                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
-                        }
-
-                        $max = (strpos($ip, ':') !== false) ? 128 : 32;
-                        $p = (int) $prefix;
-                        if ($p < 0 || $p > $max) {
-                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidCidrPrefix', [$cidr]));
-                        }
+                foreach ($rows as $row) {
+                    $cidr = is_array($row) ? (string) ($row['cidr'] ?? '') : (string) $row;
+                    $cidr = trim($cidr);
+                    if ($cidr === '') {
+                        continue;
                     }
-                };
-            });
-	}
 
-	public function transformCidrsList($value)
+                    if (strpos($cidr, '/') === false) {
+                        $ok = IPUtils::stringToBinaryIP($cidr) !== false
+                            && filter_var($cidr, FILTER_VALIDATE_IP) !== false;
+                        if (!$ok) {
+                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$cidr]));
+                        }
+                        continue;
+                    }
+
+                    [$ip, $prefix] = explode('/', $cidr, 2);
+                    $ip = trim($ip);
+                    $prefix = trim($prefix);
+
+                    $ok = IPUtils::stringToBinaryIP($ip) !== false
+                        && filter_var($ip, FILTER_VALIDATE_IP) !== false;
+                    if (!$ok) {
+                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$ip]));
+                    }
+
+                    if ($prefix === '' || !ctype_digit($prefix)) {
+                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
+                    }
+
+                    $max = (strpos($ip, ':') !== false) ? 128 : 32;
+                    $p = (int) $prefix;
+                    if ($p < 0 || $p > $max) {
+                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidCidrPrefix', [$cidr]));
+                    }
+                }
+            };
+        });
+    }
+
+    public function transformCidrsList($value)
     {
         $out = [];
         foreach ($value as $v) {
@@ -315,5 +315,4 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         }
         return array_unique($out);
     }
-
 }
