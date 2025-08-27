@@ -42,9 +42,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     /** @var Setting */
     public $blockServerSideLibraries;
-	
-	/** @var Setting */
-	public $iprange_allowlist;
+
+    /** @var Setting */
+    public $iprange_allowlist;
 
     protected function init()
     {
@@ -56,7 +56,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
         $this->excludedCountries = $this->createExcludedCountriesSetting();
         $this->includedCountries = $this->createIncludedCountriesSetting();
-		$this->iprange_allowlist = $this->createIpRangeAllowlistSetting();
+        $this->iprange_allowlist = $this->createIpRangeAllowlistSetting();
     }
 
     private function createBlockCloudsSetting()
@@ -244,80 +244,76 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         }
         return $codes;
     }
-	
-	private function createIpRangeAllowlistSetting()
-	{
-		return $this->makeSetting('iprange_allowlist', [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
-			$field->title = Piwik::translate('TrackingSpamPrevention_IpAllowlistTitle');
-			$field->description = Piwik::translate('TrackingSpamPrevention_IpAllowlistDescription');
-			$field->uiControl = FieldConfig::UI_CONTROL_MULTI_TUPLE;
 
-			$field1 = new FieldConfig\MultiPair('CIDR', 'cidr', FieldConfig::UI_CONTROL_TEXT);
-			$field->uiControlAttributes['field1'] = $field1->toArray();
+    private function createIpRangeAllowlistSetting()
+    {
+        return $this->makeSetting('iprange_allowlist', [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
+            $field->title = Piwik::translate('TrackingSpamPrevention_IpAllowlistTitle');
+            $field->description = Piwik::translate('TrackingSpamPrevention_IpAllowlistDescription');
+            $field->uiControl = FieldConfig::UI_CONTROL_MULTI_TUPLE;
 
-			$self = $this;
-			$field->transform = function ($value) use ($self) {
-				return $self->transformCidrsList($value);
-			};
+            $field1 = new FieldConfig\MultiPair('CIDR', 'cidr', FieldConfig::UI_CONTROL_TEXT);
+            $field->uiControlAttributes['field1'] = $field1->toArray();
 
-			$field->validate = function ($rows) {
-				if (empty($rows) || !is_array($rows)) {
-					return;
-				}
-				$field->validate = function ($rows) {
+            $self = $this;
+            $field->transform = function ($value) use ($self) {
+                return $self->transformCidrsList($value);
+            };
+
+            $field->validate = function ($rows) {
                 if (empty($rows) || !is_array($rows)) {
                     return;
                 }
 
-                foreach ($rows as $row) {
-                    $cidr = is_array($row) ? (string) ($row['cidr'] ?? '') : (string) $row;
-                    $cidr = trim($cidr);
-                    if ($cidr === '') {
-                        continue;
-                    }
-
-                    if (strpos($cidr, '/') === false) {
-                        $ok = IPUtils::stringToBinaryIP($cidr) !== false
-                            && filter_var($cidr, FILTER_VALIDATE_IP) !== false;
-                        if (!$ok) {
-                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$cidr]));
+                    foreach ($rows as $row) {
+                        $cidr = is_array($row) ? (string) ($row['cidr'] ?? '') : (string) $row;
+                        $cidr = trim($cidr);
+                        if ($cidr === '') {
+                            continue;
                         }
-                        continue;
-                    }
 
-                    [$ip, $prefix] = explode('/', $cidr, 2);
-                    $ip = trim($ip);
-                    $prefix = trim($prefix);
+                        if (strpos($cidr, '/') === false) {
+                            $ok = IPUtils::stringToBinaryIP($cidr) !== false
+                                && filter_var($cidr, FILTER_VALIDATE_IP) !== false;
+                            if (!$ok) {
+                                throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$cidr]));
+                            }
+                            continue;
+                        }
 
-                    $ok = IPUtils::stringToBinaryIP($ip) !== false
-                        && filter_var($ip, FILTER_VALIDATE_IP) !== false;
-                    if (!$ok) {
-                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$ip]));
-                    }
+                        [$ip, $prefix] = explode('/', $cidr, 2);
+                        $ip = trim($ip);
+                        $prefix = trim($prefix);
 
-                    if ($prefix === '' || !ctype_digit($prefix)) {
-                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
-                    }
+                        $ok = IPUtils::stringToBinaryIP($ip) !== false
+                            && filter_var($ip, FILTER_VALIDATE_IP) !== false;
+                        if (!$ok) {
+                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$ip]));
+                        }
 
-                    $max = (strpos($ip, ':') !== false) ? 128 : 32;
-                    $p = (int) $prefix;
-                    if ($p < 0 || $p > $max) {
-                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidCidrPrefix', [$cidr]));
+                        if ($prefix === '' || !ctype_digit($prefix)) {
+                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
+                        }
+
+                        $max = (strpos($ip, ':') !== false) ? 128 : 32;
+                        $p = (int) $prefix;
+                        if ($p < 0 || $p > $max) {
+                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidCidrPrefix', [$cidr]));
+                        }
                     }
-                }
-            };
-		});
+                };
+            });
 	}
 
 	public function transformCidrsList($value)
-	{
-		$out = [];
-		foreach ($value as $v) {
-			if (!empty($v['cidr']) && is_string($v['cidr'])) {
-				$out[] = $v['cidr'];
-			}
-		}
-		return array_unique($out);
-	}
+    {
+        $out = [];
+        foreach ($value as $v) {
+            if (!empty($v['cidr']) && is_string($v['cidr'])) {
+                $out[] = $v['cidr'];
+            }
+        }
+        return array_unique($out);
+    }
 
 }
