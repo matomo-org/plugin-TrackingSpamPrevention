@@ -265,21 +265,21 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                     return;
                 }
 
-                    foreach ($rows as $row) {
+                	foreach ($rows as $row) {
                         $cidr = is_array($row) ? (string) ($row['cidr'] ?? '') : (string) $row;
                         $cidr = trim($cidr);
-                        if ($cidr === '') {
+                    	if ($cidr === '') {
                             continue;
-                        }
+                    	}
 
-                        if (strpos($cidr, '/') === false) {
+                    	if (strpos($cidr, '/') === false) {
                             $ok = IPUtils::stringToBinaryIP($cidr) !== false
                                 && filter_var($cidr, FILTER_VALIDATE_IP) !== false;
-                            if (!$ok) {
+                        	if (!$ok) {
                                 throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$cidr]));
-                            }
+                        	}
                             continue;
-                        }
+                    	}
 
                         [$ip, $prefix] = explode('/', $cidr, 2);
                         $ip = trim($ip);
@@ -287,11 +287,11 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
                         $ok = IPUtils::stringToBinaryIP($ip) !== false
                             && filter_var($ip, FILTER_VALIDATE_IP) !== false;
-                        if (!$ok) {
+                    	if (!$ok) {
                             throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$ip]));
-                        }
+                    	}
 
-                        if ($prefix === '' || !ctype_digit($prefix)) {
+                    	if ($prefix === '' || !ctype_digit($prefix)) {
                             throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
                         }
 
