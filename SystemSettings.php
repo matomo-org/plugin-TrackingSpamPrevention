@@ -276,7 +276,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                         $ok = IPUtils::stringToBinaryIP($cidr) !== false
                             && filter_var($cidr, FILTER_VALIDATE_IP) !== false;
                         if (!$ok) {
-                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$cidr]));
+                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
                         }
                         continue;
                     }
@@ -308,11 +308,29 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     public function transformCidrsList($value)
     {
         $out = [];
-        foreach ($value as $v) {
-            if (!empty($v['cidr']) && is_string($v['cidr'])) {
-                $out[] = $v['cidr'];
+
+        if (is_array($value)) {
+            foreach ($value as $row) {
+
+                $cidr = is_array($row) ? (string) ($row['cidr'] ?? '') : (string) $row;
+                $cidr = trim($cidr);
+                if ($cidr !== '') {
+                    $out[] = ['cidr' => $cidr];
+                }
             }
         }
-        return array_unique($out);
+
+        // trying to dedupe
+        $seen = [];
+        $dedup = [];
+        foreach ($out as $r) {
+            $k = $r['cidr'];
+            if (!isset($seen[$k])) {
+                $seen[$k] = true;
+                $dedup[] = $r;
+            }
+        }
+
+        return $dedup;
     }
 }
