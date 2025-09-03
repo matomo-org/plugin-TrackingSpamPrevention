@@ -301,7 +301,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                     $ok = IPUtils::stringToBinaryIP($ip) !== false
                         && filter_var($ip, FILTER_VALIDATE_IP) !== false;
                     if (!$ok) {
-                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$ip]));
+                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
                     }
 
                     if ($prefix === '' || !ctype_digit($prefix)) {
