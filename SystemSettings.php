@@ -106,6 +106,18 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     public function save()
     {
+        $val = $this->iprange_allowlist->getValue();
+        if (is_array($val)) {
+            $normalized = [];
+            foreach ($val as $v) {
+                $cidr = is_array($v) ? (string)($v['cidr'] ?? '') : (string)$v;
+                $cidr = trim($cidr);
+                if ($cidr !== '') {
+                    $normalized[] = ['cidr' => $cidr];
+                }
+            }
+            $this->iprange_allowlist->setValue($normalized);
+        }
         parent::save();
 
         $ranges = StaticContainer::get(BlockedIpRanges::class);
