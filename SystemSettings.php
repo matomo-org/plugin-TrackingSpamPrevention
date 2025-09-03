@@ -106,11 +106,13 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     public function save()
     {
+        parent::save();
+
         $val = $this->iprange_allowlist->getValue();
         if (is_array($val)) {
             $normalized = [];
             foreach ($val as $v) {
-                $cidr = is_array($v) ? (string)($v['cidr'] ?? '') : (string)$v;
+                $cidr = is_array($v) ? (string) ($v['cidr'] ?? '') : (string) $v;
                 $cidr = trim($cidr);
                 if ($cidr !== '') {
                     $normalized[] = ['cidr' => $cidr];
@@ -118,7 +120,6 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             }
             $this->iprange_allowlist->setValue($normalized);
         }
-        parent::save();
 
         $ranges = StaticContainer::get(BlockedIpRanges::class);
 
@@ -320,27 +321,18 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     public function transformCidrsList($value)
     {
         $out = [];
-
-        if (!is_array($value)) {
-            return $out;
-        }
-
-        foreach ($value as $v) {
-
-            $cidr = '';
-            if (is_array($v) && isset($v['cidr'])) {
-                $cidr = (string) $v['cidr'];
-            } elseif (is_string($v)) {
-                $cidr = $v;
-            }
-
-            $cidr = trim($cidr);
-            if ($cidr !== '') {
-                $out[] = ['cidr' => $cidr];
+        if (is_array($value)) {
+            foreach ($value as $v) {
+                if (is_array($v) && !empty($v['cidr']) && is_string($v['cidr'])) {
+                    $out[] = trim($v['cidr']);
+                } elseif (is_string($v)) {
+                    $out[] = trim($v);
+                }
             }
         }
 
-        return $out;
+        $out = array_filter($out, static function ($s) { return $s !== ''; });
+        return array_values(array_unique($out));
     }
 
 }
