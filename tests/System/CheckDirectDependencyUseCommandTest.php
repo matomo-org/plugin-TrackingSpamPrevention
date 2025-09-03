@@ -46,6 +46,7 @@ class CheckDirectDependencyUseCommandTest extends SystemTestCase
             'Matomo\Network' => [
                 'TrackingSpamPrevention/AllowListIpRange.php',
                 'TrackingSpamPrevention/BlockedIpRanges.php',
+                'TrackingSpamPrevention/SystemSettings.php',
                 'TrackingSpamPrevention/TrackingSpamPrevention.php',
             ],
             'DI' => [
