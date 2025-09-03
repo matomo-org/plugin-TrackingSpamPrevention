@@ -106,8 +106,6 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     public function save()
     {
-        parent::save();
-
         $val = $this->iprange_allowlist->getValue();
         if (is_array($val)) {
             $normalized = [];
@@ -120,6 +118,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             }
             $this->iprange_allowlist->setValue($normalized);
         }
+        
+        parent::save();
 
         $ranges = StaticContainer::get(BlockedIpRanges::class);
 
