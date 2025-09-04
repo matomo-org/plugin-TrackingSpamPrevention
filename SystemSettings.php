@@ -289,25 +289,23 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                         $ok = IPUtils::stringToBinaryIP($cidr) !== false
                             && filter_var($cidr, FILTER_VALIDATE_IP) !== false;
                         if (!$ok) {
-                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
+                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$cidr]));
                         }
                         continue;
                     }
 
-                    $parts = explode('/', $cidr, 2);
-                    $ip = $parts[0];
-                    $prefix = $parts[1];
-                    $ip = trim($ip);
+                    [$ip, $prefix] = explode('/', $cidr, 2);
+                    $ip     = trim($ip);
                     $prefix = trim($prefix);
 
                     $ok = IPUtils::stringToBinaryIP($ip) !== false
                         && filter_var($ip, FILTER_VALIDATE_IP) !== false;
                     if (!$ok) {
-                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
+                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$cidr]));
                     }
 
                     if ($prefix === '' || !ctype_digit($prefix)) {
-                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
+                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidCidrPrefix', [$cidr]));
                     }
 
                     $max = (strpos($ip, ':') !== false) ? 128 : 32;
@@ -339,11 +337,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             }
         }
 
-        $unique = [];
-        foreach ($out as $item) {
-            $unique[$item['cidr']] = $item;
-        }
-        return array_values($unique);
+        return array_values($out);
     }
 
 }
