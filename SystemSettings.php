@@ -294,7 +294,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                         continue;
                     }
 
-                    [$ip, $prefix] = explode('/', $cidr, 2);
+                    $parts = explode('/', $cidr, 2);
+                    $ip = $parts[0];
+                    $prefix = $parts[1];
                     $ip = trim($ip);
                     $prefix = trim($prefix);
 
@@ -324,15 +326,24 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         if (is_array($value)) {
             foreach ($value as $v) {
                 if (is_array($v) && !empty($v['cidr']) && is_string($v['cidr'])) {
-                    $out[] = trim($v['cidr']);
+                    $cidr = trim($v['cidr']);
+                    if ($cidr !== '') {
+                        $out[] = ['cidr' => $cidr];
+                    }
                 } elseif (is_string($v)) {
-                    $out[] = trim($v);
+                    $cidr = trim($v);
+                    if ($cidr !== '') {
+                        $out[] = ['cidr' => $cidr];
+                    }
                 }
             }
         }
 
-        $out = array_filter($out, static function ($s) { return $s !== ''; });
-        return array_values(array_unique($out));
+        $unique = [];
+        foreach ($out as $item) {
+            $unique[$item['cidr']] = $item;
+        }
+        return array_values($unique);
     }
 
 }
