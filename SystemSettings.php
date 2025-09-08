@@ -107,7 +107,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     public function save()
     {
 
-        $list = $this->transformCidrsList($this->iprange_allowlist->getValue());
+        $raw = $this->iprange_allowlist->getValue();
+        $list = $this->transformCidrsList($raw);
 
         foreach ($list as $cidr) {
             if (strpos($cidr, '/') === false) {
@@ -128,6 +129,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             if ($prefix === '' || !ctype_digit($prefix)) {
                 throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
             }
+
             $max = (strpos($ip, ':') !== false) ? 128 : 32;
             $p = (int) $prefix;
             if ($p < 0 || $p > $max) {
@@ -135,7 +137,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             }
         }
 
-        $this->iprange_allowlist->setValue(array_map(static fn($s) => ['cidr' => $s], $list));
+        $normalized = array_map(static function ($s) { return ['cidr' => $s]; }, $list);
+        $this->iprange_allowlist->setValue($normalized);
 
         parent::save();
 
