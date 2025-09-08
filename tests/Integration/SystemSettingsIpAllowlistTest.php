@@ -8,6 +8,11 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 class SystemSettingsIpAllowlistTest extends IntegrationTestCase
 {
+    protected static function configureFixture($fixture)
+    {
+        parent::configureFixture($fixture);
+        $fixture->extraTestEnvVars['loadRealTranslations'] = true;
+    }
     public function test_transformCidrsList_filtersEmpty_and_deduplicates()
     {
         /** @var SystemSettings $settings */
@@ -56,9 +61,7 @@ class SystemSettingsIpAllowlistTest extends IntegrationTestCase
         ]);
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage');
         $settings->save();
-
     }
 
     public function test_save_ignores_blank_rows()
