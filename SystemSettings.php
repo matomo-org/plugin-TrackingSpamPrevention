@@ -108,6 +108,19 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         parent::save();
 
+        $val = $this->iprange_allowlist->getValue();
+        if (is_array($val)) {
+            $normalized = [];
+            foreach ($val as $v) {
+                $cidr = is_array($v) ? (string) ($v['cidr'] ?? '') : (string) $v;
+                $cidr = trim($cidr);
+                if ($cidr !== '') {
+                    $normalized[] = ['cidr' => $cidr];
+                }
+            }
+            $this->iprange_allowlist->setValue($normalized);
+        }
+
         $ranges = StaticContainer::get(BlockedIpRanges::class);
 
         if ((bool) $this->block_clouds->getValue() !== (bool) $this->block_clouds->getOldValue()) {
@@ -257,8 +270,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
             $self = $this;
             $field->transform = function ($value) use ($self) {
-                $list = $self->transformCidrsList($value);
-                return array_map(static  fn($c) => ['cidr' => $c], $list);
+                return $self->transformCidrsList($value);
             };
 
             $field->validate = function ($rows) {
@@ -277,23 +289,23 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                         $ok = IPUtils::stringToBinaryIP($cidr) !== false
                             && filter_var($cidr, FILTER_VALIDATE_IP) !== false;
                         if (!$ok) {
-                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$cidr]));
+                            throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
                         }
                         continue;
                     }
 
                     [$ip, $prefix] = explode('/', $cidr, 2);
-                    $ip     = trim($ip);
+                    $ip = trim($ip);
                     $prefix = trim($prefix);
 
                     $ok = IPUtils::stringToBinaryIP($ip) !== false
                         && filter_var($ip, FILTER_VALIDATE_IP) !== false;
                     if (!$ok) {
-                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPExceptionMessage', [$ip]));
+                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
                     }
 
                     if ($prefix === '' || !ctype_digit($prefix)) {
-                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidCidrPrefix', [$cidr]));
+                        throw new \Exception(Piwik::translate('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage', [$cidr]));
                     }
 
                     $max = (strpos($ip, ':') !== false) ? 128 : 32;
@@ -311,15 +323,15 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         $out = [];
         if (is_array($value)) {
             foreach ($value as $v) {
-                // accept either ['cidr' => '...'] or '...'
-                $cidr = is_array($v) ? (string) ($v['cidr'] ?? '') : (string) $v;
-                $cidr = trim($cidr);
-                if ($cidr !== '') {
-                    $out[] = $cidr;
+                if (is_array($v) && !empty($v['cidr']) && is_string($v['cidr'])) {
+                    $out[] = trim($v['cidr']);
+                } elseif (is_string($v)) {
+                    $out[] = trim($v);
                 }
             }
         }
 
+        $out = array_filter($out, static function ($s) { return $s !== ''; });
         return array_values(array_unique($out));
     }
 
