@@ -108,27 +108,12 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         parent::save();
 
-        $val = $this->iprange_allowlist->getValue();
-        if (is_array($val)) {
-            $normalized = [];
-            foreach ($val as $v) {
-                $cidr = is_array($v) ? (string) ($v['cidr'] ?? '') : (string) $v;
-                $cidr = trim($cidr);
-                if ($cidr !== '') {
-                    $normalized[] = ['cidr' => $cidr];
-                }
-            }
-            $this->iprange_allowlist->setValue($normalized);
-        }
-
         $ranges = StaticContainer::get(BlockedIpRanges::class);
 
         if ((bool) $this->block_clouds->getValue() !== (bool) $this->block_clouds->getOldValue()) {
             if ($this->block_clouds->getValue()) {
-                // is now enabled, lets sync ip ranges
                 $ranges->updateBlockedIpRanges();
             } else {
-                // we also unset any IP that was banned recently
                 $ranges->unsetAllIpRanges();
             }
             Cache::clearCacheGeneral();
@@ -270,7 +255,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
             $self = $this;
             $field->transform = function ($value) use ($self) {
-                return $self->transformCidrsList($value);
+                $list = $self->transformCidrsList($value);
+                return array_map(static function ($s) { return ['cidr' => $s]; }, $list);
             };
 
             $field->validate = function ($rows) {
@@ -323,16 +309,17 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         $out = [];
         if (is_array($value)) {
             foreach ($value as $v) {
-                if (is_array($v) && !empty($v['cidr']) && is_string($v['cidr'])) {
-                    $out[] = trim($v['cidr']);
-                } elseif (is_string($v)) {
-                    $out[] = trim($v);
+                $cidr = is_array($v) ? ($v['cidr'] ?? '') : $v;
+                if (is_string($cidr)) {
+                    $cidr = trim($cidr);
+                    if ($cidr !== '') {
+                        $out[] = $cidr;
+                    }
                 }
             }
         }
-
-        $out = array_filter($out, static function ($s) { return $s !== ''; });
         return array_values(array_unique($out));
     }
+
 
 }
