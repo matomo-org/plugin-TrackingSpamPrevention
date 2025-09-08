@@ -56,7 +56,9 @@ class SystemSettingsIpAllowlistTest extends IntegrationTestCase
         ]);
 
         $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('TrackingSpamPrevention_InvalidIPOrCIDRExceptionMessage');
         $settings->save();
+
     }
 
     public function test_save_ignores_blank_rows()
