@@ -12,7 +12,7 @@
         "SettingExcludedCountriesTitle": "Exclure des pays",
         "SettingIncludedCountriesDescription": "Cela exclut tous les autres pays. Le paramètre \"exclure les pays\" contient plus d'informations.",
         "SettingIncludedCountriesTitle": "Ne suivre que les visiteurs de ces pays",
-        "SettingMaxActionsDescription": "Une valeur par défaut de \"0\" enregistre toutes les actions. La plupart des sites n'ont généralement pas plus de 100 à 300 actions. Il est raisonnable de supposer que toute activité supplémentaire est du spam de suivi, un bot ou une attaque. Matomo arrête d'enregistrer les actions supplémentaires et bloque leurs adresses IP pendant jusqu'à 24 heures pour réduire la charge du serveur et préserver l'exactitude des données.",
+        "SettingMaxActionsDescription": "Par défaut, la valeur « 0 » enregistre toutes les actions. La plupart des sites n'en enregistrent généralement pas plus de 100 à 300. On peut supposer sans risque que les autres activités correspondent à du spam, à un bot ou à une attaque. Matomo cesse alors d'enregistrer les actions suivantes et bloque les adresses IP concernées pendant 24 heures maximum afin de réduire la charge du serveur et de garantir l'exactitude des données.",
         "SettingMaxActionsTitle": "Nombre maximal d'actions à enregistrer par visite",
         "SettingNotificationEmailDescription": "Cette adresse email sera notifiée à chaque fois qu'une IP est bannie pour avoir réalisé trop d'actions. Dans le futur, d'autres motifs de notification pourront être ajoutés.",
         "SettingNotificationEmailTitle": "Notification par email"
