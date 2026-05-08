@@ -1,5 +1,8 @@
 ## Changelog
 
+# 5.0.9 - 2026-05-11
+- Added code to block more providers by default
+
 # 5.0.8 - 2025-05-26
 - Fixed broken Azure link for looking up IP ranges
 

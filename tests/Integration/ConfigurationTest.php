@@ -42,7 +42,7 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertEquals(array(
             'block_cloud_sync_throw_exception_on_error' => 0,
             'iprange_allowlist' => [''],
-            'block_geoip_organisations' => ['alicloud', 'alibaba cloud', 'digitalocean', 'digital ocean'],
+            'block_geoip_organisations' => Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS,
         ), $configs);
     }
 
