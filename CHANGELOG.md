@@ -1,5 +1,8 @@
 ## Changelog
 
+# 5.0.10 - 2026-06-22
+- Removed Verein zur Foerderung eines Deutschen Forschungsnetzes (DFN) from the default block list
+
 # 5.0.9 - 2026-05-11
 - Added code to block more providers by default
 

@@ -74,7 +74,6 @@ class Configuration
         'keminet shpk',
         'worldstream b.v.',
         'aeza international ltd',
-        'verein zur foerderung eines deutschen forschungsnetzes',
         'asline limited',
         'packethub s.a.',
         'gorillaservers',
