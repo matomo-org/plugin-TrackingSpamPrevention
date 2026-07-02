@@ -1,5 +1,8 @@
 ## Changelog
 
+# 5.0.10 - 2026-07-06
+- Enabled block headless browser by default
+
 # 5.0.10 - 2026-06-22
 - Removed Verein zur Foerderung eines Deutschen Forschungsnetzes (DFN) from the default block list
 

@@ -52,13 +52,13 @@ class SystemSettingsTest extends IntegrationTestCase
 
     public function test_block_headless_default()
     {
-        $this->assertSame(false, $this->settings->blockHeadless->getValue());
+        $this->assertSame(true, $this->settings->blockHeadless->getValue());
     }
 
-    public function test_block_Headless_enable()
+    public function test_block_Headless_disable()
     {
-        $this->settings->blockHeadless->setValue(1);
-        $this->assertSame(true, $this->settings->blockHeadless->getValue());
+        $this->settings->blockHeadless->setValue(0);
+        $this->assertSame(false, $this->settings->blockHeadless->getValue());
     }
 
     public function test_notification_email_default()
