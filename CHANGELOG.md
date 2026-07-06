@@ -1,6 +1,6 @@
 ## Changelog
 
-# 5.0.10 - 2026-07-06
+# 5.0.11 - 2026-07-06
 - Enabled block headless browser by default
 
 # 5.0.10 - 2026-06-22
