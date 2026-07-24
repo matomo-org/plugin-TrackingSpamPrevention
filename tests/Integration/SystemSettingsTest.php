@@ -138,6 +138,41 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->assertSame([], $this->settings->getIncludedCountryCodes());
     }
 
+    public function test_ipAllowList_default()
+    {
+        $this->assertSame([], $this->settings->ipAllowList->getValue());
+    }
+
+    public function test_getAllowedIpRanges_default()
+    {
+        $this->assertSame([], $this->settings->getAllowedIpRanges());
+    }
+
+    public function test_ipAllowList_transformTrimsFiltersAndDeduplicates()
+    {
+        $this->settings->ipAllowList->setValue([' 10.10.0.0/21 ', '', '10.10.0.0/21', '12.14.15.16', '  ', 'f::f']);
+        $this->assertSame(['10.10.0.0/21', '12.14.15.16', 'f::f'], $this->settings->ipAllowList->getValue());
+    }
+
+    public function test_ipAllowList_acceptsValidIpsRangesAndCidrNotations()
+    {
+        $ranges = ['10.10.0.1', '10.10.0.0/21', '10.10.*.*', 'f::f', '2001:db8::/64'];
+        $this->settings->ipAllowList->setValue($ranges);
+        $this->assertSame($ranges, $this->settings->ipAllowList->getValue());
+    }
+
+    public function test_ipAllowList_rejectsInvalidEntries()
+    {
+        $this->expectException(\Exception::class);
+        $this->settings->ipAllowList->setValue(['10.10.0.1', 'foobar']);
+    }
+
+    public function test_getAllowedIpRanges_returnsCleanedValues()
+    {
+        $this->settings->ipAllowList->setValue(['10.10.0.0/21', '12.14.15.16']);
+        $this->assertSame(['10.10.0.0/21', '12.14.15.16'], $this->settings->getAllowedIpRanges());
+    }
+
     public function test_save_shouldSyncWhenEnabled()
     {
         $ranges = $this->makeRanges();

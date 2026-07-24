@@ -9,10 +9,8 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration;
 
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
-use Piwik\Plugins\TrackingSpamPrevention\Configuration;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -172,9 +170,9 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
 
     public function test_isExcludedVisit_whenWhiteListUsed()
     {
-        Config::getInstance()->TrackingSpamPrevention[Configuration::KEY_RANGE_ALLOW_LIST] = [
+        StaticContainer::get(SystemSettings::class)->ipAllowList->setValue([
             '10.10.0.4/32', '10.10.0.3/32',
-        ];
+        ]);
         $excluded = $this->makeExcluded('10.10.0.2');
         $this->assertTrue($excluded->isExcluded());
 

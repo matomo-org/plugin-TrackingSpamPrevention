@@ -18,6 +18,7 @@ use Piwik\Settings\FieldConfig;
 use Piwik\SettingsPiwik;
 use Piwik\Tracker\Cache;
 use Piwik\Validators\Email;
+use Piwik\Validators\IpRanges;
 
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
@@ -42,6 +43,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var Setting */
     public $blockServerSideLibraries;
 
+    /** @var Setting */
+    public $ipAllowList;
+
     protected function init()
     {
         $this->block_clouds = $this->createBlockCloudsSetting();
@@ -52,6 +56,12 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
         $this->excludedCountries = $this->createExcludedCountriesSetting();
         $this->includedCountries = $this->createIncludedCountriesSetting();
+
+        $this->ipAllowList = $this->makeIpRangeListSetting(
+            'ip_allow_list',
+            'TrackingSpamPrevention_SettingIpAllowListTitle',
+            'TrackingSpamPrevention_SettingIpAllowListHelp'
+        );
     }
 
     private function createBlockCloudsSetting()
@@ -203,6 +213,25 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     }
 
 
+    private function makeIpRangeListSetting(string $name, string $titleKey, string $inlineHelpKey): Setting
+    {
+        return $this->makeSetting($name, [], FieldConfig::TYPE_ARRAY, function (FieldConfig $field) use ($titleKey, $inlineHelpKey) {
+            $field->title = Piwik::translate($titleKey);
+            $field->inlineHelp = Piwik::translate($inlineHelpKey);
+            $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
+            $field->uiControlAttributes['placeholder'] = "192.0.2.15\n198.51.100.0/24\n2001:db8::/32";
+            $field->validators[] = new IpRanges();
+            $field->transform = function ($value) {
+                if (empty($value) || !is_array($value)) {
+                    return [];
+                }
+                $ips = array_map('trim', $value);
+                $ips = array_filter($ips, 'strlen');
+                return array_values(array_unique($ips));
+            };
+        });
+    }
+
     private function listCountries()
     {
         $regionDataProvider = StaticContainer::get(RegionDataProvider::class);
@@ -212,6 +241,18 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
         asort($countryList); //order by localized name
         return $countryList;
+    }
+
+    public function getAllowedIpRanges(): array
+    {
+        $value = $this->ipAllowList->getValue();
+
+        if (empty($value) || !is_array($value)) {
+            return [];
+        }
+
+        // values set through a config file override skip the setting's transform, so clean them up here too
+        return array_values(array_filter(array_map('trim', $value), 'strlen'));
     }
 
     public function getExcludedCountryCodes()

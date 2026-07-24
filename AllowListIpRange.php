@@ -14,18 +14,18 @@ use Matomo\Network\IP;
 class AllowListIpRange
 {
     /**
-     * @var Configuration
+     * @var SystemSettings
      */
-    private $configuration;
+    private $settings;
 
-    public function __construct(Configuration $configuration)
+    public function __construct(SystemSettings $settings)
     {
-        $this->configuration = $configuration;
+        $this->settings = $settings;
     }
 
     public function isAllowed($ip)
     {
-        $rangesAllowed = $this->configuration->getIpRangesAlwaysAllowed();
+        $rangesAllowed = $this->settings->getAllowedIpRanges();
 
         if (!empty($rangesAllowed)) {
             $ip  = IP::fromStringIP($ip);
