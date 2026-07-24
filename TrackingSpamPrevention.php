@@ -91,6 +91,12 @@ class TrackingSpamPrevention extends \Piwik\Plugin
             return;
         }
 
+        if (StaticContainer::get(BlockListIpRange::class)->isBlocked($ipString)) {
+            Common::printDebug("Excluding visit as it matches an IP range on the block list");
+            $excluded = 'excluded: ip block list';
+            return;
+        }
+
         $settings = $this->getSystemSettings();
         $blockGeoIp = $this->getBlockGeoIp();
         $browserLang = $request->getBrowserLanguage();

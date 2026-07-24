@@ -17,6 +17,8 @@
         "SettingIncludedCountriesTitle": "Only track visitors from these countries",
         "SettingIncludedCountriesDescription": "This excludes all other countries. The \"exclude countries\" setting has more info.",
         "SettingIpAllowListTitle": "IP allow list",
-        "SettingIpAllowListHelp": "Specify the IP addresses or CIDR ranges that are allowed to send tracking requests. Enter one value per line."
+        "SettingIpAllowListHelp": "Specify the IP addresses or CIDR ranges that are allowed to send tracking requests. Enter one value per line.",
+        "SettingIpBlockListTitle": "IP block list",
+        "SettingIpBlockListHelp": "Specify the IP addresses or CIDR ranges to block from sending tracking requests. Enter one value per line."
     }
 }

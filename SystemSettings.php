@@ -46,6 +46,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var Setting */
     public $ipAllowList;
 
+    /** @var Setting */
+    public $ipBlockList;
+
     protected function init()
     {
         $this->block_clouds = $this->createBlockCloudsSetting();
@@ -61,6 +64,11 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             'ip_allow_list',
             'TrackingSpamPrevention_SettingIpAllowListTitle',
             'TrackingSpamPrevention_SettingIpAllowListHelp'
+        );
+        $this->ipBlockList = $this->makeIpRangeListSetting(
+            'ip_block_list',
+            'TrackingSpamPrevention_SettingIpBlockListTitle',
+            'TrackingSpamPrevention_SettingIpBlockListHelp'
         );
     }
 
@@ -245,7 +253,17 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     public function getAllowedIpRanges(): array
     {
-        $value = $this->ipAllowList->getValue();
+        return $this->settingToIpRanges($this->ipAllowList);
+    }
+
+    public function getBlockedIpRanges(): array
+    {
+        return $this->settingToIpRanges($this->ipBlockList);
+    }
+
+    private function settingToIpRanges(Setting $setting): array
+    {
+        $value = $setting->getValue();
 
         if (empty($value) || !is_array($value)) {
             return [];
