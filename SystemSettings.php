@@ -256,7 +256,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         return $this->settingToIpRanges($this->ipAllowList);
     }
 
-    public function getBlockedIpRanges(): array
+    public function getBlockListIpRanges(): array
     {
         return $this->settingToIpRanges($this->ipBlockList);
     }

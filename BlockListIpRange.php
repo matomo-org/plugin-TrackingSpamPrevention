@@ -25,7 +25,7 @@ class BlockListIpRange
 
     public function isBlocked($ip)
     {
-        $rangesBlocked = $this->settings->getBlockedIpRanges();
+        $rangesBlocked = $this->settings->getBlockListIpRanges();
 
         if (!empty($rangesBlocked)) {
             $ip  = IP::fromStringIP($ip);
