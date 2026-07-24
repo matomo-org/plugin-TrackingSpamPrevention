@@ -10,8 +10,7 @@
 namespace Piwik\Plugins\TrackingSpamPrevention;
 
 use Piwik\Config;
-use Piwik\Settings\Storage\Backend\Cache;
-use Piwik\Settings\Storage\Factory;
+use Piwik\Container\StaticContainer;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Validators\IpRanges;
@@ -33,11 +32,12 @@ class Updates_5_1_0 extends PiwikUpdates
         $ranges = $this->getValidRanges($pluginConfig[Configuration::KEY_RANGE_ALLOW_LIST]);
 
         if (!empty($ranges)) {
-            $backend = (new Factory())->getPluginStorage('TrackingSpamPrevention', '')->getBackend();
+            $settings = StaticContainer::get(SystemSettings::class);
+            $settings->ipAllowList->setIsWritableByCurrentUser(true);
 
-            if (empty($backend->loadValue('ip_allow_list'))) {
-                $backend->saveValue('ip_allow_list', $ranges);
-                Cache::clearCache();
+            if (empty($settings->ipAllowList->getValue())) {
+                $settings->ipAllowList->setValue($ranges);
+                $settings->save();
             }
         }
 
