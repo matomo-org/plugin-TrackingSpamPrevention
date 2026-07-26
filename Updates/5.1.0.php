@@ -33,6 +33,8 @@ class Updates_5_1_0 extends PiwikUpdates
 
         if (!empty($ranges)) {
             $settings = StaticContainer::get(SystemSettings::class);
+            // updates run as super user, but the setting also reports as unwritable when an `ip_allow_list`
+            // config override already exists, so force writability to keep the migration from failing
             $settings->ipAllowList->setIsWritableByCurrentUser(true);
 
             if (empty($settings->ipAllowList->getValue())) {
