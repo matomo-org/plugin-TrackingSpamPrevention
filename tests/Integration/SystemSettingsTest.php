@@ -173,6 +173,34 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->assertSame(['10.10.0.0/21', '12.14.15.16'], $this->settings->getAllowedIpRanges());
     }
 
+    public function test_ipBlockList_default()
+    {
+        $this->assertSame([], $this->settings->ipBlockList->getValue());
+    }
+
+    public function test_getBlockListIpRanges_default()
+    {
+        $this->assertSame([], $this->settings->getBlockListIpRanges());
+    }
+
+    public function test_ipBlockList_transformTrimsFiltersAndDeduplicates()
+    {
+        $this->settings->ipBlockList->setValue([' 10.10.0.0/21 ', '', '10.10.0.0/21', '12.14.15.16', '  ', 'f::f']);
+        $this->assertSame(['10.10.0.0/21', '12.14.15.16', 'f::f'], $this->settings->ipBlockList->getValue());
+    }
+
+    public function test_ipBlockList_rejectsInvalidEntries()
+    {
+        $this->expectException(\Exception::class);
+        $this->settings->ipBlockList->setValue(['10.10.0.1', 'foobar']);
+    }
+
+    public function test_getBlockListIpRanges_returnsCleanedValues()
+    {
+        $this->settings->ipBlockList->setValue(['10.10.0.0/21', '12.14.15.16']);
+        $this->assertSame(['10.10.0.0/21', '12.14.15.16'], $this->settings->getBlockListIpRanges());
+    }
+
     public function test_save_shouldSyncWhenEnabled()
     {
         $ranges = $this->makeRanges();

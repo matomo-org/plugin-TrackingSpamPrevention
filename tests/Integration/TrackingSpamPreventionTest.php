@@ -192,6 +192,29 @@ class TrackingSpamPreventionTest extends IntegrationTestCase
         $this->assertFalse($excluded->isExcluded());
     }
 
+    public function test_isExcludedVisit_whenIpOnBlockList()
+    {
+        StaticContainer::get(SystemSettings::class)->ipBlockList->setValue([
+            '203.0.113.88/32', '198.51.100.0/24',
+        ]);
+
+        $this->assertTrue($this->makeExcluded('203.0.113.88')->isExcluded());
+        $this->assertTrue($this->makeExcluded('198.51.100.55')->isExcluded());
+
+        $this->assertFalse($this->makeExcluded('203.0.113.89')->isExcluded());
+        $this->assertFalse($this->makeExcluded('198.51.101.1')->isExcluded());
+    }
+
+    public function test_isExcludedVisit_allowListTakesPrecedenceOverBlockList()
+    {
+        $settings = StaticContainer::get(SystemSettings::class);
+        $settings->ipAllowList->setValue(['203.0.113.88/32']);
+        $settings->ipBlockList->setValue(['203.0.113.0/24']);
+
+        $this->assertFalse($this->makeExcluded('203.0.113.88')->isExcluded());
+        $this->assertTrue($this->makeExcluded('203.0.113.89')->isExcluded());
+    }
+
     public function test_isExcludedVisit_excludeCountries()
     {
         StaticContainer::get(SystemSettings::class)->excludedCountries->setValue(

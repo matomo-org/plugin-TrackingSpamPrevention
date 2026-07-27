@@ -14,6 +14,18 @@ ip_allow_list[] = "192.168.0.0/21"
 
 Make sure to enter a valid IP range. 
 
+__How do I block specific IPs from being tracked?__
+
+Use the "IP block list" setting in "Administration => General Settings". Enter one IP address or CIDR range per line. If an address matches both the allow list and the block list, the allow list takes precedence.
+
+Alternatively, you can force a list of blocked IP ranges by editing your `config/config.ini.php` file like this (this overrides the setting and makes it read-only in the UI):
+
+```
+[TrackingSpamPrevention]
+ip_block_list[] = "203.0.113.88/32"
+ip_block_list[] = "198.51.100.0/24"
+```
+
 __What happens when it fails to synchronise public IPs from cloud providers?__
 
 Any error is currently ignored and if it does not synchronise successfully, then the IP for the provider that failed are not synced.
