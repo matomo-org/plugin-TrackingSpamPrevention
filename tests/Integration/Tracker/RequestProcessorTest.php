@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration\Tracker;
 
-use Piwik\Config;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
 use Piwik\Plugins\TrackingSpamPrevention\Configuration;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
@@ -80,9 +79,7 @@ class RequestProcessorTest extends IntegrationTestCase
 
     public function test_updateBlockedIpRanges_maxActionsEnabled_limitReached_shouldIgnoreAllowedIp()
     {
-        Config::getInstance()->TrackingSpamPrevention = [
-            Configuration::KEY_RANGE_ALLOW_LIST => ['10.12.13.14/32', 'f::f/52', '', '11.12.13.14/21', '12.14.15.16', 'f::f']
-        ];
+        $this->settings->ipAllowList->setValue(['10.12.13.14/32', 'f::f/52', '', '11.12.13.14/21', '12.14.15.16', 'f::f']);
         $this->settings->max_actions->setValue(200);
 
         $this->assertNull($this->processor->afterRequestProcessed($this->makeVisit(200), $this->makeRequest()));
@@ -91,9 +88,7 @@ class RequestProcessorTest extends IntegrationTestCase
 
     public function test_updateBlockedIpRanges_maxActionsEnabled_limitReached_shouldIgnoreAllowedIpHigherActions()
     {
-        Config::getInstance()->TrackingSpamPrevention = [
-            Configuration::KEY_RANGE_ALLOW_LIST => ['10.12.13.14/32', 'f::f/52', '', '11.12.13.14/21', '12.14.15.16', 'f::f']
-        ];
+        $this->settings->ipAllowList->setValue(['10.12.13.14/32', 'f::f/52', '', '11.12.13.14/21', '12.14.15.16', 'f::f']);
         $this->settings->max_actions->setValue(200);
 
         $this->assertNull($this->processor->afterRequestProcessed($this->makeVisit(800), $this->makeRequest()));

@@ -10,7 +10,9 @@
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration;
 
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugins\TrackingSpamPrevention\Configuration;
+use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -36,12 +38,14 @@ class ConfigurationTest extends IntegrationTestCase
 
     public function test_shouldInstallConfig()
     {
+        // reset the section as the local config of the instance running the tests may contain different values
+        Config::getInstance()->TrackingSpamPrevention = [];
+
         $this->configuration->install();
 
         $configs = Config::getInstance()->TrackingSpamPrevention;
         $this->assertEquals(array(
             'block_cloud_sync_throw_exception_on_error' => 0,
-            'iprange_allowlist' => [''],
             'block_geoip_organisations' => Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS,
         ), $configs);
     }
@@ -62,19 +66,10 @@ class ConfigurationTest extends IntegrationTestCase
         $this->assertSame([], $this->configuration->getIpRangesAlwaysAllowed());
     }
 
-    public function test_getIpRangesAlwaysAllowed_custom()
+    public function test_getIpRangesAlwaysAllowed_delegatesToSystemSetting()
     {
-        Config::getInstance()->TrackingSpamPrevention = array(
-            Configuration::KEY_RANGE_ALLOW_LIST => ['10.12.13.14/32', 'f::f/52', '', '11.12.13.14/21', '12.14.15.16', 'f::f']
-        );
-        $this->assertSame(['10.12.13.14/32', 'f::f/52', '11.12.13.14/21', '12.14.15.16/32', 'f::f/128'], $this->configuration->getIpRangesAlwaysAllowed());
-    }
+        StaticContainer::get(SystemSettings::class)->ipAllowList->setValue(['10.12.13.14/32', 'f::f/52', '11.12.13.14/21']);
 
-    public function test_getIpRangesAlwaysAllowed_invalid()
-    {
-        Config::getInstance()->TrackingSpamPrevention = array(
-            Configuration::KEY_RANGE_ALLOW_LIST => 'foobar'
-        );
-        $this->assertSame([], $this->configuration->getIpRangesAlwaysAllowed());
+        $this->assertSame(['10.12.13.14/32', 'f::f/52', '11.12.13.14/21'], $this->configuration->getIpRangesAlwaysAllowed());
     }
 }
