@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration\BlockedIpRanges;
 
+use Matomo\Network\IPUtils;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedIpRanges;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -22,12 +23,36 @@ class ProvidersTest extends IntegrationTestCase
     /**
      * @dataProvider getIpRangeProviderDataProvider
      */
-    public function test_getRanges(BlockedIpRanges\IpRangeProviderInterface $provider)
+    public function test_getRanges(BlockedIpRanges\IpRangeProviderInterface $provider, bool $expectsIpv6)
     {
         $ranges = $provider->getRanges();
         $this->assertNotEmpty($ranges);
         $this->assertTrue(is_array($ranges));
-        $this->assertGreaterThan(5, count($ranges));
+        $this->assertGreaterThan(50, count($ranges));
+
+        $invalid = [];
+        $hasIpv4 = false;
+        $hasIpv6 = false;
+
+        foreach ($ranges as $range) {
+            if (!is_string($range) || null === IPUtils::sanitizeIpRange($range)) {
+                $invalid[] = $range;
+                continue;
+            }
+            if (strpos($range, ':') === false) {
+                $hasIpv4 = true;
+            } else {
+                $hasIpv6 = true;
+            }
+        }
+
+        // all entries are checked above, only the first few are reported to keep the failure readable
+        $this->assertSame([], array_slice($invalid, 0, 10), 'The provider returned ' . count($invalid) . ' value(s) that are not valid IP ranges');
+        $this->assertTrue($hasIpv4, 'The provider did not return any IPv4 range');
+
+        if ($expectsIpv6) {
+            $this->assertTrue($hasIpv6, 'The provider did not return any IPv6 range');
+        }
     }
 
     public function test_getDownloadUrl_Azure()
@@ -45,12 +70,13 @@ class ProvidersTest extends IntegrationTestCase
 
     public function getIpRangeProviderDataProvider()
     {
+        // oracle only publishes IPv4 ranges, all other providers publish both
         return [
-            [new BlockedIpRanges\Aws()],
-            [new BlockedIpRanges\Azure()],
-            [new BlockedIpRanges\DigitalOcean()],
-            [new BlockedIpRanges\Gcloud()],
-            [new BlockedIpRanges\Oracle()],
+            [new BlockedIpRanges\Aws(), true],
+            [new BlockedIpRanges\Azure(), true],
+            [new BlockedIpRanges\DigitalOcean(), true],
+            [new BlockedIpRanges\Gcloud(), true],
+            [new BlockedIpRanges\Oracle(), false],
         ];
     }
 }

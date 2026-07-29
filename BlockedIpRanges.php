@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\TrackingSpamPrevention;
 
 use Matomo\Network\IP;
+use Matomo\Network\IPUtils;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Option;
@@ -181,14 +182,20 @@ class BlockedIpRanges
         }
 
         $indexedRange = [];
-        if (!empty($ranges)) {
-            foreach ($ranges as $range) {
-                $indexed = $this->getIndexForIpOrRange($range);
-                if (empty($indexedRange[$indexed])) {
-                    $indexedRange[$indexed] = [];
-                }
-                $indexedRange[$indexed][] = $range;
+        foreach ($ranges as $range) {
+            // guard against a provider changing its response format. is_string() is needed as
+            // sanitizeIpRange() raises a TypeError on eg a nested array
+            $range = is_string($range) ? IPUtils::sanitizeIpRange($range) : null;
+
+            if (null === $range) {
+                continue;
             }
+
+            $indexed = $this->getIndexForIpOrRange($range);
+            if (empty($indexedRange[$indexed])) {
+                $indexedRange[$indexed] = [];
+            }
+            $indexedRange[$indexed][] = $range;
         }
         $this->setBlockedRanges($indexedRange);
     }
