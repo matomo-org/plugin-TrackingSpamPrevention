@@ -155,6 +155,28 @@ class BlockedIpRangesTest extends IntegrationTestCase
         ], $this->ranges->getBlockedRanges());
     }
 
+    public function test_updateBlockedIpRanges_ignoresValuesThatAreNotIpRanges()
+    {
+        $ranges = [
+            new BlockedIpRanges\VariableRange([
+                'notanip',
+                '15.15.15.0/21',
+                '',
+                '1.2.3.4',
+                '999.999.0.0/21',
+                ['16.16.16.0/21'],
+                null,
+            ]),
+        ];
+        $this->ranges = new BlockedIpRanges($ranges, new Configuration());
+
+        $this->ranges->updateBlockedIpRanges();
+        $this->assertSame([
+            '15.' => ['15.15.15.0/21'],
+            '1.' => ['1.2.3.4/32'],
+        ], $this->ranges->getBlockedRanges());
+    }
+
     public function test_updateBlockedIpRanges_withExceptionNotCaught()
     {
         $this->expectException(\Exception::class);

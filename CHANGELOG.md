@@ -3,6 +3,7 @@
 # 5.1.0 - 2026-08-03
 - Added an "IP allow list" setting to the UI (General Settings). Existing `iprange_allowlist` config values are migrated to the new `ip_allow_list` system setting and removed from the config file
 - Added an "IP block list" setting to the UI (General Settings) to block tracking requests from specific IP addresses or ranges
+- Fixed Digital Ocean IP ranges not being blocked when "Block tracking requests from the cloud" is enabled
 
 # 5.0.11 - 2026-07-06
 - Enabled block headless browser by default
