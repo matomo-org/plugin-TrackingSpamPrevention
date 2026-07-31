@@ -89,6 +89,13 @@ class Configuration
         'limestone networks, inc',
         'scaleway',
         'm247 europe',
+        'tencent',
+        'fdcservers',
+        'ace data centers',
+        'egihosting',
+        'hangzhou alibaba advertising',
+        'sharktech',
+        'dmit cloud services',
     ];
 
     public const KEY_RANGE_THROW_EXCEPTION = 'block_cloud_sync_throw_exception_on_error';

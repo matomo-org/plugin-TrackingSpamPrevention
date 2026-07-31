@@ -50,6 +50,36 @@ class ConfigurationTest extends IntegrationTestCase
         ), $configs);
     }
 
+    public function test_defaultBlockList_containsNewlyAddedHostingProviders()
+    {
+        $providers = Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS;
+
+        // added in 5.1.0 from the detection-coverage analysis - guards against accidental removal
+        $expected = [
+            'tencent',
+            'fdcservers',
+            'ace data centers',
+            'egihosting',
+            'hangzhou alibaba advertising',
+            'sharktech',
+            'dmit cloud services',
+        ];
+
+        foreach ($expected as $provider) {
+            $this->assertContains($provider, $providers, "'$provider' should be in the default block list");
+        }
+    }
+
+    public function test_defaultBlockList_entriesAreLowercaseAndUnique()
+    {
+        $providers = Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS;
+
+        $this->assertSame(array_values(array_unique($providers)), $providers, 'default block list must not contain duplicates');
+        foreach ($providers as $provider) {
+            $this->assertSame(mb_strtolower($provider), $provider, "'$provider' must be lowercase (matching is case-insensitive but entries are compared lowercased)");
+        }
+    }
+
     public function test_shouldThrowExceptionOnIpRangeSync_default()
     {
         $this->assertFalse($this->configuration->shouldThrowExceptionOnIpRangeSync());
