@@ -9,42 +9,41 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention\Commands;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Config;
-use Piwik\Plugins\TrackingSpamPrevention\Configuration;
+use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 
 class BlockGeoIpOrganisation extends ConsoleCommand
 {
     protected function configure()
     {
         $this->setName('trackingspamprevention:block-geo-ip-organisation');
-        $this->setDescription('Blocks a new GeoIP organisation. It will save the organisation in the config file.');
+        $this->setDescription('Blocks a new GeoIP organisation. It will save the organisation in the "Organisation block list" system setting.');
         $this->addRequiredValueOption('organisation-name', null, 'Name of the organisation to block:');
     }
 
-    /**
-     * @return int
-     */
     protected function doExecute(): int
     {
-        $input = $this->getInput();
-        $output = $this->getOutput();
         $this->checkAllRequiredOptionsAreNotEmpty();
 
-        $config = Config::getInstance();
-        $pluginConfig = $config->TrackingSpamPrevention;
+        $name = mb_strtolower(trim($this->getInput()->getOption('organisation-name')));
 
-        if (empty($pluginConfig[Configuration::KEY_GEOIP_MATCH_PROVIDERS])) {
-            $pluginConfig[Configuration::KEY_GEOIP_MATCH_PROVIDERS] = [];
+        $settings = StaticContainer::get(SystemSettings::class);
+        $setting = $settings->organisationBlockList;
+        // the command runs without a session, and the setting also reports as unwritable when an
+        // `organisation_block_list` config override exists, so force writability
+        $setting->setIsWritableByCurrentUser(true);
+
+        $organisations = $setting->getValue();
+        if (!is_array($organisations)) {
+            $organisations = [];
         }
+        $organisations[] = $name;
 
-        $name = $input->getOption('organisation-name');
-        $pluginConfig[Configuration::KEY_GEOIP_MATCH_PROVIDERS][] = mb_strtolower(trim($name));
+        $setting->setValue(array_values(array_unique($organisations)));
+        $settings->save();
 
-        $pluginConfig[Configuration::KEY_GEOIP_MATCH_PROVIDERS] = array_values(array_unique($pluginConfig[Configuration::KEY_GEOIP_MATCH_PROVIDERS]));
-
-        $config->TrackingSpamPrevention = $pluginConfig;
-        $config->forceSave();
+        $this->getOutput()->writeln(sprintf('<info>Added "%s" to the organisation block list.</info>', $name));
 
         return self::SUCCESS;
     }

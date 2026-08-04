@@ -9,8 +9,8 @@
 
 namespace Piwik\Plugins\TrackingSpamPrevention\tests\Integration;
 
-use Piwik\Plugins\TrackingSpamPrevention\AllowListIpRange;
 use Piwik\Plugins\TrackingSpamPrevention\BlockedGeoIp;
+use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -21,7 +21,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 class BlockedGeoIpTest extends IntegrationTestCase
 {
     /**
-     * @var AllowListIpRange
+     * @var BlockedGeoIp
      */
     private $blockedGeoIp;
 
@@ -29,7 +29,10 @@ class BlockedGeoIpTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->blockedGeoIp = new BlockedGeoIp(['mytest']);
+        $settings = new SystemSettings();
+        $settings->organisationBlockList->setValue(['mytest']);
+
+        $this->blockedGeoIp = new BlockedGeoIp($settings);
     }
 
     public function test_detectLocation()

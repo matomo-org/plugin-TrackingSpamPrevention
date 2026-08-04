@@ -201,6 +201,28 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->assertSame(['10.10.0.0/21', '12.14.15.16'], $this->settings->getBlockListIpRanges());
     }
 
+    public function test_organisationBlockList_default()
+    {
+        $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $this->settings->organisationBlockList->getValue());
+    }
+
+    public function test_getBlockedOrganisations_default()
+    {
+        $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $this->settings->getBlockedOrganisations());
+    }
+
+    public function test_organisationBlockList_transformLowercasesTrimsFiltersAndDeduplicates()
+    {
+        $this->settings->organisationBlockList->setValue([' ExampleOrg ', '', 'exampleorg', 'Another Org', '  ']);
+        $this->assertSame(['exampleorg', 'another org'], $this->settings->organisationBlockList->getValue());
+    }
+
+    public function test_getBlockedOrganisations_returnsCleanedValues()
+    {
+        $this->settings->organisationBlockList->setValue(['ExampleOrg', 'Another Org']);
+        $this->assertSame(['exampleorg', 'another org'], $this->settings->getBlockedOrganisations());
+    }
+
     public function test_save_shouldSyncWhenEnabled()
     {
         $ranges = $this->makeRanges();

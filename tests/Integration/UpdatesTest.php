@@ -13,10 +13,12 @@ use Piwik\Config;
 use Piwik\Plugins\TrackingSpamPrevention\Configuration;
 use Piwik\Plugins\TrackingSpamPrevention\SystemSettings;
 use Piwik\Plugins\TrackingSpamPrevention\Updates_5_1_0;
+use Piwik\Plugins\TrackingSpamPrevention\Updates_5_2_0;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Updater;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/TrackingSpamPrevention/Updates/5.1.0.php';
+require_once PIWIK_INCLUDE_PATH . '/plugins/TrackingSpamPrevention/Updates/5.2.0.php';
 
 /**
  * @group TrackingSpamPrevention
@@ -74,9 +76,78 @@ class UpdatesTest extends IntegrationTestCase
         $this->assertArrayNotHasKey(Configuration::KEY_RANGE_ALLOW_LIST, Config::getInstance()->TrackingSpamPrevention);
     }
 
+    public function test_update520_migratesCustomOrganisationsToSystemSetting()
+    {
+        Config::getInstance()->TrackingSpamPrevention = [
+            Configuration::KEY_GEOIP_MATCH_PROVIDERS => [' My Custom Org ', '', 'ANOTHER ORG', 'my custom org'],
+        ];
+
+        $this->runUpdate520();
+
+        $this->assertSame(['my custom org', 'another org'], $this->makeSettings()->getBlockedOrganisations());
+        $this->assertArrayNotHasKey(Configuration::KEY_GEOIP_MATCH_PROVIDERS, Config::getInstance()->TrackingSpamPrevention);
+    }
+
+    public function test_update520_defaultListOnly_doesNotStoreSettingButRemovesKey()
+    {
+        // older updates merged the defaults into the config in a different order than the constant's
+        Config::getInstance()->TrackingSpamPrevention = [
+            Configuration::KEY_GEOIP_MATCH_PROVIDERS => array_reverse(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS),
+        ];
+
+        $this->runUpdate520();
+
+        // nothing stored, the setting keeps following the default list
+        $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $this->makeSettings()->organisationBlockList->getValue());
+        $this->assertArrayNotHasKey(Configuration::KEY_GEOIP_MATCH_PROVIDERS, Config::getInstance()->TrackingSpamPrevention);
+    }
+
+    public function test_update520_emptiedList_doesNotStoreSettingButRemovesKey()
+    {
+        Config::getInstance()->TrackingSpamPrevention = [
+            Configuration::KEY_GEOIP_MATCH_PROVIDERS => ['', ' '],
+        ];
+
+        $this->runUpdate520();
+
+        $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $this->makeSettings()->organisationBlockList->getValue());
+        $this->assertArrayNotHasKey(Configuration::KEY_GEOIP_MATCH_PROVIDERS, Config::getInstance()->TrackingSpamPrevention);
+    }
+
+    public function test_update520_configKeyAbsent_isNoOp()
+    {
+        Config::getInstance()->TrackingSpamPrevention = [];
+
+        $this->runUpdate520();
+
+        $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $this->makeSettings()->organisationBlockList->getValue());
+    }
+
+    public function test_update520_doesNotOverwriteExistingSettingValue()
+    {
+        $settings = $this->makeSettings();
+        $settings->organisationBlockList->setValue(['stored org']);
+        $settings->save();
+
+        Config::getInstance()->TrackingSpamPrevention = [
+            Configuration::KEY_GEOIP_MATCH_PROVIDERS => ['config org'],
+        ];
+
+        $this->runUpdate520();
+
+        $this->assertSame(['stored org'], $this->makeSettings()->getBlockedOrganisations());
+        $this->assertArrayNotHasKey(Configuration::KEY_GEOIP_MATCH_PROVIDERS, Config::getInstance()->TrackingSpamPrevention);
+    }
+
     private function runUpdate()
     {
         $update = new Updates_5_1_0();
+        $update->doUpdate(new Updater());
+    }
+
+    private function runUpdate520()
+    {
+        $update = new Updates_5_2_0();
         $update->doUpdate(new Updater());
     }
 

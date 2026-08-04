@@ -46,7 +46,6 @@ class ConfigurationTest extends IntegrationTestCase
         $configs = Config::getInstance()->TrackingSpamPrevention;
         $this->assertEquals(array(
             'block_cloud_sync_throw_exception_on_error' => 0,
-            'block_geoip_organisations' => Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS,
         ), $configs);
     }
 

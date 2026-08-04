@@ -43,20 +43,22 @@ __How can I block specific organisations from being tracked?__
 
 This can be useful if you are receiving spam requests from a provider that isn't automatically detected yet by this plugin.
 
-For this to work the "Block cloud provider" setting must be enabled and a geolocation provider must be enabled.
+For this to work the "Block tracking requests from the cloud" setting must be enabled and a geolocation provider must be enabled.
 
-You can block any organisation (if the geolocation database you are using includes this information) like this:
-
-```
-[TrackingSpamPrevention]
-block_geoip_organisations[] = "ExampleOrg"
-block_geoip_organisations[] = "another example"
-```
+You can block any organisation (if the geolocation database you are using includes this information) using the "Organisation block list" setting in "Administration => General Settings". Enter one organisation per line. The list is pre-filled with a default set of hosting and datacenter providers, which you can extend or trim as needed.
 
 Alternatively, you can execute a command to block a new organisation like this:
 
 ```bash
 ./console trackingspamprevention:block-geo-ip-organisation --organisation-name="Example"
+```
+
+You can also force a list of blocked organisations by editing your `config/config.ini.php` file like this (this overrides the setting, and the field is hidden from the UI while the override is in place):
+
+```
+[TrackingSpamPrevention]
+organisation_block_list[] = "ExampleOrg"
+organisation_block_list[] = "another example"
 ```
 
 Each organisation will be compared lower case and the organisation only needs to contain the configured value, it does not need to match it exactly.
