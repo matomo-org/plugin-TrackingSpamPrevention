@@ -57,6 +57,42 @@ class BlockGeoIpOrganisationTest extends ConsoleCommandTestCase
         $this->assertSame($organisationsBefore, $this->getBlockedOrganisations());
     }
 
+    public function test_failsWhenConfigOverrideExists()
+    {
+        $sectionBefore = Config::getInstance()->TrackingSpamPrevention;
+
+        $section = is_array($sectionBefore) ? $sectionBefore : [];
+        $section['organisation_block_list'] = ['override org'];
+        Config::getInstance()->TrackingSpamPrevention = $section;
+
+        try {
+            $exitCode = $this->applicationTester->run([
+                'command' => 'trackingspamprevention:block-geo-ip-organisation',
+                '--organisation-name' => 'someorg',
+            ]);
+
+            $this->assertNotSame(0, $exitCode);
+            $this->assertStringContainsString('overridden', $this->applicationTester->getDisplay());
+        } finally {
+            // in-memory config changes leak into later tests of this class, so restore the section
+            Config::getInstance()->TrackingSpamPrevention = $sectionBefore;
+        }
+    }
+
+    public function test_rejectsWhitespaceOnlyOrganisationName()
+    {
+        $organisationsBefore = $this->getBlockedOrganisations();
+
+        $exitCode = $this->applicationTester->run([
+            'command' => 'trackingspamprevention:block-geo-ip-organisation',
+            '--organisation-name' => '   ',
+        ]);
+
+        $this->assertNotSame(0, $exitCode);
+        $this->assertStringContainsString('must not be empty', $this->applicationTester->getDisplay());
+        $this->assertSame($organisationsBefore, $this->getBlockedOrganisations());
+    }
+
     private function getBlockedOrganisations(): array
     {
         return StaticContainer::get(SystemSettings::class)->getBlockedOrganisations();

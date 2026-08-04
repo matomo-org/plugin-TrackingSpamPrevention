@@ -47,14 +47,19 @@ class Updates_5_2_0 extends PiwikUpdates
         // (5.0.9, 5.1.0) always merged the default list back into an emptied config value
         if (!empty($organisations) && !$this->equalsDefaultList($organisations)) {
             $settings = StaticContainer::get(SystemSettings::class);
-            // updates run as super user, but the setting also reports as unwritable when an
-            // `organisation_block_list` config override already exists, so force writability to keep
-            // the migration from failing
-            $settings->organisationBlockList->setIsWritableByCurrentUser(true);
+            $setting = $settings->organisationBlockList;
 
-            if ($settings->organisationBlockList->getValue() === Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS) {
-                $settings->organisationBlockList->setValue($organisations);
-                $settings->save();
+            // an `organisation_block_list` config override makes the setting permanently unwritable
+            // (setValue() would throw, failing the whole update) and shadows any stored value anyway,
+            // so only store when no override exists
+            if (!array_key_exists($setting->getName(), $pluginConfig)) {
+                // updates run as super user, but force writability in case that detection fails
+                $setting->setIsWritableByCurrentUser(true);
+
+                if ($setting->getValue() === Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS) {
+                    $setting->setValue($organisations);
+                    $settings->save();
+                }
             }
         }
 

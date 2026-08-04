@@ -123,6 +123,22 @@ class UpdatesTest extends IntegrationTestCase
         $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $this->makeSettings()->organisationBlockList->getValue());
     }
 
+    public function test_update520_configOverrideForNewSetting_storesNothingButRemovesOldKey()
+    {
+        Config::getInstance()->TrackingSpamPrevention = [
+            Configuration::KEY_GEOIP_MATCH_PROVIDERS => ['config org'],
+            'organisation_block_list' => ['override org'],
+        ];
+
+        // must not throw: an override makes the setting unwritable, which would fail the update
+        $this->runUpdate520();
+
+        $config = Config::getInstance()->TrackingSpamPrevention;
+        $this->assertArrayNotHasKey(Configuration::KEY_GEOIP_MATCH_PROVIDERS, $config);
+        $this->assertSame(['override org'], $config['organisation_block_list']);
+        $this->assertSame(['override org'], $this->makeSettings()->getBlockedOrganisations());
+    }
+
     public function test_update520_doesNotOverwriteExistingSettingValue()
     {
         $settings = $this->makeSettings();
