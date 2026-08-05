@@ -43,9 +43,9 @@ class Updates_5_2_0 extends PiwikUpdates
 
         $organisations = $this->getNormalizedOrganisations($pluginConfig[Configuration::KEY_GEOIP_MATCH_PROVIDERS]);
 
-        // an emptied config list is not migrated: the defaults apply again, matching how previous updates
-        // (5.0.9, 5.1.0) always merged the default list back into an emptied config value
-        if (!empty($organisations) && !$this->equalsDefaultList($organisations)) {
+        // an emptied list is stored as an empty value, keeping organisation blocking disabled like it
+        // was at runtime before the migration (only an absent key falls back to the default list)
+        if (!$this->equalsDefaultList($organisations)) {
             $settings = StaticContainer::get(SystemSettings::class);
             $setting = $settings->organisationBlockList;
 

@@ -55,6 +55,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     protected function init()
     {
         $this->block_clouds = $this->createBlockCloudsSetting();
+        $this->organisationBlockList = $this->makeOrganisationBlockListSetting();
         $this->blockHeadless = $this->createBlockHeadlessSettings();
         $this->blockServerSideLibraries = $this->createBlockServerSideLibrariesSetting();
         $this->max_actions = $this->createMaxActionsSetting();
@@ -73,8 +74,6 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             'TrackingSpamPrevention_SettingIpBlockListTitle',
             'TrackingSpamPrevention_SettingIpBlockListHelp'
         );
-
-        $this->organisationBlockList = $this->makeOrganisationBlockListSetting();
     }
 
     private function createBlockCloudsSetting()
@@ -251,6 +250,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingOrganisationBlockListTitle');
             $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingOrganisationBlockListHelp', ['<strong>', '</strong>', '<br>']);
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
+            $field->condition = 'block_clouds';
             $field->transform = function ($value) {
                 if (empty($value) || !is_array($value)) {
                     return [];

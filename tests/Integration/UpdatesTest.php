@@ -102,7 +102,7 @@ class UpdatesTest extends IntegrationTestCase
         $this->assertArrayNotHasKey(Configuration::KEY_GEOIP_MATCH_PROVIDERS, Config::getInstance()->TrackingSpamPrevention);
     }
 
-    public function test_update520_emptiedList_doesNotStoreSettingButRemovesKey()
+    public function test_update520_emptiedList_storesEmptyListToKeepBlockingDisabled()
     {
         Config::getInstance()->TrackingSpamPrevention = [
             Configuration::KEY_GEOIP_MATCH_PROVIDERS => ['', ' '],
@@ -110,7 +110,9 @@ class UpdatesTest extends IntegrationTestCase
 
         $this->runUpdate520();
 
-        $this->assertSame(Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, $this->makeSettings()->organisationBlockList->getValue());
+        // stored empty list, not an unset setting falling back to the defaults
+        $this->assertSame([], $this->makeSettings()->organisationBlockList->getValue());
+        $this->assertSame([], $this->makeSettings()->getBlockedOrganisations());
         $this->assertArrayNotHasKey(Configuration::KEY_GEOIP_MATCH_PROVIDERS, Config::getInstance()->TrackingSpamPrevention);
     }
 
