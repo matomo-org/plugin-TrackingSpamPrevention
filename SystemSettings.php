@@ -82,6 +82,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         $setting->setConfigureCallback(function (FieldConfig $field) {
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingBlockCloudTitle');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
+            $field->introduction = Piwik::translate('TrackingSpamPrevention_SettingsIntroduction');
             $field->description = Piwik::translate('TrackingSpamPrevention_SettingBlockCloudDescription');
             if (!SettingsPiwik::isInternetEnabled()) {
                 $field->description = Piwik::translate('TrackingSpamPrevention_BlockCloudNoteInternetDisabled') . $field->description;

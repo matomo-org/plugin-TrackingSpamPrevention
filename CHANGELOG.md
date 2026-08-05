@@ -4,6 +4,9 @@
 - Added an "Organisation block list" setting to the UI (General Settings, shown while "Block tracking requests from the cloud" is enabled) to manage the organisations blocked by that feature. Existing `block_geoip_organisations` config values are migrated to the new `organisation_block_list` system setting and removed from the config file; an emptied config list is migrated as an empty list, keeping organisation blocking disabled, while a removed config key results in the default block list applying again
 - The `trackingspamprevention:block-geo-ip-organisation` command now saves the organisation to the new system setting instead of the config file
 
+# 5.1.1 - 2026-08-10
+- Added introduction text for TrackingSpamPrevention system setting
+
 # 5.1.0 - 2026-08-03
 - Added an "IP allow list" setting to the UI (General Settings). Existing `iprange_allowlist` config values are migrated to the new `ip_allow_list` system setting and removed from the config file
 - Added an "IP block list" setting to the UI (General Settings) to block tracking requests from specific IP addresses or ranges
