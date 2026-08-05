@@ -43,6 +43,16 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->assertSame(false, $this->settings->block_clouds->getValue());
     }
 
+    public function test_block_cloud_hasSettingsIntroduction()
+    {
+        $field = $this->settings->block_clouds->configureField();
+
+        $this->assertSame(
+            'TrackingSpamPrevention_SettingsIntroduction',
+            $field->introduction
+        );
+    }
+
     public function test_block_cloud_enable_getOldValue()
     {
         $this->settings->block_clouds->setValue(1);
