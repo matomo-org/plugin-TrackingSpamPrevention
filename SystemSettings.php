@@ -249,7 +249,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         return $this->makeSetting('organisation_block_list', Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
             $field->title = Piwik::translate('TrackingSpamPrevention_SettingOrganisationBlockListTitle');
-            $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingOrganisationBlockListHelp');
+            $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingOrganisationBlockListHelp', array('<strong>','</strong>','<br>'));
             $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
             $field->transform = function ($value) {
                 if (empty($value) || !is_array($value)) {
