@@ -15,13 +15,13 @@ use Piwik\Plugins\UserCountry\VisitorGeolocator;
 class BlockedGeoIp
 {
     /**
-     * @var array
+     * @var SystemSettings
      */
-    private $blockedProviders;
+    private $settings;
 
-    public function __construct($blockedProviders = [])
+    public function __construct(SystemSettings $settings)
     {
-        $this->blockedProviders = $blockedProviders;
+        $this->settings = $settings;
     }
 
     public function detectLocation($ip, $language)
@@ -60,14 +60,16 @@ class BlockedGeoIp
 
     public function isExcludedProvider($ip, $language)
     {
-        if (empty($this->blockedProviders) || !(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('UserCountry'))) {
+        $blockedProviders = $this->settings->getBlockedOrganisations();
+
+        if (empty($blockedProviders) || !(\Piwik\Plugin\Manager::getInstance()->isPluginActivated('UserCountry'))) {
             return false;
         }
         $result = $this->detectLocation($ip, $language);
 
         if (!empty($result[LocationProvider::ORG_KEY])) {
             $org = $result[LocationProvider::ORG_KEY];
-            foreach ($this->blockedProviders as $blockedProvider) {
+            foreach ($blockedProviders as $blockedProvider) {
                 if (!empty($blockedProvider) && stripos($org, $blockedProvider) !== false) {
                     return true;
                 }

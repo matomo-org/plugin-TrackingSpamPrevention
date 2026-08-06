@@ -49,9 +49,13 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var Setting */
     public $ipBlockList;
 
+    /** @var Setting */
+    public $organisationBlockList;
+
     protected function init()
     {
         $this->block_clouds = $this->createBlockCloudsSetting();
+        $this->organisationBlockList = $this->makeOrganisationBlockListSetting();
         $this->blockHeadless = $this->createBlockHeadlessSettings();
         $this->blockServerSideLibraries = $this->createBlockServerSideLibrariesSetting();
         $this->max_actions = $this->createMaxActionsSetting();
@@ -241,6 +245,26 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         });
     }
 
+    private function makeOrganisationBlockListSetting(): Setting
+    {
+        return $this->makeSetting('organisation_block_list', Configuration::DEFAULT_GEOIP_MATCH_PROVIDERS, FieldConfig::TYPE_ARRAY, function (FieldConfig $field) {
+            $field->title = Piwik::translate('TrackingSpamPrevention_SettingOrganisationBlockListTitle');
+            $field->inlineHelp = Piwik::translate('TrackingSpamPrevention_SettingOrganisationBlockListHelp', ['<strong>', '</strong>', '<br>']);
+            $field->uiControl = FieldConfig::UI_CONTROL_TEXTAREA;
+            $field->condition = 'block_clouds';
+            $field->transform = function ($value) {
+                if (empty($value) || !is_array($value)) {
+                    return [];
+                }
+                $organisations = array_map(function ($organisation) {
+                    return mb_strtolower(trim((string) $organisation));
+                }, $value);
+                $organisations = array_filter($organisations, 'strlen');
+                return array_values(array_unique($organisations));
+            };
+        });
+    }
+
     private function listCountries()
     {
         $regionDataProvider = StaticContainer::get(RegionDataProvider::class);
@@ -272,6 +296,22 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
         // values set through a config file override skip the setting's transform, so clean them up here too
         return array_values(array_filter(array_map('trim', $value), 'strlen'));
+    }
+
+    public function getBlockedOrganisations(): array
+    {
+        $value = $this->organisationBlockList->getValue();
+
+        if (empty($value) || !is_array($value)) {
+            return [];
+        }
+
+        // values set through a config file override skip the setting's transform, so clean them up here too
+        $organisations = array_map(function ($organisation) {
+            return mb_strtolower(trim((string) $organisation));
+        }, $value);
+
+        return array_values(array_filter($organisations, 'strlen'));
     }
 
     public function getExcludedCountryCodes()

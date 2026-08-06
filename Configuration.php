@@ -102,6 +102,8 @@ class Configuration
 
     /** @deprecated since 5.1.0, the allow list was moved to the `ip_allow_list` system setting */
     public const KEY_RANGE_ALLOW_LIST = 'iprange_allowlist';
+
+    /** @deprecated since 5.2.0, the list was moved to the `organisation_block_list` system setting */
     public const KEY_GEOIP_MATCH_PROVIDERS = 'block_geoip_organisations';
 
     public function install()
@@ -115,9 +117,6 @@ class Configuration
 
         if (empty($default[self::KEY_RANGE_THROW_EXCEPTION])) {
             $default[self::KEY_RANGE_THROW_EXCEPTION] = self::DEFAULT_RANGE_THROW_EXCEPTION;
-        }
-        if (empty($default[self::KEY_GEOIP_MATCH_PROVIDERS])) {
-            $default[self::KEY_GEOIP_MATCH_PROVIDERS] = self::DEFAULT_GEOIP_MATCH_PROVIDERS;
         }
 
         $config->TrackingSpamPrevention = $default;
