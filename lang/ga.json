@@ -6,8 +6,6 @@
         "SettingBlockCloudTitle": "Cuir bac ar iarratais rianaithe ón néal",
         "SettingBlockHeadlessDescription": "Brabhsálaithe iad seo gan comhéadan úsáideora, a úsáidtear go príomha le haghaidh uathoibriú. Ba cheart go mbeadh sé sábháilte é seo a chur ar siúl mura bhfuil ach suíomhanna gréasáin nó aipeanna rialta agat. Féadann sé róbónna breise agus iarratais turscair a bhlocáil nach n-aimseofaí murach sin.",
         "SettingBlockHeadlessTitle": "Bloc brabhsálaithe gan ceann",
-        "SettingBlockServerSideLibrariesDescription": "Úsáid é seo mura n-úsáideann tú ach %1$sJavaScript Tracker%2$s, mar beidh trácht eile ina ionsaithe nó ina turscar ar aon nós. Cuireann sé bac ar iarratais rianaithe ó cURL, HTTP, Guzzle, agus Fear an Phoist.%3$s%1$sNóta: Ná húsáid má rianaítear sonraí ag baint úsáide as SDK ar thaobh an fhreastalaí cosúil leis an SDK rianaithe Matomo PHP, Java SDK, Python SDK, Android nó iOS SDK, nó teangacha ríomhchláraithe eile ar thaobh an fhreastalaí.%2$s",
-        "SettingBlockServerSideLibrariesTitle": "Cuir bac ar iarratais rianaithe ó leabharlanna ar thaobh an fhreastalaí",
         "SettingExcludedCountriesDescription": "Ná rianaigh cuairteoirí ó na tíortha seo. Is dócha gur róbónna nó spammers a bheidh i gcuairteoirí lasmuigh de do sprioclimistéar, nó is féidir leat é a úsáid chun dlíthe príobháideachta i ndlínsí eile a sheachaint.",
         "SettingExcludedCountriesTitle": "Fág Tíortha",
         "SettingIncludedCountriesDescription": "Ní bhaineann sé seo le gach tír eile. Tá tuilleadh eolais sa socrú \"eisiamh tíortha\".",
