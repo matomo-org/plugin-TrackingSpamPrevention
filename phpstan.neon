@@ -1,0 +1,19 @@
+parameters:
+    level: 0
+    # This plugin is on the Matomo 5 line, whose floor is PHP 7.2 rather than the 8.1 the Matomo 6
+    # plugins analyse against. PHPStan parses at this version, so it rejects syntax the plugin
+    # could not actually run on.
+    phpVersion: 70200
+    tmpDir: /tmp/phpstan/TrackingSpamPrevention/main
+    paths:
+        - .
+    excludePaths:
+        - tests/*
+    bootstrapFiles:
+        - ../../bootstrap-phpstan.php
+    universalObjectCratesClasses:
+        - Piwik\Config
+        - Piwik\View
+        - Piwik\ViewDataTable\Config
+    scanDirectories:
+        - .
