@@ -25,7 +25,19 @@ class ProvidersTest extends IntegrationTestCase
      */
     public function test_getRanges(BlockedIpRanges\IpRangeProviderInterface $provider, bool $expectsIpv6)
     {
-        $ranges = $provider->getRanges();
+        try {
+            $ranges = $provider->getRanges();
+        } catch (\Exception $e) {
+            // The providers publish their ranges on third party endpoints that regularly rate limit or
+            // block the CI runners. Only a failure to download the list is tolerated here, a list that was
+            // downloaded but cannot be parsed still needs to fail as that indicates a real regression.
+            if (preg_match('/^Failed to retrieve [a-zA-Z ]+ IP ranges$/', $e->getMessage())) {
+                self::markTestSkipped('Could not download the IP ranges from the provider: ' . $e->getMessage());
+            }
+
+            throw $e;
+        }
+
         $this->assertNotEmpty($ranges);
         $this->assertTrue(is_array($ranges));
         $this->assertGreaterThan(50, count($ranges));
