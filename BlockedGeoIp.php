@@ -51,7 +51,7 @@ class BlockedGeoIp
             return true;
         }
 
-        if (!empty($excludedCountries) && in_array($countryCode, $excludedCountries, true)) {
+        if (in_array($countryCode, $excludedCountries, true)) {
             return true;
         }
 
