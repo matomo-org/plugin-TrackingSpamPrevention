@@ -10,7 +10,7 @@
 namespace Piwik\Plugins\TrackingSpamPrevention;
 
 use Piwik\Config;
-use Piwik\Settings\Storage\Backend\PluginSettingsTable;
+use Piwik\Container\StaticContainer;
 use Piwik\Settings\Storage\Factory;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
@@ -25,14 +25,18 @@ class Updates_5_0_11 extends PiwikUpdates
             return;
         }
 
-        /** @var PluginSettingsTable $backend getBackend() is typed as the interface, which lacks loadValue()/saveValue() */
-        $backend = (new Factory())->getPluginStorage('TrackingSpamPrevention', '')->getBackend();
-        $currentValue = $backend->loadValue('block_headless', null);
+        // the container's storage is the copy SystemSettings reads and saves, so the 5.1.0 and 5.2.0
+        // updates that can follow in the same run keep this value. SystemSettings::save() itself is
+        // avoided because it can start a cloud IP range sync.
+        $storage = StaticContainer::get(Factory::class)->getPluginStorage('TrackingSpamPrevention', '');
 
-        if ($currentValue !== null) {
+        // a setting reads as its default when nothing is stored, so check the stored rows
+        // (load() rather than loadValue(), which only exists from Matomo 5.9)
+        if (array_key_exists('block_headless', $storage->getBackend()->load())) {
             return;
         }
 
-        $backend->saveValue('block_headless', false);
+        $storage->setValue('block_headless', false);
+        $storage->save();
     }
 }
