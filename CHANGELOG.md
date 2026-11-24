@@ -1,5 +1,8 @@
 ## Changelog
 
+# 5.2.2
+- An IP set via the `cip` tracking parameter is now only banned for reaching the maximum number of actions per visit when the request's token_auth has Super User access. With any other token, tracking of the request is still stopped, but the IP is not banned
+
 # 5.2.1 - 2026-09-28
 - Fixed the 5.0.11 plugin update failing on Matomo versions before 5.9
 
