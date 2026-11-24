@@ -107,10 +107,12 @@ class RequestProcessor extends Tracker\RequestProcessor
             /** @var \Piwik\Auth $auth */
             $auth = StaticContainer::get('Piwik\Auth');
             $auth->setTokenAuth($tokenAuth);
-            // null, not '', makes Login\Auth authenticate by token only, as in Request::authenticateSuperUserOrAdminOrWrite()
+            // null, as in Request::authenticateSuperUserOrAdminOrWrite(), clears a login and password a previous
+            // authentication left on the shared Auth, so it authenticates by token only. Piwik\Auth declares string,
+            // but '' is not the same: Login\Auth::setPasswordHash('') throws, and setLogin('') makes it fail.
             $auth->setLogin(null); // @phpstan-ignore argument.type
-            $auth->setPassword(null);
-            $auth->setPasswordHash(null);
+            $auth->setPassword(null); // @phpstan-ignore argument.type
+            $auth->setPasswordHash(null); // @phpstan-ignore argument.type
 
             $access = new Access();
             $isSuperUser = $access->reloadAccess($auth) && $access->hasSuperUserAccess();
