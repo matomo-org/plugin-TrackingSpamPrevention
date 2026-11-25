@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\TrackingSpamPrevention\Tracker;
 
 use Exception;
-use Piwik\Access;
 use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
@@ -74,8 +73,9 @@ class RequestProcessor extends Tracker\RequestProcessor
     }
 
     /**
-     * The token lookup mirrors Request::authenticateTrackingApi(). Access is checked even when
-     * tracking_requests_require_authentication is disabled, as it is for every bulk tracking request.
+     * The token is read like in Request::authenticateTrackingApi(). Super User access is checked like in
+     * Request::authenticateSuperUserOrAdminOrWrite(), from the result of Auth::authenticate(). Access is checked
+     * even when tracking_requests_require_authentication is disabled, as it is for every bulk tracking request.
      */
     private function isSuperUserTokenAuth(Request $request): bool
     {
@@ -114,8 +114,7 @@ class RequestProcessor extends Tracker\RequestProcessor
             $auth->setPassword(null); // @phpstan-ignore argument.type
             $auth->setPasswordHash(null); // @phpstan-ignore argument.type
 
-            $access = new Access();
-            $isSuperUser = $access->reloadAccess($auth) && $access->hasSuperUserAccess();
+            $isSuperUser = $auth->authenticate()->hasSuperUserAccess();
         } catch (Exception $e) {
             Common::printDebug("Could not check token_auth for Super User access: " . $e->getMessage());
             return false;
